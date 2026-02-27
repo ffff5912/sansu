@@ -1,8 +1,30 @@
 import type { Question, Difficulty } from '../types.ts';
 import { floor1Questions } from './floor1.ts';
+import { floor2Questions } from './floor2.ts';
+import { floor3Questions } from './floor3.ts';
+import { floor4Questions } from './floor4.ts';
+import { floor5Questions } from './floor5.ts';
+import { floor6Questions } from './floor6.ts';
+import { floor7Questions } from './floor7.ts';
+import { floor8Questions } from './floor8.ts';
+import { floor9Questions } from './floor9.ts';
+import { floor10Questions } from './floor10.ts';
+import { floor11Questions } from './floor11.ts';
+import { floor12Questions } from './floor12.ts';
 
 const questionsByFloor: Record<number, Question[]> = {
   1: floor1Questions,
+  2: floor2Questions,
+  3: floor3Questions,
+  4: floor4Questions,
+  5: floor5Questions,
+  6: floor6Questions,
+  7: floor7Questions,
+  8: floor8Questions,
+  9: floor9Questions,
+  10: floor10Questions,
+  11: floor11Questions,
+  12: floor12Questions,
 };
 
 export function getQuestions(floorId: number): Question[] {
