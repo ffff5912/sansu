@@ -1,0 +1,41 @@
+:root {
+  /* ダンジョンテーマ — ダーク紫基調 */
+  --color-bg: #1a0e2e;
+  --color-bg-light: #2d1b69;
+  --color-bg-lighter: #3d2b7a;
+  --color-surface: #251545;
+  --color-surface-light: #362060;
+
+  --color-text: #e8dff5;
+  --color-text-dim: #9b8ec4;
+  --color-text-accent: #ffd700;
+
+  --color-primary: #7c4dff;
+  --color-primary-light: #b388ff;
+  --color-danger: #ff4444;
+  --color-danger-light: #ff6b6b;
+  --color-success: #00c853;
+  --color-success-light: #69f0ae;
+  --color-warning: #ffab00;
+
+  --color-hp-bar: #ff4444;
+  --color-hp-bg: #441111;
+  --color-exp-bar: #7c4dff;
+  --color-exp-bg: #1a0e2e;
+
+  --color-wall: #3d2b7a;
+  --color-floor: #1a0e2e;
+  --color-floor-alt: #1f1238;
+  --color-door-locked: #8b4513;
+  --color-door-open: #00c853;
+
+  --font-main: 'Zen Maru Gothic', sans-serif;
+
+  --tile-size: 48px;
+  --radius: 8px;
+  --radius-lg: 16px;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 20px rgba(124, 77, 255, 0.4);
+
+  --transition: 0.2s ease;
+}
