@@ -1,13 +1,13 @@
 import { useState, useCallback, useEffect } from 'react';
-import type { GameState, PlayerState } from '../data/types.ts';
+import type { GameState, PlayerState, Grade } from '../data/types.ts';
 import { loadSave, writeSave, DEFAULT_PLAYER } from '../lib/storage.ts';
 
 function initState(): GameState {
-  const save = loadSave();
   return {
     scene: 'title',
-    player: save.player,
-    clearedFloors: save.clearedFloors,
+    grade: 4,
+    player: { ...DEFAULT_PLAYER },
+    clearedFloors: [],
     currentFloor: null,
     resultType: null,
   };
@@ -16,23 +16,33 @@ function initState(): GameState {
 export function useGameState() {
   const [state, setState] = useState<GameState>(initState);
 
-  // Auto-save on player/clearedFloors change
+  // Auto-save on player/clearedFloors change (skip while on title)
   useEffect(() => {
+    if (state.scene === 'title') return;
     writeSave({
       version: 1,
+      grade: state.grade,
       player: state.player,
       clearedFloors: state.clearedFloors,
       currentFloor: state.currentFloor,
       timestamp: Date.now(),
     });
-  }, [state.player, state.clearedFloors, state.currentFloor]);
+  }, [state.player, state.clearedFloors, state.currentFloor, state.scene, state.grade]);
 
   const goToTitle = useCallback(() => {
     setState(s => ({ ...s, scene: 'title', currentFloor: null, resultType: null }));
   }, []);
 
-  const goToWorldMap = useCallback(() => {
-    setState(s => ({ ...s, scene: 'worldmap', resultType: null }));
+  const goToWorldMap = useCallback((grade: Grade) => {
+    const save = loadSave(grade);
+    setState({
+      scene: 'worldmap',
+      grade,
+      player: save.player,
+      clearedFloors: save.clearedFloors,
+      currentFloor: null,
+      resultType: null,
+    });
   }, []);
 
   const enterDungeon = useCallback((floorId: number) => {
@@ -53,13 +63,7 @@ export function useGameState() {
   }, []);
 
   const resetGame = useCallback(() => {
-    setState({
-      scene: 'title',
-      player: { ...DEFAULT_PLAYER },
-      clearedFloors: [],
-      currentFloor: null,
-      resultType: null,
-    });
+    setState(initState());
   }, []);
 
   return {

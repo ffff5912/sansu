@@ -72,6 +72,42 @@ export const MONSTERS: Monster[] = [
   { id: 'star-chouten', name: 'スターちょうてん', emoji: '⭐', hp: 75, attack: 24, exp: 29, isBoss: false, floorId: 12 },
   { id: 'comet-hen', name: 'すいせいへん', emoji: '☄️', hp: 80, attack: 25, exp: 31, isBoss: false, floorId: 12 },
   { id: 'bahamut-rittai', name: 'バハムート立体', emoji: '🐲', hp: 250, attack: 40, exp: 120, isBoss: true, floorId: 12 },
+
+  // === Floor 101: かずのもり (小1) ===
+  { id: 'kinoko-kazu', name: 'キノコかず', emoji: '🍄', hp: 20, attack: 4, exp: 8, isBoss: false, floorId: 101 },
+  { id: 'hana-kazu', name: 'おはなかず', emoji: '🌸', hp: 22, attack: 5, exp: 9, isBoss: false, floorId: 101 },
+  { id: 'mushi-kazu', name: 'むしかず', emoji: '🐛', hp: 25, attack: 5, exp: 10, isBoss: false, floorId: 101 },
+  { id: 'fukurou-kazu', name: 'フクロウかず', emoji: '🦉', hp: 60, attack: 10, exp: 30, isBoss: true, floorId: 101 },
+
+  // === Floor 102: たしざんのはら (小1) ===
+  { id: 'usagi-tasu', name: 'うさぎたす', emoji: '🐰', hp: 22, attack: 5, exp: 9, isBoss: false, floorId: 102 },
+  { id: 'kaeru-tasu', name: 'かえるたす', emoji: '🐸', hp: 25, attack: 6, exp: 10, isBoss: false, floorId: 102 },
+  { id: 'risu-tasu', name: 'りすたす', emoji: '🐿️', hp: 28, attack: 6, exp: 11, isBoss: false, floorId: 102 },
+  { id: 'kuma-tashizan', name: 'くまたしざん', emoji: '🧸', hp: 70, attack: 12, exp: 35, isBoss: true, floorId: 102 },
+
+  // === Floor 103: ひきざんのかわ (小1) ===
+  { id: 'sakana-hiku', name: 'さかなひく', emoji: '🐟', hp: 25, attack: 6, exp: 10, isBoss: false, floorId: 103 },
+  { id: 'kani-hiku', name: 'かにひく', emoji: '🦀', hp: 28, attack: 7, exp: 11, isBoss: false, floorId: 103 },
+  { id: 'kame-hiku', name: 'かめひく', emoji: '🐢', hp: 30, attack: 7, exp: 12, isBoss: false, floorId: 103 },
+  { id: 'wani-hikizan', name: 'わにひきざん', emoji: '🐊', hp: 80, attack: 13, exp: 38, isBoss: true, floorId: 103 },
+
+  // === Floor 104: くりあがりのおか (小1) ===
+  { id: 'tanuki-kuri', name: 'たぬきくり', emoji: '🦝', hp: 28, attack: 7, exp: 11, isBoss: false, floorId: 104 },
+  { id: 'kitsune-kuri', name: 'きつねくり', emoji: '🦊', hp: 30, attack: 8, exp: 12, isBoss: false, floorId: 104 },
+  { id: 'inoshishi-kuri', name: 'いのししくり', emoji: '🐗', hp: 33, attack: 8, exp: 13, isBoss: false, floorId: 104 },
+  { id: 'oni-kuriagari', name: 'おにくりあがり', emoji: '👹', hp: 90, attack: 14, exp: 42, isBoss: true, floorId: 104 },
+
+  // === Floor 105: くりさがりのたに (小1) ===
+  { id: 'karasu-sage', name: 'からすさげ', emoji: '🐦‍⬛', hp: 30, attack: 8, exp: 12, isBoss: false, floorId: 105 },
+  { id: 'hebi-sage', name: 'へびさげ', emoji: '🐍', hp: 33, attack: 9, exp: 13, isBoss: false, floorId: 105 },
+  { id: 'mogura-sage', name: 'もぐらさげ', emoji: '🐹', hp: 35, attack: 9, exp: 14, isBoss: false, floorId: 105 },
+  { id: 'tengu-kurisagari', name: 'てんぐくりさがり', emoji: '👺', hp: 100, attack: 15, exp: 45, isBoss: true, floorId: 105 },
+
+  // === Floor 106: とけいのしろ (小1) ===
+  { id: 'hoshi-tokei', name: 'ほしとけい', emoji: '🌟', hp: 33, attack: 9, exp: 13, isBoss: false, floorId: 106 },
+  { id: 'kumo-tokei', name: 'くもとけい', emoji: '☁️', hp: 35, attack: 10, exp: 14, isBoss: false, floorId: 106 },
+  { id: 'niji-tokei', name: 'にじとけい', emoji: '🌈', hp: 38, attack: 10, exp: 15, isBoss: false, floorId: 106 },
+  { id: 'maou-tokei', name: 'まおうとけい', emoji: '🕰️', hp: 110, attack: 16, exp: 50, isBoss: true, floorId: 106 },
 ];
 
 export function getMonster(id: string): Monster | undefined {

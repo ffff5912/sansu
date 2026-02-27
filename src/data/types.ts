@@ -39,9 +39,13 @@ export interface Question {
   answerIndex: number;
 }
 
+/* ========== Grade ========== */
+export type Grade = 1 | 4;
+
 /* ========== Floor ========== */
 export interface FloorDef {
   id: number;
+  grade: Grade;
   name: string;
   subtitle: string;
   theme: string;
@@ -96,6 +100,7 @@ export interface DungeonState {
 /* ========== Save Data ========== */
 export interface SaveData {
   version: number;
+  grade: Grade;
   player: PlayerState;
   clearedFloors: number[];
   currentFloor: number | null;
@@ -107,6 +112,7 @@ export type GameScene = 'title' | 'worldmap' | 'dungeon' | 'result';
 
 export interface GameState {
   scene: GameScene;
+  grade: Grade;
   player: PlayerState;
   clearedFloors: number[];
   currentFloor: number | null;
