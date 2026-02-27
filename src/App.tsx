@@ -46,6 +46,7 @@ export default function App() {
           onClear={() => finishDungeon('clear')}
           onGameOver={() => finishDungeon('gameover')}
           onUpdatePlayer={updatePlayer}
+          onBack={goToWorldMap}
         />
       );
 

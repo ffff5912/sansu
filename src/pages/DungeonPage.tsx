@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { PlayerState } from '../data/types.ts';
 import { getMap } from '../data/maps/index.ts';
 import { getFloor } from '../data/floors.ts';
@@ -16,6 +16,7 @@ interface DungeonPageProps {
   onClear: () => void;
   onGameOver: () => void;
   onUpdatePlayer: (player: PlayerState) => void;
+  onBack: () => void;
 }
 
 export default function DungeonPage({
@@ -24,6 +25,7 @@ export default function DungeonPage({
   onClear,
   onGameOver,
   onUpdatePlayer,
+  onBack,
 }: DungeonPageProps) {
   const map = getMap(floorId)!;
   const floor = getFloor(floorId)!;
@@ -84,9 +86,11 @@ export default function DungeonPage({
     submitAnswer(index < 0 ? -1 : index);
   }, [submitAnswer]);
 
+  const [showMenu, setShowMenu] = useState(false);
+
   const { handleDPad } = useInput({
     onDirection: movePlayer,
-    enabled: dungeon.phase === 'explore',
+    enabled: dungeon.phase === 'explore' && !showMenu,
   });
 
   return (
@@ -105,6 +109,28 @@ export default function DungeonPage({
           defeatedEnemies={dungeon.defeatedEnemies}
           doorOpen={dungeon.doorOpen}
         />
+        {/* Menu button */}
+        {dungeon.phase === 'explore' && !battle && (
+          <button
+            onClick={() => setShowMenu(true)}
+            style={{
+              position: 'absolute',
+              top: 8,
+              right: 8,
+              zIndex: 20,
+              padding: '6px 12px',
+              borderRadius: 8,
+              background: 'rgba(0,0,0,0.6)',
+              border: '1px solid var(--color-primary)',
+              color: 'var(--color-text)',
+              fontSize: 13,
+              fontWeight: 700,
+              cursor: 'pointer',
+            }}
+          >
+            MENU
+          </button>
+        )}
       </div>
 
       {/* DPad */}
@@ -116,6 +142,64 @@ export default function DungeonPage({
       }}>
         <DPad onDirection={handleDPad} />
       </div>
+
+      {/* Menu overlay */}
+      {showMenu && (
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 100,
+          background: 'rgba(0,0,0,0.7)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <div style={{
+            background: 'var(--color-surface)',
+            border: '2px solid var(--color-primary)',
+            borderRadius: 16,
+            padding: '24px 32px',
+            textAlign: 'center',
+            minWidth: 220,
+          }}>
+            <p style={{ color: 'var(--color-text)', fontSize: 15, marginBottom: 20, fontWeight: 700 }}>
+              ダンジョンからでますか？
+            </p>
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+              <button
+                onClick={onBack}
+                style={{
+                  padding: '10px 20px',
+                  borderRadius: 8,
+                  background: 'var(--color-danger)',
+                  border: 'none',
+                  color: '#fff',
+                  fontSize: 14,
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                }}
+              >
+                でる
+              </button>
+              <button
+                onClick={() => setShowMenu(false)}
+                style={{
+                  padding: '10px 20px',
+                  borderRadius: 8,
+                  background: 'var(--color-bg-lighter)',
+                  border: '1px solid var(--color-text-dim)',
+                  color: 'var(--color-text)',
+                  fontSize: 14,
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                }}
+              >
+                もどる
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Battle overlay */}
       {battle && (
