@@ -1,5 +1,7 @@
+import type { Grade } from '../data/types.ts';
+
 interface TitlePageProps {
-  onStart: () => void;
+  onStart: (grade: Grade) => void;
 }
 
 export default function TitlePage({ onStart }: TitlePageProps) {
@@ -32,24 +34,40 @@ export default function TitlePage({ onStart }: TitlePageProps) {
         color: 'var(--color-text-dim)',
         textAlign: 'center',
       }}>
-        小4算数の年間総復習！<br />
-        ダンジョンを攻略して算数マスターになろう！
+        がくねんを えらんで ぼうけんにでよう！
       </p>
-      <button
-        onClick={onStart}
-        style={{
-          padding: '14px 48px',
-          borderRadius: 'var(--radius-lg)',
-          background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-light))',
-          color: '#fff',
-          fontSize: 18,
-          fontWeight: 700,
-          boxShadow: 'var(--shadow-glow)',
-          animation: 'pulse 2s ease infinite',
-        }}
-      >
-        ぼうけんにでる
-      </button>
+      <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}>
+        <button
+          onClick={() => onStart(1)}
+          style={{
+            padding: '14px 32px',
+            borderRadius: 'var(--radius-lg)',
+            background: 'linear-gradient(135deg, #43a047, #66bb6a)',
+            color: '#fff',
+            fontSize: 17,
+            fontWeight: 700,
+            boxShadow: '0 0 12px rgba(67,160,71,0.4)',
+            animation: 'pulse 2.5s ease infinite',
+          }}
+        >
+          小1
+        </button>
+        <button
+          onClick={() => onStart(4)}
+          style={{
+            padding: '14px 32px',
+            borderRadius: 'var(--radius-lg)',
+            background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-light))',
+            color: '#fff',
+            fontSize: 17,
+            fontWeight: 700,
+            boxShadow: 'var(--shadow-glow)',
+            animation: 'pulse 2.5s ease infinite',
+          }}
+        >
+          小4
+        </button>
+      </div>
     </div>
   );
 }

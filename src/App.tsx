@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 import { useGameState } from './hooks/useGameState.ts';
-import { DEFAULT_PLAYER } from './lib/storage.ts';
 import TitlePage from './pages/TitlePage.tsx';
 import WorldMapPage from './pages/WorldMapPage.tsx';
 import DungeonPage from './pages/DungeonPage.tsx';
@@ -24,6 +23,10 @@ export default function App() {
     }
   }, [state.currentFloor, state.player, updatePlayer, enterDungeon]);
 
+  const handleBackToWorldMap = useCallback(() => {
+    goToWorldMap(state.grade);
+  }, [goToWorldMap, state.grade]);
+
   switch (state.scene) {
     case 'title':
       return <TitlePage onStart={goToWorldMap} />;
@@ -31,6 +34,7 @@ export default function App() {
     case 'worldmap':
       return (
         <WorldMapPage
+          grade={state.grade}
           clearedFloors={state.clearedFloors}
           onSelectFloor={enterDungeon}
           onBack={goToTitle}
@@ -46,7 +50,7 @@ export default function App() {
           onClear={() => finishDungeon('clear')}
           onGameOver={() => finishDungeon('gameover')}
           onUpdatePlayer={updatePlayer}
-          onBack={goToWorldMap}
+          onBack={handleBackToWorldMap}
         />
       );
 
@@ -56,7 +60,7 @@ export default function App() {
           floorId={state.currentFloor ?? 1}
           resultType={state.resultType ?? 'gameover'}
           player={state.player}
-          onContinue={goToWorldMap}
+          onContinue={handleBackToWorldMap}
           onRetry={handleRetry}
         />
       );

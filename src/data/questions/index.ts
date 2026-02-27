@@ -11,6 +11,12 @@ import { floor9Questions } from './floor9.ts';
 import { floor10Questions } from './floor10.ts';
 import { floor11Questions } from './floor11.ts';
 import { floor12Questions } from './floor12.ts';
+import { floor101Questions } from './floor101.ts';
+import { floor102Questions } from './floor102.ts';
+import { floor103Questions } from './floor103.ts';
+import { floor104Questions } from './floor104.ts';
+import { floor105Questions } from './floor105.ts';
+import { floor106Questions } from './floor106.ts';
 
 const questionsByFloor: Record<number, Question[]> = {
   1: floor1Questions,
@@ -25,6 +31,12 @@ const questionsByFloor: Record<number, Question[]> = {
   10: floor10Questions,
   11: floor11Questions,
   12: floor12Questions,
+  101: floor101Questions,
+  102: floor102Questions,
+  103: floor103Questions,
+  104: floor104Questions,
+  105: floor105Questions,
+  106: floor106Questions,
 };
 
 export function getQuestions(floorId: number): Question[] {
