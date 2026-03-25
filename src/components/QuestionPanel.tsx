@@ -1,4 +1,5 @@
 import type { Question } from '../data/types.ts';
+import ClockFace from './ClockFace.tsx';
 
 interface QuestionPanelProps {
   question: Question;
@@ -34,6 +35,13 @@ export default function QuestionPanel({
       }}>
         {Math.ceil(timeLeft)}
       </div>
+
+      {/* Clock display for time questions */}
+      {question.clockTime && (
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 4 }}>
+          <ClockFace hour={question.clockTime.hour} minute={question.clockTime.minute} size={130} />
+        </div>
+      )}
 
       {/* Question text */}
       <div style={{

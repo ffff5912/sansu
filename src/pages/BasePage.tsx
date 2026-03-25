@@ -1,48 +1,121 @@
 import { useState } from 'react';
 import type { PlayerState, Inventory, Grade } from '../data/types.ts';
 import { ITEMS, getItem } from '../data/items.ts';
+import { BUILDINGS, getBuilding } from '../data/buildings.ts';
 import { applyExp } from '../lib/battleEngine.ts';
 import HpBar from '../components/HpBar.tsx';
 import ExpBar from '../components/ExpBar.tsx';
+import VillageCanvas from '../components/VillageCanvas.tsx';
 
 interface BasePageProps {
   player: PlayerState;
   inventory: Inventory;
+  buildings: string[];
   grade: Grade;
   clearedFloors: number[];
   onUpdatePlayer: (player: PlayerState) => void;
   onUpdateInventory: (inventory: Inventory) => void;
+  onUpdateBuildings: (buildings: string[]) => void;
   onGoDungeon: () => void;
   onGoTitle: () => void;
 }
 
-type Tab = 'home' | 'shop' | 'items';
+type Panel = null | 'shop' | 'items' | 'building';
 
 export default function BasePage({
   player,
   inventory,
+  buildings,
   grade,
   clearedFloors,
   onUpdatePlayer,
   onUpdateInventory,
+  onUpdateBuildings,
   onGoDungeon,
   onGoTitle,
 }: BasePageProps) {
-  const [tab, setTab] = useState<Tab>('home');
+  const [panel, setPanel] = useState<Panel>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [selectedBuilding, setSelectedBuilding] = useState<string | null>(null);
 
   const showMessage = (msg: string) => {
     setMessage(msg);
-    setTimeout(() => setMessage(null), 1500);
+    setTimeout(() => setMessage(null), 1800);
   };
 
-  const handleHeal = () => {
-    if (player.hp >= player.maxHp) {
-      showMessage('HPはまんたんだよ！');
+  const handleTapBuilding = (id: string) => {
+    const building = getBuilding(id);
+    if (!building) return;
+
+    if (buildings.includes(id)) {
+      // Already built — activate
+      switch (id) {
+        case 'fountain':
+          if (player.hp >= player.maxHp) {
+            showMessage('HPはまんたんだよ！');
+          } else {
+            onUpdatePlayer({ ...player, hp: player.maxHp });
+            showMessage('HPがまんたんになった！');
+          }
+          break;
+        case 'shop':
+          setPanel('shop');
+          break;
+        case 'guild':
+          onGoDungeon();
+          break;
+        case 'dojo':
+          showMessage('たいりょくどうじょう！ けんせつずみ');
+          break;
+        case 'library':
+          showMessage('まほうとしょかん！ けんせつずみ');
+          break;
+        case 'inn':
+          showMessage('やどやで ゆっくりやすもう');
+          break;
+        case 'tower':
+          showMessage('ものみのとうから 村がみわたせる！');
+          break;
+        case 'garden':
+          showMessage('きれいな おはながさいている！');
+          break;
+        default:
+          break;
+      }
+    } else {
+      // Not built — show build dialog
+      setSelectedBuilding(id);
+      setPanel('building');
+    }
+  };
+
+  const handleBuild = () => {
+    if (!selectedBuilding) return;
+    const building = getBuilding(selectedBuilding);
+    if (!building) return;
+    if (player.gold < building.cost) {
+      showMessage('ゴールドがたりないよ…');
       return;
     }
-    onUpdatePlayer({ ...player, hp: player.maxHp });
-    showMessage('HPがまんたんになった！');
+
+    const newPlayer = { ...player, gold: player.gold - building.cost };
+
+    // Apply building effects
+    switch (building.id) {
+      case 'dojo':
+        newPlayer.maxHp += 20;
+        newPlayer.hp += 20;
+        break;
+      case 'library':
+        newPlayer.attack += 5;
+        break;
+    }
+
+    onUpdatePlayer(newPlayer);
+    onUpdateBuildings([...buildings, building.id]);
+    showMessage(`${building.emoji} ${building.name}をけんせつした！`);
+    setPanel(null);
+    setSelectedBuilding(null);
   };
 
   const handleBuy = (itemId: string) => {
@@ -100,259 +173,213 @@ export default function BasePage({
     onUpdateInventory(newInv);
   };
 
-  const tabStyle = (t: Tab): React.CSSProperties => ({
-    flex: 1,
-    padding: '10px 0',
-    borderRadius: '12px 12px 0 0',
-    background: tab === t ? 'var(--color-surface)' : 'var(--color-bg-light)',
-    color: tab === t ? 'var(--color-primary)' : 'var(--color-text-dim)',
-    fontSize: 14,
-    fontWeight: 700,
-    borderBottom: tab === t ? '3px solid var(--color-primary)' : '3px solid transparent',
-  });
-
   const floorCount = grade === 1 ? 6 : 12;
+  const buildingDef = selectedBuilding ? getBuilding(selectedBuilding) : null;
 
   return (
     <div style={{
       display: 'flex',
       flexDirection: 'column',
       height: '100%',
-      background: 'linear-gradient(180deg, #e8f4ff 0%, var(--color-bg) 50%)',
+      background: 'var(--color-bg)',
       animation: 'fadeIn 0.4s ease',
     }}>
-      {/* Header */}
+      {/* Compact header */}
       <div style={{
-        padding: '16px 16px 12px',
+        padding: '10px 16px 8px',
         background: 'var(--color-surface)',
         borderBottom: '1px solid var(--color-bg-light)',
         boxShadow: 'var(--shadow)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 12,
+        flexShrink: 0,
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-          <div style={{ fontSize: 22, fontWeight: 900, color: 'var(--color-text)' }}>
-            🏠 さんすうの村
+        <div style={{ flex: 1 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+            <span style={{ fontSize: 15, fontWeight: 900, color: 'var(--color-text)' }}>
+              🏠 さんすうの村
+            </span>
+            <span style={{
+              fontSize: 13, fontWeight: 700, color: '#f6a800',
+              background: '#fff8e0', padding: '2px 10px', borderRadius: 20,
+            }}>
+              💰 {player.gold}G
+            </span>
           </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 11, color: 'var(--color-text-dim)' }}>
+            <span style={{ fontWeight: 700, color: 'var(--color-primary)' }}>Lv.{player.level}</span>
+            <span>ATK {player.attack}</span>
+            <span>クリア {clearedFloors.length}/{floorCount}</span>
+          </div>
+          <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
+            <div style={{ flex: 1 }}><HpBar current={player.hp} max={player.maxHp} height={10} /></div>
+            <div style={{ flex: 1 }}><ExpBar current={player.exp} max={player.expToNext} /></div>
+          </div>
+        </div>
+      </div>
+
+      {/* Village canvas */}
+      <div style={{ flex: 1, padding: '8px 12px', overflow: 'hidden' }}>
+        <VillageCanvas builtIds={buildings} onTapBuilding={handleTapBuilding} />
+      </div>
+
+      {/* Bottom bar */}
+      <div style={{
+        display: 'flex',
+        gap: 8,
+        padding: '8px 12px 12px',
+        background: 'var(--color-surface)',
+        borderTop: '1px solid var(--color-bg-light)',
+        flexShrink: 0,
+      }}>
+        <button onClick={() => setPanel('items')} style={bottomBtn}>🎒 もちもの</button>
+        <button onClick={onGoDungeon} style={{ ...bottomBtn, background: 'var(--color-primary)', color: '#fff' }}>
+          ⚔️ ダンジョン
+        </button>
+        <button onClick={onGoTitle} style={bottomBtn}>🏫 タイトル</button>
+      </div>
+
+      {/* Panel overlay */}
+      {panel && (
+        <div style={{
+          position: 'absolute', inset: 0, zIndex: 100,
+          background: 'rgba(0,0,0,0.4)',
+          display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
+        }}>
           <div style={{
-            fontSize: 14,
-            fontWeight: 700,
-            color: '#f6a800',
-            background: '#fff8e0',
-            padding: '4px 12px',
-            borderRadius: 20,
+            background: 'var(--color-surface)',
+            borderRadius: '16px 16px 0 0',
+            width: '100%', maxHeight: '60%',
+            display: 'flex', flexDirection: 'column',
+            animation: 'slideUp 0.3s ease',
           }}>
-            💰 {player.gold}G
-          </div>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 13 }}>
-          <span style={{ fontWeight: 700, color: 'var(--color-primary)' }}>
-            Lv.{player.level} 🧒
-          </span>
-          <span style={{ color: 'var(--color-text-dim)' }}>
-            ATK {player.attack}
-          </span>
-          <span style={{ color: 'var(--color-text-dim)' }}>
-            クリア {clearedFloors.length}/{floorCount}
-          </span>
-        </div>
-        <div style={{ marginTop: 6 }}>
-          <HpBar current={player.hp} max={player.maxHp} label="HP" height={12} />
-        </div>
-        <div style={{ marginTop: 4 }}>
-          <ExpBar current={player.exp} max={player.expToNext} />
-        </div>
-      </div>
-
-      {/* Tabs */}
-      <div style={{ display: 'flex', background: 'var(--color-bg-light)' }}>
-        <button style={tabStyle('home')} onClick={() => setTab('home')}>ひろば</button>
-        <button style={tabStyle('shop')} onClick={() => setTab('shop')}>ショップ</button>
-        <button style={tabStyle('items')} onClick={() => setTab('items')}>もちもの</button>
-      </div>
-
-      {/* Content */}
-      <div style={{ flex: 1, overflow: 'auto', padding: 16 }}>
-        {tab === 'home' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {/* Heal spot */}
-            <button
-              onClick={handleHeal}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 12,
-                width: '100%',
-                padding: '16px',
-                borderRadius: 'var(--radius-lg)',
-                background: 'linear-gradient(135deg, #e0f7fa, #b2ebf2)',
-                border: '2px solid #80deea',
-                textAlign: 'left',
-              }}
-            >
-              <span style={{ fontSize: 36 }}>⛲</span>
-              <div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: '#00838f' }}>いやしの泉</div>
-                <div style={{ fontSize: 12, color: '#4db6ac' }}>HPをまんたんにする（むりょう）</div>
-              </div>
-            </button>
-
-            {/* Go to dungeon */}
-            <button
-              onClick={onGoDungeon}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 12,
-                width: '100%',
-                padding: '16px',
-                borderRadius: 'var(--radius-lg)',
-                background: 'linear-gradient(135deg, #e8eaf6, #c5cae9)',
-                border: '2px solid #9fa8da',
-                textAlign: 'left',
-              }}
-            >
-              <span style={{ fontSize: 36 }}>🗺️</span>
-              <div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: '#3949ab' }}>ダンジョンへ</div>
-                <div style={{ fontSize: 12, color: '#7986cb' }}>ぼうけんに出発する</div>
-              </div>
-            </button>
-
-            {/* Back to title */}
-            <button
-              onClick={onGoTitle}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 12,
-                width: '100%',
-                padding: '16px',
-                borderRadius: 'var(--radius-lg)',
-                background: 'var(--color-surface)',
-                border: '2px solid var(--color-bg-lighter)',
-                textAlign: 'left',
-              }}
-            >
-              <span style={{ fontSize: 36 }}>🏫</span>
-              <div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--color-text)' }}>がくねん選択</div>
-                <div style={{ fontSize: 12, color: 'var(--color-text-dim)' }}>タイトルにもどる</div>
-              </div>
-            </button>
-          </div>
-        )}
-
-        {tab === 'shop' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <div style={{ fontSize: 14, color: 'var(--color-text-dim)', marginBottom: 4 }}>
-              🛒 アイテムをかおう！
+            {/* Panel header */}
+            <div style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              padding: '12px 16px', borderBottom: '1px solid var(--color-bg-light)',
+            }}>
+              <span style={{ fontSize: 16, fontWeight: 700 }}>
+                {panel === 'shop' && '🏪 ショップ'}
+                {panel === 'items' && '🎒 もちもの'}
+                {panel === 'building' && '🔨 けんせつ'}
+              </span>
+              <button onClick={() => { setPanel(null); setSelectedBuilding(null); }}
+                style={{ fontSize: 20, padding: '4px 8px', color: 'var(--color-text-dim)' }}>✕</button>
             </div>
-            {ITEMS.map(item => (
-              <button
-                key={item.id}
-                onClick={() => handleBuy(item.id)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 12,
-                  width: '100%',
-                  padding: '12px 16px',
-                  borderRadius: 'var(--radius)',
-                  background: player.gold >= item.price ? 'var(--color-surface)' : 'var(--color-bg-light)',
-                  border: '2px solid var(--color-bg-lighter)',
-                  opacity: player.gold >= item.price ? 1 : 0.5,
-                  textAlign: 'left',
-                }}
-              >
-                <span style={{ fontSize: 28 }}>{item.emoji}</span>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 14, fontWeight: 700 }}>{item.name}</div>
-                  <div style={{ fontSize: 11, color: 'var(--color-text-dim)' }}>{item.description}</div>
-                </div>
-                <div style={{
-                  fontSize: 14,
-                  fontWeight: 700,
-                  color: '#f6a800',
-                  whiteSpace: 'nowrap',
-                }}>
-                  {item.price}G
-                </div>
-              </button>
-            ))}
-          </div>
-        )}
 
-        {tab === 'items' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <div style={{ fontSize: 14, color: 'var(--color-text-dim)', marginBottom: 4 }}>
-              🎒 もっているアイテム
+            {/* Panel content */}
+            <div style={{ flex: 1, overflow: 'auto', padding: 16 }}>
+              {panel === 'shop' && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {ITEMS.map(item => (
+                    <button key={item.id} onClick={() => handleBuy(item.id)}
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: 12, width: '100%',
+                        padding: '12px 16px', borderRadius: 'var(--radius)',
+                        background: player.gold >= item.price ? 'var(--color-bg-light)' : 'var(--color-bg)',
+                        border: '2px solid var(--color-bg-lighter)',
+                        opacity: player.gold >= item.price ? 1 : 0.5, textAlign: 'left',
+                      }}>
+                      <span style={{ fontSize: 28 }}>{item.emoji}</span>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: 14, fontWeight: 700 }}>{item.name}</div>
+                        <div style={{ fontSize: 11, color: 'var(--color-text-dim)' }}>{item.description}</div>
+                      </div>
+                      <div style={{ fontSize: 14, fontWeight: 700, color: '#f6a800' }}>{item.price}G</div>
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {panel === 'items' && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {Object.keys(inventory).length === 0 ? (
+                    <div style={{ textAlign: 'center', padding: 24, color: 'var(--color-text-dim)', fontSize: 14 }}>
+                      アイテムがないよ。ショップで買おう！
+                    </div>
+                  ) : (
+                    Object.entries(inventory).filter(([, count]) => count > 0).map(([itemId, count]) => {
+                      const item = getItem(itemId);
+                      if (!item) return null;
+                      return (
+                        <button key={itemId} onClick={() => handleUseItem(itemId)}
+                          style={{
+                            display: 'flex', alignItems: 'center', gap: 12, width: '100%',
+                            padding: '12px 16px', borderRadius: 'var(--radius)',
+                            background: 'var(--color-bg-light)', border: '2px solid var(--color-bg-lighter)',
+                            textAlign: 'left',
+                          }}>
+                          <span style={{ fontSize: 28 }}>{item.emoji}</span>
+                          <div style={{ flex: 1 }}>
+                            <div style={{ fontSize: 14, fontWeight: 700 }}>{item.name}</div>
+                            <div style={{ fontSize: 11, color: 'var(--color-text-dim)' }}>{item.description}</div>
+                          </div>
+                          <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--color-primary)' }}>x{count}</div>
+                        </button>
+                      );
+                    })
+                  )}
+                </div>
+              )}
+
+              {panel === 'building' && buildingDef && (
+                <div style={{ textAlign: 'center', padding: 16 }}>
+                  <div style={{ fontSize: 48 }}>{buildingDef.emoji}</div>
+                  <div style={{ fontSize: 18, fontWeight: 700, marginTop: 8 }}>{buildingDef.name}</div>
+                  <div style={{ fontSize: 13, color: 'var(--color-text-dim)', marginTop: 4 }}>
+                    {buildingDef.description}
+                  </div>
+                  <div style={{ fontSize: 20, fontWeight: 700, color: '#f6a800', marginTop: 12 }}>
+                    💰 {buildingDef.cost}G
+                  </div>
+                  <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 16 }}>
+                    <button onClick={handleBuild}
+                      style={{
+                        padding: '10px 28px', borderRadius: 'var(--radius-lg)',
+                        background: player.gold >= buildingDef.cost ? 'var(--color-primary)' : 'var(--color-bg-lighter)',
+                        color: player.gold >= buildingDef.cost ? '#fff' : 'var(--color-text-dim)',
+                        fontSize: 16, fontWeight: 700,
+                      }}>
+                      けんせつする
+                    </button>
+                    <button onClick={() => { setPanel(null); setSelectedBuilding(null); }}
+                      style={{
+                        padding: '10px 20px', borderRadius: 'var(--radius-lg)',
+                        background: 'var(--color-bg-light)', border: '2px solid var(--color-bg-lighter)',
+                        fontSize: 14, fontWeight: 700,
+                      }}>
+                      やめる
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
-            {Object.keys(inventory).length === 0 ? (
-              <div style={{
-                textAlign: 'center',
-                padding: 32,
-                color: 'var(--color-text-dim)',
-                fontSize: 14,
-              }}>
-                アイテムがないよ。ショップで買おう！
-              </div>
-            ) : (
-              Object.entries(inventory).filter(([, count]) => count > 0).map(([itemId, count]) => {
-                const item = getItem(itemId);
-                if (!item) return null;
-                return (
-                  <button
-                    key={itemId}
-                    onClick={() => handleUseItem(itemId)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 12,
-                      width: '100%',
-                      padding: '12px 16px',
-                      borderRadius: 'var(--radius)',
-                      background: 'var(--color-surface)',
-                      border: '2px solid var(--color-bg-lighter)',
-                      textAlign: 'left',
-                    }}
-                  >
-                    <span style={{ fontSize: 28 }}>{item.emoji}</span>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: 14, fontWeight: 700 }}>{item.name}</div>
-                      <div style={{ fontSize: 11, color: 'var(--color-text-dim)' }}>{item.description}</div>
-                    </div>
-                    <div style={{
-                      fontSize: 14,
-                      fontWeight: 700,
-                      color: 'var(--color-primary)',
-                    }}>
-                      x{count}
-                    </div>
-                  </button>
-                );
-              })
-            )}
           </div>
-        )}
-      </div>
+        </div>
+      )}
+
+      {/* Buildable buildings list */}
+      {!panel && BUILDINGS.filter(b => b.cost > 0 && !buildings.includes(b.id)).length > 0 && (
+        <div style={{
+          position: 'absolute', top: 100, right: 8, zIndex: 10,
+          background: 'rgba(255,255,255,0.9)', borderRadius: 12,
+          padding: '6px 10px', boxShadow: 'var(--shadow)',
+          fontSize: 11, color: 'var(--color-text-dim)',
+        }}>
+          🔨 建物をタップ！
+        </div>
+      )}
 
       {/* Message toast */}
       {message && (
         <div style={{
-          position: 'fixed',
-          bottom: 80,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          background: 'var(--color-surface)',
-          border: '2px solid var(--color-primary)',
-          borderRadius: 'var(--radius-lg)',
-          padding: '12px 24px',
-          fontSize: 15,
-          fontWeight: 700,
-          color: 'var(--color-text)',
-          boxShadow: 'var(--shadow)',
-          animation: 'bounceIn 0.3s ease',
-          zIndex: 200,
-          whiteSpace: 'nowrap',
+          position: 'fixed', bottom: 80, left: '50%', transform: 'translateX(-50%)',
+          background: 'var(--color-surface)', border: '2px solid var(--color-primary)',
+          borderRadius: 'var(--radius-lg)', padding: '12px 24px',
+          fontSize: 15, fontWeight: 700, color: 'var(--color-text)',
+          boxShadow: 'var(--shadow)', animation: 'bounceIn 0.3s ease',
+          zIndex: 200, whiteSpace: 'nowrap',
         }}>
           {message}
         </div>
@@ -360,3 +387,14 @@ export default function BasePage({
     </div>
   );
 }
+
+const bottomBtn: React.CSSProperties = {
+  flex: 1,
+  padding: '10px 4px',
+  borderRadius: 'var(--radius)',
+  background: 'var(--color-bg-light)',
+  border: '2px solid var(--color-bg-lighter)',
+  fontSize: 12,
+  fontWeight: 700,
+  color: 'var(--color-text)',
+};

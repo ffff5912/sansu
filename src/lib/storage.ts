@@ -13,6 +13,8 @@ export const DEFAULT_PLAYER: PlayerState = {
   gold: 0,
 };
 
+import { DEFAULT_BUILDINGS } from '../data/buildings.ts';
+
 export const DEFAULT_INVENTORY: Inventory = {};
 
 function saveKey(grade: Grade): string {
@@ -27,6 +29,7 @@ function defaultSave(grade: Grade): SaveData {
     clearedFloors: [],
     currentFloor: null,
     inventory: { ...DEFAULT_INVENTORY },
+    buildings: [...DEFAULT_BUILDINGS],
     timestamp: Date.now(),
   };
 }
@@ -44,6 +47,7 @@ export function loadSave(grade: Grade): SaveData {
       player: { ...base.player, ...(data.player ?? {}) },
       clearedFloors: data.clearedFloors ?? base.clearedFloors,
       inventory: data.inventory ?? base.inventory,
+      buildings: data.buildings ?? base.buildings,
       version: CURRENT_VERSION,
     };
   } catch {
