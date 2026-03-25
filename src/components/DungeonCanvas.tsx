@@ -67,7 +67,7 @@ export default function DungeonCanvas({ map, playerPos, defeatedEnemies, doorOpe
         width: viewW, height: viewH,
         resolution: window.devicePixelRatio || 1,
         autoDensity: true, antialias: true,
-        backgroundAlpha: 1, backgroundColor: 0x1a1a2e,
+        backgroundAlpha: 1, backgroundColor: 0x2a2a3a,
       });
       if (destroyed) { app.destroy(true); return; }
       el.appendChild(app.canvas as HTMLCanvasElement);
@@ -87,9 +87,12 @@ export default function DungeonCanvas({ map, playerPos, defeatedEnemies, doorOpe
       const tileT = (col: number, row: number) =>
         new Texture({ source: tilemapTex.source, frame: new Rectangle(col * 64, row * 64, 64, 64) });
 
-      const grassTex = [tileT(3, 0), tileT(4, 0)];
-      const wallTex = [tileT(6, 3), tileT(7, 3)];
-      const pathTex = tileT(3, 1);
+      // Center grass (flat, no edges) — the big interior block around col 1-3, row 0-1
+      const grassTex = [tileT(1, 1), tileT(2, 1)];
+      // Stone wall face — right half, row 4-5 (solid cliff face pieces)
+      const wallTex = [tileT(5, 4), tileT(6, 4)];
+      // Grass top surface for special tiles (start, door area)
+      const pathTex = tileT(2, 0);
 
       // Sprite frames
       const playerIdleTex = Texture.from(PLAYER_IDLE_PATH);
@@ -108,26 +111,35 @@ export default function DungeonCanvas({ map, playerPos, defeatedEnemies, doorOpe
       const world = new Container();
       app.stage.addChild(world);
 
-      /* ====== BACKGROUND LAYER (blurred for depth) ====== */
-      const bgLayer = new Container();
-      const bgBlur = new BlurFilter({ strength: 1.5, quality: 2 });
-      bgLayer.filters = [bgBlur];
-      world.addChild(bgLayer);
+      /* ====== WALL LAYER ====== */
+      const wallLayer = new Container();
+      world.addChild(wallLayer);
 
-      // Draw all wall tiles in bg layer (they are "far away" walls)
+      // Draw wall tiles — clearly distinct stone texture
       for (let y = 0; y < map.height; y++) {
         for (let x = 0; x < map.width; x++) {
           const tile = map.tiles[y][x];
           if (tile === '#') {
+            // Dark base behind wall tile (fill gaps in transparent areas)
+            const bg = new Graphics();
+            bg.rect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+            bg.fill(0x3a3a4a);
+            wallLayer.addChild(bg);
+
             const wallSprite = new Sprite(wallTex[(x + y) % 2]);
             wallSprite.x = x * TILE_SIZE;
             wallSprite.y = y * TILE_SIZE;
             wallSprite.width = TILE_SIZE;
             wallSprite.height = TILE_SIZE;
-            bgLayer.addChild(wallSprite);
+            wallSprite.alpha = 0.9;
+            wallLayer.addChild(wallSprite);
           }
         }
       }
+
+      // Subtle blur only on wall layer for HD-2D depth feel
+      const wallBlur = new BlurFilter({ strength: 0.6, quality: 1 });
+      wallLayer.filters = [wallBlur];
 
       /* ====== FLOOR LAYER ====== */
       const floorLayer = new Container();
