@@ -23,6 +23,7 @@ export default function Layout({ title, children, onBack }: LayoutProps) {
           borderBottom: '2px solid var(--color-bg-light)',
           minHeight: 44,
           flexShrink: 0,
+          boxShadow: 'var(--shadow)',
         }}>
           {onBack && (
             <button
@@ -30,7 +31,7 @@ export default function Layout({ title, children, onBack }: LayoutProps) {
               style={{
                 fontSize: 20,
                 padding: '4px 8px',
-                color: 'var(--color-text-dim)',
+                color: 'var(--color-primary)',
               }}
             >
               ←
@@ -39,7 +40,7 @@ export default function Layout({ title, children, onBack }: LayoutProps) {
           <h1 style={{
             fontSize: 16,
             fontWeight: 700,
-            color: 'var(--color-text-accent)',
+            color: 'var(--color-text)',
           }}>
             {title}
           </h1>

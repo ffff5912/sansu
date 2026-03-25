@@ -21,16 +21,17 @@ export default function FloorCard({ floor, cleared, onSelect }: FloorCardProps) 
         padding: '12px 16px',
         borderRadius: 'var(--radius-lg)',
         background: locked
-          ? 'var(--color-surface)'
+          ? 'var(--color-bg-light)'
           : cleared
-            ? 'linear-gradient(135deg, var(--color-bg-lighter), var(--color-success) 120%)'
-            : 'var(--color-surface-light)',
+            ? 'linear-gradient(135deg, #e8f5e9, #c8e6c9)'
+            : 'var(--color-surface)',
         border: cleared
           ? '2px solid var(--color-success)'
           : '2px solid var(--color-bg-lighter)',
         opacity: locked ? 0.4 : 1,
         transition: 'all var(--transition)',
         textAlign: 'left',
+        boxShadow: locked ? 'none' : 'var(--shadow)',
       }}
     >
       <div style={{ fontSize: 32 }}>{locked ? '🔒' : floor.emoji}</div>
