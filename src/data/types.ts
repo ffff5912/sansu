@@ -88,6 +88,7 @@ export interface ItemDef {
   id: string;
   name: string;
   emoji: string;
+  icon?: string;
   description: string;
   price: number;
   effect: 'heal' | 'atkUp' | 'expUp';
