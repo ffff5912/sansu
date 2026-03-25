@@ -2,31 +2,31 @@ import type { Monster } from './types.ts';
 
 export const MONSTERS: Monster[] = [
   // === Floor 1: 大きな数のどうくつ ===
-  { id: 'slime-kazu', name: 'スライムかず', emoji: '🟢', hp: 30, attack: 8, exp: 10, isBoss: false, floorId: 1 },
-  { id: 'bat-suu', name: 'コウモリすう', emoji: '🦇', hp: 35, attack: 10, exp: 12, isBoss: false, floorId: 1 },
-  { id: 'ghost-man', name: 'ゴーストまん', emoji: '👻', hp: 40, attack: 12, exp: 15, isBoss: false, floorId: 1 },
-  { id: 'dragon-oku', name: 'ドラゴン・オク', emoji: '🐉', hp: 100, attack: 18, exp: 50, isBoss: true, floorId: 1 },
+  { id: 'slime-kazu', name: 'スライムかず', emoji: '🐸', hp: 30, attack: 8, exp: 10, isBoss: false, floorId: 1 },
+  { id: 'bat-suu', name: 'コウモリすう', emoji: '🦋', hp: 35, attack: 10, exp: 12, isBoss: false, floorId: 1 },
+  { id: 'ghost-man', name: 'おばけまん', emoji: '🐻', hp: 40, attack: 12, exp: 15, isBoss: false, floorId: 1 },
+  { id: 'dragon-oku', name: 'ドラゴン・オク', emoji: '🦖', hp: 100, attack: 18, exp: 50, isBoss: true, floorId: 1 },
 
   // === Floor 2: わり算のもり ===
-  { id: 'wolf-wari', name: 'オオカミわり', emoji: '🐺', hp: 35, attack: 10, exp: 12, isBoss: false, floorId: 2 },
-  { id: 'boar-amari', name: 'イノシシあまり', emoji: '🐗', hp: 40, attack: 12, exp: 14, isBoss: false, floorId: 2 },
-  { id: 'bear-shou', name: 'クマしょう', emoji: '🐻', hp: 45, attack: 14, exp: 16, isBoss: false, floorId: 2 },
-  { id: 'treant-warizan', name: 'トレント÷', emoji: '🌳', hp: 120, attack: 20, exp: 55, isBoss: true, floorId: 2 },
+  { id: 'wolf-wari', name: 'オオカミわり', emoji: '🐶', hp: 35, attack: 10, exp: 12, isBoss: false, floorId: 2 },
+  { id: 'boar-amari', name: 'イノシシあまり', emoji: '🐷', hp: 40, attack: 12, exp: 14, isBoss: false, floorId: 2 },
+  { id: 'bear-shou', name: 'クマしょう', emoji: '🧸', hp: 45, attack: 14, exp: 16, isBoss: false, floorId: 2 },
+  { id: 'treant-warizan', name: 'トレント÷', emoji: '🌴', hp: 120, attack: 20, exp: 55, isBoss: true, floorId: 2 },
 
   // === Floor 3: 角度のとう ===
-  { id: 'hawk-kaku', name: 'タカかくど', emoji: '🦅', hp: 40, attack: 12, exp: 14, isBoss: false, floorId: 3 },
-  { id: 'gargoyle-do', name: 'ガーゴイルど', emoji: '🗿', hp: 45, attack: 14, exp: 16, isBoss: false, floorId: 3 },
+  { id: 'hawk-kaku', name: 'タカかくど', emoji: '🦜', hp: 40, attack: 12, exp: 14, isBoss: false, floorId: 3 },
+  { id: 'gargoyle-do', name: 'ガーゴイルど', emoji: '🐢', hp: 45, attack: 14, exp: 16, isBoss: false, floorId: 3 },
   { id: 'golem-choku', name: 'ゴーレムちょっかく', emoji: '🤖', hp: 50, attack: 16, exp: 18, isBoss: false, floorId: 3 },
   { id: 'sphinx-bundo', name: 'スフィンクス分度器', emoji: '🦁', hp: 140, attack: 22, exp: 60, isBoss: true, floorId: 3 },
 
   // === Floor 4: 小数のみずうみ ===
-  { id: 'fish-shousuu', name: 'さかなしょうすう', emoji: '🐟', hp: 42, attack: 13, exp: 15, isBoss: false, floorId: 4 },
+  { id: 'fish-shousuu', name: 'さかなしょうすう', emoji: '🐠', hp: 42, attack: 13, exp: 15, isBoss: false, floorId: 4 },
   { id: 'frog-ten', name: 'カエルてん', emoji: '🐸', hp: 48, attack: 15, exp: 17, isBoss: false, floorId: 4 },
   { id: 'turtle-rei', name: 'カメれいてん', emoji: '🐢', hp: 52, attack: 16, exp: 19, isBoss: false, floorId: 4 },
   { id: 'kraken-shousuu', name: 'クラーケン0.1', emoji: '🐙', hp: 150, attack: 24, exp: 65, isBoss: true, floorId: 4 },
 
   // === Floor 5: がい数のさばく ===
-  { id: 'scorpion-gai', name: 'サソリがいすう', emoji: '🦂', hp: 48, attack: 14, exp: 17, isBoss: false, floorId: 5 },
+  { id: 'scorpion-gai', name: 'サソリがいすう', emoji: '🦀', hp: 48, attack: 14, exp: 17, isBoss: false, floorId: 5 },
   { id: 'snake-shisha', name: 'ヘビ四捨五入', emoji: '🐍', hp: 52, attack: 16, exp: 19, isBoss: false, floorId: 5 },
   { id: 'cactus-mitsumori', name: 'サボテンみつもり', emoji: '🌵', hp: 55, attack: 17, exp: 20, isBoss: false, floorId: 5 },
   { id: 'djinn-gaisuu', name: 'ジン・ガイスウ', emoji: '🧞', hp: 160, attack: 26, exp: 70, isBoss: true, floorId: 5 },
@@ -34,42 +34,42 @@ export const MONSTERS: Monster[] = [
   // === Floor 6: 面積のへいげん ===
   { id: 'rabbit-menseki', name: 'ウサギめんせき', emoji: '🐰', hp: 50, attack: 15, exp: 18, isBoss: false, floorId: 6 },
   { id: 'sheep-heihou', name: 'ヒツジへいほう', emoji: '🐑', hp: 55, attack: 17, exp: 20, isBoss: false, floorId: 6 },
-  { id: 'horse-tate', name: 'ウマたてよこ', emoji: '🐴', hp: 58, attack: 18, exp: 22, isBoss: false, floorId: 6 },
-  { id: 'giant-menseki', name: 'ジャイアントm²', emoji: '🦍', hp: 170, attack: 28, exp: 75, isBoss: true, floorId: 6 },
+  { id: 'horse-tate', name: 'ウマたてよこ', emoji: '🦄', hp: 58, attack: 18, exp: 22, isBoss: false, floorId: 6 },
+  { id: 'giant-menseki', name: 'ジャイアントm²', emoji: '🐘', hp: 170, attack: 28, exp: 75, isBoss: true, floorId: 6 },
 
   // === Floor 7: 分数のどうくつ ===
-  { id: 'rat-bunbo', name: 'ネズミぶんぼ', emoji: '🐀', hp: 52, attack: 16, exp: 19, isBoss: false, floorId: 7 },
+  { id: 'rat-bunbo', name: 'ネズミぶんぼ', emoji: '🐭', hp: 52, attack: 16, exp: 19, isBoss: false, floorId: 7 },
   { id: 'spider-bunshi', name: 'クモぶんし', emoji: '🕷️', hp: 58, attack: 18, exp: 21, isBoss: false, floorId: 7 },
   { id: 'mole-tsuubun', name: 'モグラつうぶん', emoji: '🦔', hp: 62, attack: 19, exp: 23, isBoss: false, floorId: 7 },
-  { id: 'minotaur-bunsuu', name: 'ミノタウロス分数', emoji: '🐂', hp: 180, attack: 30, exp: 80, isBoss: true, floorId: 7 },
+  { id: 'minotaur-bunsuu', name: 'ミノタウロス分数', emoji: '🐮', hp: 180, attack: 30, exp: 80, isBoss: true, floorId: 7 },
 
   // === Floor 8: グラフのまち ===
   { id: 'pigeon-graph', name: 'ハトグラフ', emoji: '🐦', hp: 55, attack: 17, exp: 20, isBoss: false, floorId: 8 },
   { id: 'cat-oresen', name: 'ネコおれせん', emoji: '🐱', hp: 60, attack: 19, exp: 22, isBoss: false, floorId: 8 },
   { id: 'dog-hyou', name: 'イヌひょう', emoji: '🐶', hp: 65, attack: 20, exp: 24, isBoss: false, floorId: 8 },
-  { id: 'phoenix-graph', name: 'フェニックスグラフ', emoji: '🦅', hp: 190, attack: 32, exp: 85, isBoss: true, floorId: 8 },
+  { id: 'phoenix-graph', name: 'フェニックスグラフ', emoji: '🦚', hp: 190, attack: 32, exp: 85, isBoss: true, floorId: 8 },
 
   // === Floor 9: 図形のしんでん ===
   { id: 'lizard-heikou', name: 'トカゲへいこう', emoji: '🦎', hp: 58, attack: 18, exp: 22, isBoss: false, floorId: 9 },
-  { id: 'crab-suichoku', name: 'カニすいちょく', emoji: '🦀', hp: 62, attack: 20, exp: 24, isBoss: false, floorId: 9 },
-  { id: 'beetle-taikaku', name: 'カブトたいかくせん', emoji: '🪲', hp: 68, attack: 21, exp: 26, isBoss: false, floorId: 9 },
-  { id: 'cerberus-zukei', name: 'ケルベロス図形', emoji: '🐕', hp: 200, attack: 34, exp: 90, isBoss: true, floorId: 9 },
+  { id: 'crab-suichoku', name: 'カニすいちょく', emoji: '🦞', hp: 62, attack: 20, exp: 24, isBoss: false, floorId: 9 },
+  { id: 'beetle-taikaku', name: 'カブトたいかくせん', emoji: '🐞', hp: 68, attack: 21, exp: 26, isBoss: false, floorId: 9 },
+  { id: 'cerberus-zukei', name: 'ケルベロス図形', emoji: '🦊', hp: 200, attack: 34, exp: 90, isBoss: true, floorId: 9 },
 
   // === Floor 10: そろばんのやま ===
   { id: 'monkey-anzan', name: 'サルあんざん', emoji: '🐒', hp: 60, attack: 19, exp: 23, isBoss: false, floorId: 10 },
   { id: 'eagle-kufuu', name: 'ワシくふう', emoji: '🦅', hp: 65, attack: 21, exp: 25, isBoss: false, floorId: 10 },
-  { id: 'yeti-keisan', name: 'イエティけいさん', emoji: '❄️', hp: 70, attack: 22, exp: 27, isBoss: false, floorId: 10 },
-  { id: 'titan-soroban', name: 'タイタンそろばん', emoji: '🧮', hp: 210, attack: 36, exp: 95, isBoss: true, floorId: 10 },
+  { id: 'yeti-keisan', name: 'イエティけいさん', emoji: '🐧', hp: 70, attack: 22, exp: 27, isBoss: false, floorId: 10 },
+  { id: 'titan-soroban', name: 'タイタンそろばん', emoji: '🦍', hp: 210, attack: 36, exp: 95, isBoss: true, floorId: 10 },
 
   // === Floor 11: 変わり方のラボ ===
   { id: 'robot-shikaku', name: 'ロボット□', emoji: '🤖', hp: 65, attack: 20, exp: 25, isBoss: false, floorId: 11 },
-  { id: 'alien-maru', name: 'エイリアン○', emoji: '👾', hp: 70, attack: 22, exp: 27, isBoss: false, floorId: 11 },
+  { id: 'alien-maru', name: 'エイリアン○', emoji: '👽', hp: 70, attack: 22, exp: 27, isBoss: false, floorId: 11 },
   { id: 'ufo-kankei', name: 'UFOかんけい', emoji: '🛸', hp: 75, attack: 23, exp: 29, isBoss: false, floorId: 11 },
-  { id: 'mecha-kawarikata', name: 'メカ変わり方', emoji: '⚙️', hp: 220, attack: 38, exp: 100, isBoss: true, floorId: 11 },
+  { id: 'mecha-kawarikata', name: 'メカ変わり方', emoji: '🤖', hp: 220, attack: 38, exp: 100, isBoss: true, floorId: 11 },
 
   // === Floor 12: 立体のてんくう ===
   { id: 'cloud-men', name: 'クラウドめん', emoji: '☁️', hp: 70, attack: 22, exp: 27, isBoss: false, floorId: 12 },
-  { id: 'star-chouten', name: 'スターちょうてん', emoji: '⭐', hp: 75, attack: 24, exp: 29, isBoss: false, floorId: 12 },
+  { id: 'star-chouten', name: 'スターちょうてん', emoji: '🌟', hp: 75, attack: 24, exp: 29, isBoss: false, floorId: 12 },
   { id: 'comet-hen', name: 'すいせいへん', emoji: '☄️', hp: 80, attack: 25, exp: 31, isBoss: false, floorId: 12 },
   { id: 'bahamut-rittai', name: 'バハムート立体', emoji: '🐲', hp: 250, attack: 40, exp: 120, isBoss: true, floorId: 12 },
 
@@ -94,7 +94,7 @@ export const MONSTERS: Monster[] = [
   // === Floor 104: くりあがりのおか (小1) ===
   { id: 'tanuki-kuri', name: 'たぬきくり', emoji: '🦝', hp: 28, attack: 7, exp: 11, isBoss: false, floorId: 104 },
   { id: 'kitsune-kuri', name: 'きつねくり', emoji: '🦊', hp: 30, attack: 8, exp: 12, isBoss: false, floorId: 104 },
-  { id: 'inoshishi-kuri', name: 'いのししくり', emoji: '🐗', hp: 33, attack: 8, exp: 13, isBoss: false, floorId: 104 },
+  { id: 'inoshishi-kuri', name: 'いのししくり', emoji: '🐷', hp: 33, attack: 8, exp: 13, isBoss: false, floorId: 104 },
   { id: 'oni-kuriagari', name: 'おにくりあがり', emoji: '👹', hp: 90, attack: 14, exp: 42, isBoss: true, floorId: 104 },
 
   // === Floor 105: くりさがりのたに (小1) ===

@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef } from 'react';
 import type { BattleState, Monster, PlayerState, Question } from '../data/types.ts';
 import { getRandomQuestion, pickDifficulty } from '../data/questions/index.ts';
-import { calculateDamage, calculateMonsterDamage, applyExp, applyDamageToPlayer } from '../lib/battleEngine.ts';
+import { calculateDamage, calculateMonsterDamage, calculateGoldReward, applyExp, applyDamageToPlayer } from '../lib/battleEngine.ts';
 import { useTimer } from './useTimer.ts';
 
 interface UseBattleReturn {
@@ -13,6 +13,7 @@ interface UseBattleReturn {
   endBattle: () => void;
   playerUpdate: PlayerState | null;
   leveledUp: boolean;
+  goldEarned: number;
 }
 
 export function useBattle(
@@ -22,6 +23,7 @@ export function useBattle(
   const [battle, setBattle] = useState<BattleState | null>(null);
   const [playerUpdate, setPlayerUpdate] = useState<PlayerState | null>(null);
   const [leveledUp, setLeveledUp] = useState(false);
+  const [goldEarned, setGoldEarned] = useState(0);
   const timer = useTimer(15);
   const askedRef = useRef<Set<string>>(new Set());
 
@@ -29,6 +31,7 @@ export function useBattle(
     askedRef.current = new Set();
     setPlayerUpdate(null);
     setLeveledUp(false);
+    setGoldEarned(0);
     setBattle({
       phase: 'intro',
       monster,
@@ -79,10 +82,13 @@ export function useBattle(
     // Check outcomes after showing result
     setTimeout(() => {
       if (newMonsterHp <= 0) {
-        // Victory
+        // Victory - give exp and gold
+        const gold = calculateGoldReward(battle.monster);
         const expResult = applyExp(newPlayer, battle.monster.exp);
-        setPlayerUpdate(expResult.newPlayer);
+        const playerWithGold = { ...expResult.newPlayer, gold: expResult.newPlayer.gold + gold };
+        setPlayerUpdate(playerWithGold);
         setLeveledUp(expResult.leveled);
+        setGoldEarned(gold);
         setBattle(b => b ? { ...b, phase: 'victory' } : b);
       } else if (newPlayer.hp <= 0) {
         // Defeat
@@ -126,5 +132,6 @@ export function useBattle(
     endBattle,
     playerUpdate,
     leveledUp,
+    goldEarned,
   };
 }

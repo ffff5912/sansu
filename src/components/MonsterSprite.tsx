@@ -30,8 +30,7 @@ export default function MonsterSprite({ emoji, name, phase }: MonsterSpriteProps
       <div style={{
         fontSize: 14,
         fontWeight: 700,
-        color: 'var(--color-text-accent)',
-        textShadow: '0 2px 4px rgba(0,0,0,0.5)',
+        color: 'var(--color-text)',
       }}>
         {name}
       </div>

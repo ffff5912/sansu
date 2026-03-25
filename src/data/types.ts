@@ -63,6 +63,22 @@ export interface PlayerState {
   attack: number;
   exp: number;
   expToNext: number;
+  gold: number;
+}
+
+/* ========== Item ========== */
+export interface ItemDef {
+  id: string;
+  name: string;
+  emoji: string;
+  description: string;
+  price: number;
+  effect: 'heal' | 'atkUp' | 'expUp';
+  value: number;
+}
+
+export interface Inventory {
+  [itemId: string]: number;
 }
 
 /* ========== Battle ========== */
@@ -104,11 +120,12 @@ export interface SaveData {
   player: PlayerState;
   clearedFloors: number[];
   currentFloor: number | null;
+  inventory: Inventory;
   timestamp: number;
 }
 
 /* ========== Game State (top level) ========== */
-export type GameScene = 'title' | 'worldmap' | 'dungeon' | 'result';
+export type GameScene = 'title' | 'base' | 'worldmap' | 'dungeon' | 'result';
 
 export interface GameState {
   scene: GameScene;
@@ -117,4 +134,5 @@ export interface GameState {
   clearedFloors: number[];
   currentFloor: number | null;
   resultType: 'clear' | 'gameover' | null;
+  inventory: Inventory;
 }

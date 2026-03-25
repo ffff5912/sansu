@@ -46,6 +46,7 @@ export default function DungeonPage({
     endBattle,
     playerUpdate,
     leveledUp,
+    goldEarned,
   } = useBattle(floorId, player);
 
   // Start battle when encounter happens
@@ -120,12 +121,13 @@ export default function DungeonPage({
               zIndex: 20,
               padding: '6px 12px',
               borderRadius: 8,
-              background: 'rgba(0,0,0,0.6)',
-              border: '1px solid var(--color-primary)',
-              color: 'var(--color-text)',
+              background: 'var(--color-surface)',
+              border: '2px solid var(--color-primary)',
+              color: 'var(--color-primary)',
               fontSize: 13,
               fontWeight: 700,
               cursor: 'pointer',
+              boxShadow: 'var(--shadow)',
             }}
           >
             MENU
@@ -149,7 +151,7 @@ export default function DungeonPage({
           position: 'absolute',
           inset: 0,
           zIndex: 100,
-          background: 'rgba(0,0,0,0.7)',
+          background: 'rgba(0,0,0,0.3)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -161,6 +163,7 @@ export default function DungeonPage({
             padding: '24px 32px',
             textAlign: 'center',
             minWidth: 220,
+            boxShadow: 'var(--shadow)',
           }}>
             <p style={{ color: 'var(--color-text)', fontSize: 15, marginBottom: 20, fontWeight: 700 }}>
               ダンジョンからでますか？
@@ -186,8 +189,8 @@ export default function DungeonPage({
                 style={{
                   padding: '10px 20px',
                   borderRadius: 8,
-                  background: 'var(--color-bg-lighter)',
-                  border: '1px solid var(--color-text-dim)',
+                  background: 'var(--color-bg-light)',
+                  border: '2px solid var(--color-bg-lighter)',
                   color: 'var(--color-text)',
                   fontSize: 14,
                   fontWeight: 700,
@@ -211,6 +214,7 @@ export default function DungeonPage({
           onVictory={handleVictory}
           onDefeat={handleDefeat}
           leveledUp={leveledUp}
+          goldEarned={goldEarned}
         />
       )}
     </div>

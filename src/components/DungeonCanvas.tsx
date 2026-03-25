@@ -10,19 +10,21 @@ interface DungeonCanvasProps {
 }
 
 const COLORS: Record<string, string> = {
-  wall: '#3d2b7a',
-  floor: '#1a0e2e',
-  floorAlt: '#1f1238',
-  start: '#1a0e2e',
-  door: '#8b4513',
-  doorOpen: '#00c853',
+  wall: '#b8c4e0',
+  wallLine: '#9aa8c8',
+  floor: '#e8eeff',
+  floorAlt: '#dfe6f6',
+  start: '#e8eeff',
+  door: '#cda06d',
+  doorOpen: '#38d9a9',
   chest: '#ffd700',
+  outside: '#c8d4f0',
 };
 
-const ENEMY_EMOJI = '👾';
-const BOSS_EMOJI = '🐉';
-const PLAYER_EMOJI = '🧙';
-const CHEST_EMOJI = '📦';
+const ENEMY_EMOJI = '🐾';
+const BOSS_EMOJI = '👑';
+const PLAYER_EMOJI = '🧒';
+const CHEST_EMOJI = '🎁';
 const DOOR_LOCKED_EMOJI = '🚪';
 const DOOR_OPEN_EMOJI = '🚪';
 
@@ -42,7 +44,7 @@ function drawTile(
     ctx.fillStyle = COLORS.wall;
     ctx.fillRect(px, py, TILE_SIZE, TILE_SIZE);
     // brick pattern
-    ctx.strokeStyle = '#2a1a5a';
+    ctx.strokeStyle = COLORS.wallLine;
     ctx.lineWidth = 1;
     ctx.strokeRect(px + 1, py + 1, TILE_SIZE - 2, TILE_SIZE / 2 - 1);
     ctx.strokeRect(px + TILE_SIZE / 4, py + TILE_SIZE / 2, TILE_SIZE - 2, TILE_SIZE / 2 - 1);
@@ -54,7 +56,7 @@ function drawTile(
   ctx.fillStyle = isAlt ? COLORS.floorAlt : COLORS.floor;
   ctx.fillRect(px, py, TILE_SIZE, TILE_SIZE);
   // Grid line
-  ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+  ctx.strokeStyle = 'rgba(0,0,0,0.04)';
   ctx.lineWidth = 0.5;
   ctx.strokeRect(px, py, TILE_SIZE, TILE_SIZE);
 
@@ -111,7 +113,7 @@ export default function DungeonCanvas({
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     // Clear
-    ctx.fillStyle = '#0a0618';
+    ctx.fillStyle = COLORS.outside;
     ctx.fillRect(0, 0, viewW, viewH);
 
     // Camera

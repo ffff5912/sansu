@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { useGameState } from './hooks/useGameState.ts';
 import TitlePage from './pages/TitlePage.tsx';
+import BasePage from './pages/BasePage.tsx';
 import WorldMapPage from './pages/WorldMapPage.tsx';
 import DungeonPage from './pages/DungeonPage.tsx';
 import ResultPage from './pages/ResultPage.tsx';
@@ -9,10 +10,12 @@ export default function App() {
   const {
     state,
     goToTitle,
+    goToBase,
     goToWorldMap,
     enterDungeon,
     finishDungeon,
     updatePlayer,
+    updateInventory,
   } = useGameState();
 
   const handleRetry = useCallback(() => {
@@ -23,13 +26,27 @@ export default function App() {
     }
   }, [state.currentFloor, state.player, updatePlayer, enterDungeon]);
 
-  const handleBackToWorldMap = useCallback(() => {
-    goToWorldMap(state.grade);
-  }, [goToWorldMap, state.grade]);
+  const handleBackToBase = useCallback(() => {
+    goToBase(state.grade);
+  }, [goToBase, state.grade]);
 
   switch (state.scene) {
     case 'title':
-      return <TitlePage onStart={goToWorldMap} />;
+      return <TitlePage onStart={goToBase} />;
+
+    case 'base':
+      return (
+        <BasePage
+          player={state.player}
+          inventory={state.inventory}
+          grade={state.grade}
+          clearedFloors={state.clearedFloors}
+          onUpdatePlayer={updatePlayer}
+          onUpdateInventory={updateInventory}
+          onGoDungeon={goToWorldMap}
+          onGoTitle={goToTitle}
+        />
+      );
 
     case 'worldmap':
       return (
@@ -37,7 +54,7 @@ export default function App() {
           grade={state.grade}
           clearedFloors={state.clearedFloors}
           onSelectFloor={enterDungeon}
-          onBack={goToTitle}
+          onBack={handleBackToBase}
         />
       );
 
@@ -50,7 +67,7 @@ export default function App() {
           onClear={() => finishDungeon('clear')}
           onGameOver={() => finishDungeon('gameover')}
           onUpdatePlayer={updatePlayer}
-          onBack={handleBackToWorldMap}
+          onBack={handleBackToBase}
         />
       );
 
@@ -60,7 +77,7 @@ export default function App() {
           floorId={state.currentFloor ?? 1}
           resultType={state.resultType ?? 'gameover'}
           player={state.player}
-          onContinue={handleBackToWorldMap}
+          onContinue={handleBackToBase}
           onRetry={handleRetry}
         />
       );

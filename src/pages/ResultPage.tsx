@@ -29,17 +29,17 @@ export default function ResultPage({
       gap: 20,
       padding: 32,
       background: isClear
-        ? 'radial-gradient(ellipse at center, rgba(0,200,83,0.15), var(--color-bg) 70%)'
-        : 'radial-gradient(ellipse at center, rgba(255,68,68,0.15), var(--color-bg) 70%)',
+        ? 'linear-gradient(180deg, #e8f5e9, var(--color-bg) 70%)'
+        : 'linear-gradient(180deg, #ffebee, var(--color-bg) 70%)',
       animation: 'fadeIn 0.5s ease',
     }}>
       <div style={{ fontSize: 64, animation: 'bounceIn 0.6s ease' }}>
-        {isClear ? '🎉' : '💀'}
+        {isClear ? '🎉' : '😢'}
       </div>
       <h1 style={{
         fontSize: 24,
         fontWeight: 900,
-        color: isClear ? 'var(--color-text-accent)' : 'var(--color-danger)',
+        color: isClear ? 'var(--color-success)' : 'var(--color-danger)',
       }}>
         {isClear ? 'フロアクリア！' : 'ゲームオーバー'}
       </h1>
@@ -56,10 +56,11 @@ export default function ResultPage({
         borderRadius: 'var(--radius)',
         padding: '12px 24px',
         textAlign: 'center',
+        boxShadow: 'var(--shadow)',
       }}>
         <div style={{ fontSize: 13, color: 'var(--color-text-dim)' }}>Lv.{player.level}</div>
         <div style={{ fontSize: 13, color: 'var(--color-text-dim)', marginTop: 4 }}>
-          HP {player.hp}/{player.maxHp} | ATK {player.attack}
+          HP {player.hp}/{player.maxHp} | ATK {player.attack} | 💰 {player.gold}G
         </div>
       </div>
 
@@ -77,7 +78,7 @@ export default function ResultPage({
               boxShadow: 'var(--shadow-glow)',
             }}
           >
-            マップにもどる
+            村にもどる
           </button>
         ) : (
           <>
@@ -99,14 +100,14 @@ export default function ResultPage({
               style={{
                 padding: '12px 28px',
                 borderRadius: 'var(--radius-lg)',
-                background: 'var(--color-surface-light)',
+                background: 'var(--color-surface)',
                 color: 'var(--color-text)',
                 fontSize: 16,
                 fontWeight: 700,
-                border: '1px solid var(--color-bg-lighter)',
+                border: '2px solid var(--color-bg-lighter)',
               }}
             >
-              マップへ
+              村へ
             </button>
           </>
         )}

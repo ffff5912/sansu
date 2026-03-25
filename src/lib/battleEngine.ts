@@ -26,6 +26,13 @@ export function calculateExpToNext(level: number): number {
   return 30 + (level - 1) * 15;
 }
 
+export function calculateGoldReward(monster: Monster): number {
+  const base = monster.isBoss ? monster.exp * 2 : monster.exp;
+  // Add small random variation ±20%
+  const variation = 0.8 + Math.random() * 0.4;
+  return Math.round(base * variation);
+}
+
 export interface LevelUpResult {
   leveled: boolean;
   newPlayer: PlayerState;
