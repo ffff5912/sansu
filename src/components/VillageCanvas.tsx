@@ -42,13 +42,13 @@ const GOLD_ICON_PATH = `${A}/UI Elements/UI Elements/Icons/Icon_03.png`;
 const SHADOW_PATH = `${A}/Terrain/Tileset/Shadow.png`;
 
 /* ====== Layout ====== */
-const GRID_COLS = 6;
-const GRID_ROWS = 6;
-const TILE_W = 64;
-const TILE_H = 64;
-const SKY_H = 50;
+const GRID_COLS = 7;
+const GRID_ROWS = 8;
+const TILE_W = 56;
+const TILE_H = 56;
+const SKY_H = 30;
 const VILLAGE_W = GRID_COLS * TILE_W;
-const VILLAGE_H = GRID_ROWS * TILE_H + SKY_H + 60;
+const VILLAGE_H = GRID_ROWS * TILE_H + SKY_H + 40;
 
 function gridToScreen(gx: number, gy: number) {
   return { x: gx * TILE_W + TILE_W / 2, y: gy * TILE_H + TILE_H / 2 + SKY_H };
@@ -180,8 +180,9 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
 
     // === TREES ===
     const treeSpots = [
-      { gx: 0, gy: 0 }, { gx: 1, gy: 0 }, { gx: 5, gy: 0 },
-      { gx: 5, gy: 2 }, { gx: 0, gy: 5 }, { gx: 5, gy: 5 },
+      { gx: 0, gy: 0 }, { gx: 2, gy: 0 }, { gx: 6, gy: 0 },
+      { gx: 0, gy: 3 }, { gx: 6, gy: 3 },
+      { gx: 0, gy: 7 }, { gx: 6, gy: 7 }, { gx: 3, gy: 7 },
     ];
     for (const spot of treeSpots) {
       if (BUILDINGS.some(b => b.gridX === spot.gx && b.gridY === spot.gy)) continue;
@@ -195,15 +196,16 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
       tree.anchor.set(0.5, 0.85);
       const pos = gridToScreen(spot.gx, spot.gy);
       tree.x = pos.x; tree.y = pos.y;
-      tree.scale.set(0.38);
+      tree.scale.set(0.3);
       tree.zIndex = pos.y;
       sortLayer.addChild(tree);
     }
 
     // === BUSHES ===
     const bushSpots = [
-      { gx: 2, gy: 0 }, { gx: 4, gy: 0 }, { gx: 0, gy: 2 },
-      { gx: 5, gy: 4 }, { gx: 4, gy: 5 },
+      { gx: 4, gy: 0 }, { gx: 0, gy: 1 }, { gx: 6, gy: 1 },
+      { gx: 2, gy: 3 }, { gx: 4, gy: 3 },
+      { gx: 2, gy: 7 }, { gx: 4, gy: 7 },
     ];
     for (const spot of bushSpots) {
       if (BUILDINGS.some(b => b.gridX === spot.gx && b.gridY === spot.gy)) continue;
@@ -212,7 +214,7 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
       bush.anchor.set(0.5, 0.7);
       const pos = gridToScreen(spot.gx, spot.gy);
       bush.x = pos.x; bush.y = pos.y;
-      bush.scale.set(0.28);
+      bush.scale.set(0.22);
       bush.zIndex = pos.y;
       sortLayer.addChild(bush);
     }
@@ -241,7 +243,7 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
         if (spritePath) {
           const sprite = new Sprite(Texture.from(spritePath));
           sprite.anchor.set(0.5, 0.85);
-          sprite.scale.set(0.5);
+          sprite.scale.set(0.38);
           bc.addChild(sprite);
         }
         // Label with HD-2D style glow
@@ -326,7 +328,7 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
       const sheep = new AnimatedSprite(sheepFrames);
       sheep.animationSpeed = 0.06; sheep.play();
       sheep.anchor.set(0.5, 0.7); sheep.scale.set(0.35);
-      const pos = gridToScreen(4 + i, 5);
+      const pos = gridToScreen(2 + i, 5);
       sheep.x = pos.x + (Math.random() - 0.5) * 20;
       sheep.y = pos.y; sheep.zIndex = pos.y;
       sortLayer.addChild(sheep);

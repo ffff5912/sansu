@@ -8,7 +8,7 @@ export const BUILDINGS: BuildingDef[] = [
     description: 'HPをまんたんにする',
     cost: 0,
     gridX: 3,
-    gridY: 3,
+    gridY: 4,
   },
   {
     id: 'shop',
@@ -25,8 +25,8 @@ export const BUILDINGS: BuildingDef[] = [
     emoji: '⚔️',
     description: 'ダンジョンへ出発する',
     cost: 0,
-    gridX: 4,
-    gridY: 1,
+    gridX: 5,
+    gridY: 2,
   },
   {
     id: 'dojo',
@@ -35,7 +35,7 @@ export const BUILDINGS: BuildingDef[] = [
     description: 'HP上限+20（1回のみ）',
     cost: 120,
     gridX: 1,
-    gridY: 4,
+    gridY: 6,
   },
   {
     id: 'library',
@@ -43,8 +43,8 @@ export const BUILDINGS: BuildingDef[] = [
     emoji: '📚',
     description: 'こうげき力+5（1回のみ）',
     cost: 150,
-    gridX: 4,
-    gridY: 4,
+    gridX: 5,
+    gridY: 6,
   },
   {
     id: 'inn',
@@ -52,8 +52,8 @@ export const BUILDINGS: BuildingDef[] = [
     emoji: '🏨',
     description: 'ダンジョン前に自動回復',
     cost: 200,
-    gridX: 2,
-    gridY: 1,
+    gridX: 1,
+    gridY: 4,
   },
   {
     id: 'tower',
@@ -70,7 +70,7 @@ export const BUILDINGS: BuildingDef[] = [
     emoji: '🌻',
     description: '村がにぎやかになる',
     cost: 80,
-    gridX: 3,
+    gridX: 5,
     gridY: 4,
   },
 ];
