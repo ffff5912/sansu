@@ -181,6 +181,7 @@ export default function BasePage({
       display: 'flex',
       flexDirection: 'column',
       height: '100%',
+      position: 'relative',
       background: 'var(--color-bg)',
       animation: 'fadeIn 0.4s ease',
     }}>
