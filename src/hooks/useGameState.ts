@@ -1,15 +1,17 @@
 import { useState, useCallback, useEffect } from 'react';
-import type { GameState, PlayerState, Grade } from '../data/types.ts';
-import { loadSave, writeSave, DEFAULT_PLAYER } from '../lib/storage.ts';
+import type { GameState, PlayerState, Grade, Inventory, GameDifficulty } from '../data/types.ts';
+import { loadSave, writeSave, DEFAULT_PLAYER, DEFAULT_INVENTORY } from '../lib/storage.ts';
 
 function initState(): GameState {
   return {
     scene: 'title',
     grade: 4,
+    gameDifficulty: 'normal',
     player: { ...DEFAULT_PLAYER },
     clearedFloors: [],
     currentFloor: null,
     resultType: null,
+    inventory: { ...DEFAULT_INVENTORY },
   };
 }
 
@@ -25,24 +27,35 @@ export function useGameState() {
       player: state.player,
       clearedFloors: state.clearedFloors,
       currentFloor: state.currentFloor,
+      inventory: state.inventory,
       timestamp: Date.now(),
     });
-  }, [state.player, state.clearedFloors, state.currentFloor, state.scene, state.grade]);
+  }, [state.player, state.clearedFloors, state.currentFloor, state.scene, state.grade, state.inventory]);
 
   const goToTitle = useCallback(() => {
     setState(s => ({ ...s, scene: 'title', currentFloor: null, resultType: null }));
   }, []);
 
-  const goToWorldMap = useCallback((grade: Grade) => {
+  const goToBase = useCallback((grade: Grade) => {
     const save = loadSave(grade);
-    setState({
-      scene: 'worldmap',
+    setState(s => ({
+      scene: 'base',
       grade,
+      gameDifficulty: s.gameDifficulty,
       player: save.player,
       clearedFloors: save.clearedFloors,
       currentFloor: null,
       resultType: null,
-    });
+      inventory: save.inventory,
+    }));
+  }, []);
+
+  const goToWorldMap = useCallback(() => {
+    setState(s => ({ ...s, scene: 'worldmap', currentFloor: null, resultType: null }));
+  }, []);
+
+  const setDifficulty = useCallback((diff: GameDifficulty) => {
+    setState(s => ({ ...s, gameDifficulty: diff }));
   }, []);
 
   const enterDungeon = useCallback((floorId: number) => {
@@ -62,6 +75,10 @@ export function useGameState() {
     setState(s => ({ ...s, player }));
   }, []);
 
+  const updateInventory = useCallback((inventory: Inventory) => {
+    setState(s => ({ ...s, inventory }));
+  }, []);
+
   const resetGame = useCallback(() => {
     setState(initState());
   }, []);
@@ -69,10 +86,13 @@ export function useGameState() {
   return {
     state,
     goToTitle,
+    goToBase,
     goToWorldMap,
+    setDifficulty,
     enterDungeon,
     finishDungeon,
     updatePlayer,
+    updateInventory,
     resetGame,
   };
 }

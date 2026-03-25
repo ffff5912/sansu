@@ -1,4 +1,4 @@
-import type { SaveData, PlayerState, Grade } from '../data/types.ts';
+import type { SaveData, PlayerState, Grade, Inventory } from '../data/types.ts';
 
 const SAVE_KEY_PREFIX = 'sansu-dungeon-save';
 const CURRENT_VERSION = 1;
@@ -10,7 +10,10 @@ export const DEFAULT_PLAYER: PlayerState = {
   attack: 10,
   exp: 0,
   expToNext: 30,
+  gold: 0,
 };
+
+export const DEFAULT_INVENTORY: Inventory = {};
 
 function saveKey(grade: Grade): string {
   return `${SAVE_KEY_PREFIX}-g${grade}`;
@@ -23,6 +26,7 @@ function defaultSave(grade: Grade): SaveData {
     player: { ...DEFAULT_PLAYER },
     clearedFloors: [],
     currentFloor: null,
+    inventory: { ...DEFAULT_INVENTORY },
     timestamp: Date.now(),
   };
 }
@@ -39,6 +43,7 @@ export function loadSave(grade: Grade): SaveData {
       grade,
       player: { ...base.player, ...(data.player ?? {}) },
       clearedFloors: data.clearedFloors ?? base.clearedFloors,
+      inventory: data.inventory ?? base.inventory,
       version: CURRENT_VERSION,
     };
   } catch {

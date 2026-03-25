@@ -1,4 +1,21 @@
-import type { PlayerState, Monster } from '../data/types.ts';
+import type { PlayerState, Monster, GameDifficulty } from '../data/types.ts';
+
+/** Apply difficulty scaling to a monster */
+export function scaleMonster(monster: Monster, difficulty: GameDifficulty): Monster {
+  if (difficulty === 'normal') return monster;
+  // Hard: HP x1.5, ATK x1.5, EXP x1.5
+  return {
+    ...monster,
+    hp: Math.round(monster.hp * 1.5),
+    attack: Math.round(monster.attack * 1.5),
+    exp: Math.round(monster.exp * 1.5),
+  };
+}
+
+/** Timer seconds per difficulty */
+export function getTimerSeconds(difficulty: GameDifficulty): number {
+  return difficulty === 'hard' ? 10 : 15;
+}
 
 export function calculateDamage(
   answerCorrect: boolean,
@@ -24,6 +41,14 @@ export function calculateMonsterDamage(
 
 export function calculateExpToNext(level: number): number {
   return 30 + (level - 1) * 15;
+}
+
+export function calculateGoldReward(monster: Monster, difficulty: GameDifficulty): number {
+  const base = monster.isBoss ? monster.exp * 2 : monster.exp;
+  const multiplier = difficulty === 'hard' ? 1.5 : 1;
+  // Add small random variation ±20%
+  const variation = 0.8 + Math.random() * 0.4;
+  return Math.round(base * multiplier * variation);
 }
 
 export interface LevelUpResult {

@@ -42,6 +42,9 @@ export interface Question {
 /* ========== Grade ========== */
 export type Grade = 1 | 4;
 
+/* ========== Game Difficulty ========== */
+export type GameDifficulty = 'normal' | 'hard';
+
 /* ========== Floor ========== */
 export interface FloorDef {
   id: number;
@@ -63,6 +66,22 @@ export interface PlayerState {
   attack: number;
   exp: number;
   expToNext: number;
+  gold: number;
+}
+
+/* ========== Item ========== */
+export interface ItemDef {
+  id: string;
+  name: string;
+  emoji: string;
+  description: string;
+  price: number;
+  effect: 'heal' | 'atkUp' | 'expUp';
+  value: number;
+}
+
+export interface Inventory {
+  [itemId: string]: number;
 }
 
 /* ========== Battle ========== */
@@ -104,17 +123,20 @@ export interface SaveData {
   player: PlayerState;
   clearedFloors: number[];
   currentFloor: number | null;
+  inventory: Inventory;
   timestamp: number;
 }
 
 /* ========== Game State (top level) ========== */
-export type GameScene = 'title' | 'worldmap' | 'dungeon' | 'result';
+export type GameScene = 'title' | 'base' | 'worldmap' | 'dungeon' | 'result';
 
 export interface GameState {
   scene: GameScene;
   grade: Grade;
+  gameDifficulty: GameDifficulty;
   player: PlayerState;
   clearedFloors: number[];
   currentFloor: number | null;
   resultType: 'clear' | 'gameover' | null;
+  inventory: Inventory;
 }

@@ -13,6 +13,7 @@ interface BattleOverlayProps {
   onVictory: () => void;
   onDefeat: () => void;
   leveledUp: boolean;
+  goldEarned: number;
 }
 
 export default function BattleOverlay({
@@ -23,6 +24,7 @@ export default function BattleOverlay({
   onVictory,
   onDefeat,
   leveledUp,
+  goldEarned,
 }: BattleOverlayProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [monsterPhase, setMonsterPhase] = useState<'appear' | 'idle' | 'hit' | 'defeat'>('appear');
@@ -66,7 +68,7 @@ export default function BattleOverlay({
     <div style={{
       position: 'absolute',
       inset: 0,
-      background: 'rgba(10, 6, 24, 0.95)',
+      background: 'rgba(240, 244, 255, 0.97)',
       zIndex: 100,
       display: 'flex',
       flexDirection: 'column',
@@ -81,6 +83,7 @@ export default function BattleOverlay({
         alignItems: 'center',
         padding: '20px 16px 8px',
         position: 'relative',
+        background: 'linear-gradient(180deg, #e8f0ff, transparent)',
       }}>
         <MonsterSprite
           emoji={battle.monster.emoji}
@@ -121,7 +124,7 @@ export default function BattleOverlay({
             textAlign: 'center',
             fontSize: 20,
             fontWeight: 700,
-            color: 'var(--color-text-accent)',
+            color: 'var(--color-text)',
             animation: 'bounceIn 0.6s ease',
           }}>
             {battle.monster.name} があらわれた！
@@ -168,11 +171,16 @@ export default function BattleOverlay({
             <div style={{ fontSize: 14, color: 'var(--color-text-dim)', marginBottom: 4 }}>
               EXP +{battle.monster.exp}
             </div>
+            {goldEarned > 0 && (
+              <div style={{ fontSize: 14, color: '#f6a800', fontWeight: 700, marginBottom: 4 }}>
+                💰 +{goldEarned}G
+              </div>
+            )}
             {leveledUp && (
               <div style={{
                 fontSize: 18,
                 fontWeight: 700,
-                color: 'var(--color-primary-light)',
+                color: 'var(--color-primary)',
                 animation: 'levelUp 0.6s ease',
                 marginTop: 8,
               }}>

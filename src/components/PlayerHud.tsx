@@ -15,7 +15,7 @@ export default function PlayerHud({ player, floorName }: PlayerHudProps) {
       left: 0,
       right: 0,
       padding: '8px 12px',
-      background: 'linear-gradient(to bottom, rgba(0,0,0,0.7), transparent)',
+      background: 'linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0))',
       zIndex: 10,
     }}>
       <div style={{
@@ -25,8 +25,8 @@ export default function PlayerHud({ player, floorName }: PlayerHudProps) {
         fontSize: 12,
         marginBottom: 4,
       }}>
-        <span style={{ color: 'var(--color-text-accent)' }}>
-          Lv.{player.level} 🧙
+        <span style={{ color: 'var(--color-primary)', fontWeight: 700 }}>
+          Lv.{player.level} 🧒
         </span>
         <span style={{ color: 'var(--color-text-dim)' }}>{floorName}</span>
       </div>

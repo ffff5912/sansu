@@ -14,18 +14,17 @@ export default function TitlePage({ onStart }: TitlePageProps) {
       height: '100%',
       gap: 24,
       padding: 32,
-      background: 'radial-gradient(ellipse at center, var(--color-bg-light) 0%, var(--color-bg) 70%)',
+      background: 'linear-gradient(180deg, #e8f4ff 0%, #f0f4ff 50%, #fff5e6 100%)',
       animation: 'fadeIn 0.5s ease',
     }}>
       <div style={{ fontSize: 60, animation: 'pulse 3s ease infinite' }}>
-        🏰
+        🏫
       </div>
       <h1 style={{
         fontSize: 28,
         fontWeight: 900,
-        color: 'var(--color-text-accent)',
+        color: 'var(--color-text)',
         textAlign: 'center',
-        textShadow: '0 0 20px rgba(255,215,0,0.3)',
       }}>
         さんすうダンジョン
       </h1>
@@ -46,7 +45,7 @@ export default function TitlePage({ onStart }: TitlePageProps) {
             color: '#fff',
             fontSize: 17,
             fontWeight: 700,
-            boxShadow: '0 0 12px rgba(67,160,71,0.4)',
+            boxShadow: '0 4px 12px rgba(67,160,71,0.3)',
             animation: 'pulse 2.5s ease infinite',
           }}
         >
