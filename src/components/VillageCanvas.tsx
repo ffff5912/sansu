@@ -121,55 +121,28 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
     world.y = (viewH - VILLAGE_H * scale) / 2;
     app.stage.addChild(world);
 
-    /* ====== HD-2D BACKGROUND (blurred far layer) ====== */
-    const bgLayer = new Container();
-    const bgBlur = new BlurFilter({ strength: 2, quality: 2 });
-    bgLayer.filters = [bgBlur];
-    world.addChild(bgLayer);
+    /* ====== FULL GRASS BACKGROUND ====== */
+    // Fill entire area with solid green to prevent any transparent gaps
+    const bgFill = new Graphics();
+    bgFill.rect(0, 0, VILLAGE_W, VILLAGE_H);
+    bgFill.fill(0x5DAA5D);
+    world.addChild(bgFill);
 
-    // Sky gradient via graphics
-    const sky = new Graphics();
-    sky.rect(0, 0, VILLAGE_W, VILLAGE_H);
-    sky.fill(0x78B8E8);
-    bgLayer.addChild(sky);
-    // Distant mountains (simple shapes)
-    const mountains = new Graphics();
-    mountains.moveTo(0, SKY_H + 10);
-    mountains.lineTo(60, SKY_H - 20); mountains.lineTo(120, SKY_H + 10);
-    mountains.lineTo(200, SKY_H - 30); mountains.lineTo(280, SKY_H + 10);
-    mountains.lineTo(340, SKY_H - 15); mountains.lineTo(VILLAGE_W, SKY_H + 10);
-    mountains.lineTo(VILLAGE_W, SKY_H + 10); mountains.lineTo(0, SKY_H + 10);
-    mountains.fill({ color: 0x6BA368, alpha: 0.5 });
-    bgLayer.addChild(mountains);
-
-    // Clouds in bg layer (blurred)
-    const cloudSprites: Sprite[] = [];
-    for (let i = 0; i < 4; i++) {
-      const tex = Texture.from(CLOUD_PATHS[i % CLOUD_PATHS.length]);
-      const c = new Sprite(tex);
-      c.scale.set(0.12 + Math.random() * 0.08);
-      c.x = Math.random() * VILLAGE_W;
-      c.y = 2 + Math.random() * 25;
-      c.alpha = 0.6 + Math.random() * 0.3;
-      bgLayer.addChild(c);
-      cloudSprites.push(c);
-    }
-
-    /* ====== GROUND LAYER (tilemap) ====== */
+    /* ====== GROUND LAYER (tilemap grass) ====== */
     const groundLayer = new Container();
     world.addChild(groundLayer);
     const tilemapTex = Texture.from(TILEMAP_PATH);
-    // Tilemap_color1: row0 has grass tiles. col0=top-left, col1=top, col2=top-right, etc.
-    // Full grass tile is at approximately col=3, row=0 (center piece)
-    const grassTile = tileTexture(tilemapTex, 3, 0);
-    const grassTile2 = tileTexture(tilemapTex, 4, 0);
-    // Path/dirt tile - use right side of tilemap (col 6-7, row 0-2 has cliff/wall)
-    // Actually row 3-5 might have more. Let's use col=6, row=3 area for variation
-    const pathTile = tileTexture(tilemapTex, 6, 0);
+    // Interior flat grass tiles (no edge fringe) — col 1-2, row 1 area
+    const grassTile = tileTexture(tilemapTex, 1, 1);
+    const grassTile2 = tileTexture(tilemapTex, 2, 1);
+    // Path uses a slightly different grass shade for visual variety
+    const pathTile = tileTexture(tilemapTex, 1, 0);
 
-    for (let gy = 0; gy < GRID_ROWS; gy++) {
-      for (let gx = 0; gx < GRID_COLS; gx++) {
-        const isPath = gx === 3 || gy === 3;
+    // Fill ground area including sky zone with grass (seamless)
+    const extraRows = Math.ceil(SKY_H / TILE_H) + 1;
+    for (let gy = -extraRows; gy < GRID_ROWS + 2; gy++) {
+      for (let gx = -1; gx < GRID_COLS + 1; gx++) {
+        const isPath = (gx >= 0 && gx < GRID_COLS && gy >= 0 && gy < GRID_ROWS) && (gx === 3 || gy === 3);
         const tex = isPath ? pathTile : ((gx + gy) % 2 === 0 ? grassTile : grassTile2);
         const tile = new Sprite(tex);
         tile.x = gx * TILE_W;
@@ -178,6 +151,23 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
         tile.height = TILE_H;
         groundLayer.addChild(tile);
       }
+    }
+
+    /* ====== CLOUDS (floating above ground, with blur for depth) ====== */
+    const cloudContainer = new Container();
+    const cloudBlur = new BlurFilter({ strength: 1.5, quality: 2 });
+    cloudContainer.filters = [cloudBlur];
+    world.addChild(cloudContainer);
+    const cloudSprites: Sprite[] = [];
+    for (let i = 0; i < 4; i++) {
+      const tex = Texture.from(CLOUD_PATHS[i % CLOUD_PATHS.length]);
+      const c = new Sprite(tex);
+      c.scale.set(0.12 + Math.random() * 0.08);
+      c.x = Math.random() * VILLAGE_W;
+      c.y = 2 + Math.random() * 25;
+      c.alpha = 0.35 + Math.random() * 0.2;
+      cloudContainer.addChild(c);
+      cloudSprites.push(c);
     }
 
     /* ====== MAIN SORTABLE LAYER ====== */
