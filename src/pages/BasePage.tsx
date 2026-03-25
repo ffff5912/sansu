@@ -202,10 +202,12 @@ export default function BasePage({
               🏠 さんすうの村
             </span>
             <span style={{
+              display: 'flex', alignItems: 'center', gap: 4,
               fontSize: 13, fontWeight: 700, color: '#f6a800',
               background: '#fff8e0', padding: '2px 10px', borderRadius: 20,
             }}>
-              💰 {player.gold}G
+              <img src="/assets/tiny-swords/UI Elements/UI Elements/Icons/Icon_03.png" alt="" style={{ width: 18, height: 18, imageRendering: 'pixelated' }} />
+              {player.gold}G
             </span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 11, color: 'var(--color-text-dim)' }}>
@@ -282,7 +284,9 @@ export default function BasePage({
                         border: '2px solid var(--color-bg-lighter)',
                         opacity: player.gold >= item.price ? 1 : 0.5, textAlign: 'left',
                       }}>
-                      <span style={{ fontSize: 28 }}>{item.emoji}</span>
+                      {item.icon
+                      ? <img src={item.icon} alt="" style={{ width: 36, height: 36, imageRendering: 'pixelated' }} />
+                      : <span style={{ fontSize: 28 }}>{item.emoji}</span>}
                       <div style={{ flex: 1 }}>
                         <div style={{ fontSize: 14, fontWeight: 700 }}>{item.name}</div>
                         <div style={{ fontSize: 11, color: 'var(--color-text-dim)' }}>{item.description}</div>
@@ -311,7 +315,9 @@ export default function BasePage({
                             background: 'var(--color-bg-light)', border: '2px solid var(--color-bg-lighter)',
                             textAlign: 'left',
                           }}>
-                          <span style={{ fontSize: 28 }}>{item.emoji}</span>
+                          {item.icon
+                      ? <img src={item.icon} alt="" style={{ width: 36, height: 36, imageRendering: 'pixelated' }} />
+                      : <span style={{ fontSize: 28 }}>{item.emoji}</span>}
                           <div style={{ flex: 1 }}>
                             <div style={{ fontSize: 14, fontWeight: 700 }}>{item.name}</div>
                             <div style={{ fontSize: 11, color: 'var(--color-text-dim)' }}>{item.description}</div>

@@ -1,5 +1,5 @@
 import { useRef, useEffect, useCallback } from 'react';
-import { Application, Assets, Sprite, Texture, Container, AnimatedSprite, Graphics, Text, TextStyle, Rectangle } from 'pixi.js';
+import { Application, Assets, Sprite, Texture, Container, AnimatedSprite, Graphics, Text, TextStyle, Rectangle, BlurFilter, ColorMatrixFilter } from 'pixi.js';
 import { BUILDINGS } from '../data/buildings.ts';
 
 interface VillageCanvasProps {
@@ -19,7 +19,6 @@ const BUILDING_SPRITES: Record<string, string> = {
   tower:    `${A}/Buildings/Blue Buildings/Tower.png`,
   garden:   `${A}/Buildings/Yellow Buildings/Archery.png`,
 };
-
 const TREE_PATHS = [
   `${A}/Terrain/Resources/Wood/Trees/Tree1.png`,
   `${A}/Terrain/Resources/Wood/Trees/Tree2.png`,
@@ -37,98 +36,84 @@ const BUSH_PATHS = [
 ];
 const PAWN_RUN_PATH = `${A}/Units/Blue Units/Pawn/Pawn_Run.png`;
 const SHEEP_IDLE_PATH = `${A}/Terrain/Resources/Meat/Sheep/Sheep_Idle.png`;
+const TILEMAP_PATH = `${A}/Terrain/Tileset/Tilemap_color1.png`;
+const TOOL_HAMMER_PATH = `${A}/Terrain/Resources/Tools/Tool_01.png`;
+const GOLD_ICON_PATH = `${A}/UI Elements/UI Elements/Icons/Icon_03.png`;
+const SHADOW_PATH = `${A}/Terrain/Tileset/Shadow.png`;
 
-/* ====== Layout constants ====== */
+/* ====== Layout ====== */
 const GRID_COLS = 6;
 const GRID_ROWS = 6;
 const TILE_W = 64;
 const TILE_H = 64;
+const SKY_H = 50;
 const VILLAGE_W = GRID_COLS * TILE_W;
-const VILLAGE_H = GRID_ROWS * TILE_H + 80; // extra for tall buildings
+const VILLAGE_H = GRID_ROWS * TILE_H + SKY_H + 60;
 
-/* ====== Helpers ====== */
-function gridToScreen(gx: number, gy: number): { x: number; y: number } {
-  return {
-    x: gx * TILE_W + TILE_W / 2,
-    y: gy * TILE_H + TILE_H / 2 + 40, // offset for sky
-  };
+function gridToScreen(gx: number, gy: number) {
+  return { x: gx * TILE_W + TILE_W / 2, y: gy * TILE_H + TILE_H / 2 + SKY_H };
+}
+function screenToGrid(sx: number, sy: number) {
+  return { gx: Math.floor(sx / TILE_W), gy: Math.floor((sy - SKY_H) / TILE_H) };
 }
 
-function screenToGrid(sx: number, sy: number): { gx: number; gy: number } {
-  return {
-    gx: Math.floor(sx / TILE_W),
-    gy: Math.floor((sy - 40) / TILE_H),
-  };
+/** Extract a single tile from the tilemap spritesheet (64x64 tiles, 9 columns) */
+function tileTexture(tilemapTex: Texture, col: number, row: number): Texture {
+  return new Texture({
+    source: tilemapTex.source,
+    frame: new Rectangle(col * 64, row * 64, 64, 64),
+  });
 }
 
-/** Create AnimatedSprite frames from a horizontal sprite sheet texture */
 function createFrames(texture: Texture, frameCount: number, frameW: number, frameH: number): Texture[] {
   const frames: Texture[] = [];
-  const base = texture.source;
   for (let i = 0; i < frameCount; i++) {
-    const t = new Texture({
-      source: base,
+    frames.push(new Texture({
+      source: texture.source,
       frame: new Rectangle(i * frameW, 0, frameW, frameH),
-    });
-    frames.push(t);
+    }));
   }
   return frames;
 }
 
-/* ====== NPC state ====== */
 interface NPCState {
   sprite: AnimatedSprite;
-  targetX: number;
-  targetY: number;
-  speed: number;
-  waitTimer: number;
+  targetX: number; targetY: number;
+  speed: number; waitTimer: number;
 }
 
 export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const appRef = useRef<Application | null>(null);
-  const builtRef = useRef(builtIds);
-  useEffect(() => { builtRef.current = builtIds; }, [builtIds]);
 
   const onTapRef = useRef(onTapBuilding);
   useEffect(() => { onTapRef.current = onTapBuilding; }, [onTapBuilding]);
 
   const initApp = useCallback(async () => {
-    const container = containerRef.current;
-    if (!container) return;
-    // Destroy old app
-    if (appRef.current) {
-      appRef.current.destroy(true);
-      appRef.current = null;
-    }
+    const el = containerRef.current;
+    if (!el) return;
+    if (appRef.current) { appRef.current.destroy(true); appRef.current = null; }
 
-    const viewW = container.clientWidth;
-    const viewH = container.clientHeight;
-
+    const viewW = el.clientWidth;
+    const viewH = el.clientHeight;
     const app = new Application();
     await app.init({
-      width: viewW,
-      height: viewH,
+      width: viewW, height: viewH,
       backgroundAlpha: 0,
       resolution: window.devicePixelRatio || 1,
-      autoDensity: true,
-      antialias: true,
+      autoDensity: true, antialias: true,
     });
-    container.appendChild(app.canvas as HTMLCanvasElement);
+    el.appendChild(app.canvas as HTMLCanvasElement);
     appRef.current = app;
 
-    // Preload all assets
+    // Preload
     const allPaths = [
-      ...Object.values(BUILDING_SPRITES),
-      ...TREE_PATHS,
-      ...CLOUD_PATHS,
-      ...BUSH_PATHS,
-      PAWN_RUN_PATH,
-      SHEEP_IDLE_PATH,
+      ...Object.values(BUILDING_SPRITES), ...TREE_PATHS, ...CLOUD_PATHS,
+      ...BUSH_PATHS, PAWN_RUN_PATH, SHEEP_IDLE_PATH, TILEMAP_PATH,
+      TOOL_HAMMER_PATH, GOLD_ICON_PATH, SHADOW_PATH,
     ];
     await Assets.load(allPaths);
 
-    // Scale to fit
     const scale = Math.min(viewW / VILLAGE_W, viewH / VILLAGE_H);
     const world = new Container();
     world.scale.set(scale);
@@ -136,45 +121,72 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
     world.y = (viewH - VILLAGE_H * scale) / 2;
     app.stage.addChild(world);
 
-    // === SKY ===
+    /* ====== HD-2D BACKGROUND (blurred far layer) ====== */
+    const bgLayer = new Container();
+    const bgBlur = new BlurFilter({ strength: 2, quality: 2 });
+    bgLayer.filters = [bgBlur];
+    world.addChild(bgLayer);
+
+    // Sky gradient via graphics
     const sky = new Graphics();
     sky.rect(0, 0, VILLAGE_W, VILLAGE_H);
-    sky.fill(0x87CEEB);
-    world.addChild(sky);
+    sky.fill(0x78B8E8);
+    bgLayer.addChild(sky);
+    // Distant mountains (simple shapes)
+    const mountains = new Graphics();
+    mountains.moveTo(0, SKY_H + 10);
+    mountains.lineTo(60, SKY_H - 20); mountains.lineTo(120, SKY_H + 10);
+    mountains.lineTo(200, SKY_H - 30); mountains.lineTo(280, SKY_H + 10);
+    mountains.lineTo(340, SKY_H - 15); mountains.lineTo(VILLAGE_W, SKY_H + 10);
+    mountains.lineTo(VILLAGE_W, SKY_H + 10); mountains.lineTo(0, SKY_H + 10);
+    mountains.fill({ color: 0x6BA368, alpha: 0.5 });
+    bgLayer.addChild(mountains);
 
-    // === GROUND ===
-    const ground = new Graphics();
-    for (let gy = 0; gy < GRID_ROWS; gy++) {
-      for (let gx = 0; gx < GRID_COLS; gx++) {
-        const isPath = gx === 3 || gy === 3;
-        const color = isPath
-          ? ((gx + gy) % 2 === 0 ? 0xD5C4A1 : 0xC8B88A)
-          : ((gx + gy) % 2 === 0 ? 0x7DD87D : 0x6CC76C);
-        ground.rect(gx * TILE_W, gy * TILE_H + 40, TILE_W, TILE_H);
-        ground.fill(color);
-      }
-    }
-    world.addChild(ground);
-
-    // === CLOUDS (background layer) ===
-    const cloudContainer = new Container();
-    world.addChild(cloudContainer);
+    // Clouds in bg layer (blurred)
     const cloudSprites: Sprite[] = [];
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
       const tex = Texture.from(CLOUD_PATHS[i % CLOUD_PATHS.length]);
       const c = new Sprite(tex);
-      c.scale.set(0.15 + Math.random() * 0.1);
+      c.scale.set(0.12 + Math.random() * 0.08);
       c.x = Math.random() * VILLAGE_W;
-      c.y = 2 + Math.random() * 20;
-      c.alpha = 0.5 + Math.random() * 0.3;
-      cloudContainer.addChild(c);
+      c.y = 2 + Math.random() * 25;
+      c.alpha = 0.6 + Math.random() * 0.3;
+      bgLayer.addChild(c);
       cloudSprites.push(c);
     }
 
-    // === SORTABLE LAYER for buildings, trees, NPCs ===
+    /* ====== GROUND LAYER (tilemap) ====== */
+    const groundLayer = new Container();
+    world.addChild(groundLayer);
+    const tilemapTex = Texture.from(TILEMAP_PATH);
+    // Tilemap_color1: row0 has grass tiles. col0=top-left, col1=top, col2=top-right, etc.
+    // Full grass tile is at approximately col=3, row=0 (center piece)
+    const grassTile = tileTexture(tilemapTex, 3, 0);
+    const grassTile2 = tileTexture(tilemapTex, 4, 0);
+    // Path/dirt tile - use right side of tilemap (col 6-7, row 0-2 has cliff/wall)
+    // Actually row 3-5 might have more. Let's use col=6, row=3 area for variation
+    const pathTile = tileTexture(tilemapTex, 6, 0);
+
+    for (let gy = 0; gy < GRID_ROWS; gy++) {
+      for (let gx = 0; gx < GRID_COLS; gx++) {
+        const isPath = gx === 3 || gy === 3;
+        const tex = isPath ? pathTile : ((gx + gy) % 2 === 0 ? grassTile : grassTile2);
+        const tile = new Sprite(tex);
+        tile.x = gx * TILE_W;
+        tile.y = gy * TILE_H + SKY_H;
+        tile.width = TILE_W;
+        tile.height = TILE_H;
+        groundLayer.addChild(tile);
+      }
+    }
+
+    /* ====== MAIN SORTABLE LAYER ====== */
     const sortLayer = new Container();
     sortLayer.sortableChildren = true;
     world.addChild(sortLayer);
+
+    // Shadow texture for buildings
+    const shadowTex = Texture.from(SHADOW_PATH);
 
     // === TREES ===
     const treeSpots = [
@@ -182,22 +194,18 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
       { gx: 5, gy: 2 }, { gx: 0, gy: 5 }, { gx: 5, gy: 5 },
     ];
     for (const spot of treeSpots) {
-      const hasBuilding = BUILDINGS.some(b => b.gridX === spot.gx && b.gridY === spot.gy);
-      if (hasBuilding) continue;
+      if (BUILDINGS.some(b => b.gridX === spot.gx && b.gridY === spot.gy)) continue;
       const treePath = TREE_PATHS[Math.floor(Math.random() * TREE_PATHS.length)];
       const tex = Texture.from(treePath);
-      // Tree spritesheet: 8 frames, each ~192x256
       const frameW = tex.width / 8;
-      const frameH = tex.height;
-      const frames = createFrames(tex, 8, frameW, frameH);
+      const frames = createFrames(tex, 8, frameW, tex.height);
       const tree = new AnimatedSprite(frames);
-      tree.animationSpeed = 0.08;
+      tree.animationSpeed = 0.06;
       tree.play();
       tree.anchor.set(0.5, 0.85);
       const pos = gridToScreen(spot.gx, spot.gy);
-      tree.x = pos.x;
-      tree.y = pos.y;
-      tree.scale.set(0.35);
+      tree.x = pos.x; tree.y = pos.y;
+      tree.scale.set(0.38);
       tree.zIndex = pos.y;
       sortLayer.addChild(tree);
     }
@@ -208,174 +216,224 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
       { gx: 5, gy: 4 }, { gx: 4, gy: 5 },
     ];
     for (const spot of bushSpots) {
-      const hasBuilding = BUILDINGS.some(b => b.gridX === spot.gx && b.gridY === spot.gy);
-      if (hasBuilding) continue;
-      const bushPath = BUSH_PATHS[Math.floor(Math.random() * BUSH_PATHS.length)];
-      const tex = Texture.from(bushPath);
+      if (BUILDINGS.some(b => b.gridX === spot.gx && b.gridY === spot.gy)) continue;
+      const tex = Texture.from(BUSH_PATHS[Math.floor(Math.random() * BUSH_PATHS.length)]);
       const bush = new Sprite(tex);
       bush.anchor.set(0.5, 0.7);
       const pos = gridToScreen(spot.gx, spot.gy);
-      bush.x = pos.x;
-      bush.y = pos.y;
-      bush.scale.set(0.25);
+      bush.x = pos.x; bush.y = pos.y;
+      bush.scale.set(0.28);
       bush.zIndex = pos.y;
       sortLayer.addChild(bush);
     }
 
     // === BUILDINGS ===
-    const buildingSprites: Map<string, Container> = new Map();
     for (const b of BUILDINGS) {
       const pos = gridToScreen(b.gridX, b.gridY);
-      const bContainer = new Container();
-      bContainer.x = pos.x;
-      bContainer.y = pos.y;
-      bContainer.zIndex = pos.y + 1;
-      bContainer.eventMode = 'static';
-      bContainer.cursor = 'pointer';
-      const buildingId = b.id;
-      bContainer.on('pointertap', () => {
-        onTapRef.current(buildingId);
-      });
+      const bc = new Container();
+      bc.x = pos.x; bc.y = pos.y;
+      bc.zIndex = pos.y + 1;
+      bc.eventMode = 'static';
+      bc.cursor = 'pointer';
+      const bid = b.id;
+      bc.on('pointertap', () => onTapRef.current(bid));
 
       if (builtIds.includes(b.id)) {
+        // Shadow
+        const shadow = new Sprite(shadowTex);
+        shadow.anchor.set(0.5, 0.5);
+        shadow.y = 14;
+        shadow.scale.set(0.5, 0.25);
+        shadow.alpha = 0.3;
+        bc.addChild(shadow);
+
         const spritePath = BUILDING_SPRITES[b.id];
         if (spritePath) {
-          const tex = Texture.from(spritePath);
-          const sprite = new Sprite(tex);
+          const sprite = new Sprite(Texture.from(spritePath));
           sprite.anchor.set(0.5, 0.85);
-          sprite.scale.set(0.45);
-          bContainer.addChild(sprite);
+          sprite.scale.set(0.5);
+          bc.addChild(sprite);
         }
-        // Name label
+        // Label with HD-2D style glow
         const label = new Text({
           text: b.name,
           style: new TextStyle({
             fontFamily: '"Zen Maru Gothic", sans-serif',
-            fontSize: 11,
-            fontWeight: 'bold',
+            fontSize: 10, fontWeight: 'bold',
             fill: '#ffffff',
-            stroke: { color: '#000000', width: 3 },
-            align: 'center',
+            stroke: { color: '#1a1a2e', width: 3 },
+            dropShadow: { color: '#000000', blur: 4, distance: 0, alpha: 0.5 },
           }),
         });
         label.anchor.set(0.5, 0);
-        label.y = 10;
-        bContainer.addChild(label);
+        label.y = 14;
+        bc.addChild(label);
       } else {
         // Construction site
         const site = new Graphics();
-        site.rect(-24, -24, 48, 48);
-        site.fill({ color: 0x000000, alpha: 0.05 });
-        site.stroke({ color: 0x999999, width: 1.5 });
-        bContainer.addChild(site);
+        site.roundRect(-26, -26, 52, 52, 6);
+        site.fill({ color: 0x000000, alpha: 0.08 });
+        site.stroke({ color: 0x888888, width: 1.5 });
+        bc.addChild(site);
 
-        const hammerText = new Text({
-          text: '🔨',
-          style: new TextStyle({ fontSize: 20 }),
-        });
-        hammerText.anchor.set(0.5, 0.5);
-        hammerText.y = -6;
-        bContainer.addChild(hammerText);
+        // Hammer icon from asset
+        const hammer = new Sprite(Texture.from(TOOL_HAMMER_PATH));
+        hammer.anchor.set(0.5, 0.5);
+        hammer.scale.set(0.7);
+        hammer.y = -6;
+        bc.addChild(hammer);
 
-        const costLabel = new Text({
-          text: `${b.cost}G`,
+        // Gold cost with coin icon
+        const costContainer = new Container();
+        const coinIcon = new Sprite(Texture.from(GOLD_ICON_PATH));
+        coinIcon.anchor.set(0.5, 0.5);
+        coinIcon.scale.set(0.28);
+        costContainer.addChild(coinIcon);
+        const costText = new Text({
+          text: `${b.cost}`,
           style: new TextStyle({
             fontFamily: '"Zen Maru Gothic", sans-serif',
-            fontSize: 10,
-            fontWeight: 'bold',
+            fontSize: 10, fontWeight: 'bold',
             fill: '#F39C12',
             stroke: { color: '#ffffff', width: 2 },
           }),
         });
-        costLabel.anchor.set(0.5, 0);
-        costLabel.y = 10;
-        bContainer.addChild(costLabel);
+        costText.anchor.set(0, 0.5);
+        costText.x = 10;
+        costContainer.addChild(costText);
+        costContainer.x = -12;
+        costContainer.y = 16;
+        bc.addChild(costContainer);
       }
-
-      sortLayer.addChild(bContainer);
-      buildingSprites.set(b.id, bContainer);
+      sortLayer.addChild(bc);
     }
 
-    // === NPCS (Pawn with walk animation) ===
+    // === NPCs ===
     const pawnTex = Texture.from(PAWN_RUN_PATH);
-    const pawnFrameW = pawnTex.width / 6;
-    const pawnFrameH = pawnTex.height;
-    const pawnFrames = createFrames(pawnTex, 6, pawnFrameW, pawnFrameH);
-
+    const pawnFrames = createFrames(pawnTex, 6, pawnTex.width / 6, pawnTex.height);
     const npcs: NPCState[] = [];
     for (let i = 0; i < 5; i++) {
       const npc = new AnimatedSprite(pawnFrames);
-      npc.animationSpeed = 0.12;
+      npc.animationSpeed = 0.1;
       npc.play();
       npc.anchor.set(0.5, 0.8);
       npc.scale.set(0.3);
-      const startGx = 1 + Math.floor(Math.random() * (GRID_COLS - 2));
-      const startGy = 1 + Math.floor(Math.random() * (GRID_ROWS - 2));
-      const pos = gridToScreen(startGx, startGy);
+      const gx = 1 + Math.floor(Math.random() * (GRID_COLS - 2));
+      const gy = 1 + Math.floor(Math.random() * (GRID_ROWS - 2));
+      const pos = gridToScreen(gx, gy);
       npc.x = pos.x + (Math.random() - 0.5) * 20;
       npc.y = pos.y + (Math.random() - 0.5) * 10;
       npc.zIndex = npc.y;
       sortLayer.addChild(npc);
-      npcs.push({
-        sprite: npc,
-        targetX: npc.x,
-        targetY: npc.y,
-        speed: 0.4 + Math.random() * 0.3,
-        waitTimer: Math.random() * 120,
-      });
+      npcs.push({ sprite: npc, targetX: npc.x, targetY: npc.y,
+        speed: 0.4 + Math.random() * 0.3, waitTimer: Math.random() * 120 });
     }
 
     // === SHEEP ===
     const sheepTex = Texture.from(SHEEP_IDLE_PATH);
-    const sheepFrameW = sheepTex.width / 6;
-    const sheepFrameH = sheepTex.height;
-    const sheepFrames = createFrames(sheepTex, 6, sheepFrameW, sheepFrameH);
+    const sheepFrames = createFrames(sheepTex, 6, sheepTex.width / 6, sheepTex.height);
     for (let i = 0; i < 2; i++) {
       const sheep = new AnimatedSprite(sheepFrames);
-      sheep.animationSpeed = 0.06;
-      sheep.play();
-      sheep.anchor.set(0.5, 0.7);
-      sheep.scale.set(0.35);
-      const gx = 4 + i;
-      const gy = 5;
-      const pos = gridToScreen(gx, gy);
+      sheep.animationSpeed = 0.06; sheep.play();
+      sheep.anchor.set(0.5, 0.7); sheep.scale.set(0.35);
+      const pos = gridToScreen(4 + i, 5);
       sheep.x = pos.x + (Math.random() - 0.5) * 20;
-      sheep.y = pos.y;
-      sheep.zIndex = pos.y;
+      sheep.y = pos.y; sheep.zIndex = pos.y;
       sortLayer.addChild(sheep);
     }
 
-    // === ANIMATION LOOP ===
+    /* ====== HD-2D FOREGROUND EFFECTS ====== */
+    const fxLayer = new Container();
+    world.addChild(fxLayer);
+
+    // Depth-of-field: blur bottom edge (near camera)
+    const dofBottom = new Graphics();
+    dofBottom.rect(0, VILLAGE_H - 40, VILLAGE_W, 40);
+    dofBottom.fill(0x000000);
+    dofBottom.alpha = 0;
+    const dofBlur = new BlurFilter({ strength: 3, quality: 2 });
+    dofBottom.filters = [dofBlur];
+    fxLayer.addChild(dofBottom);
+
+    // Vignette overlay
+    const vignette = new Graphics();
+    vignette.rect(0, 0, VILLAGE_W, VILLAGE_H);
+    vignette.fill(0x000000);
+    vignette.alpha = 0.15;
+    // Create a radial "hole" effect by overlaying semi-transparent edges
+    const vignetteEdge = new Graphics();
+    // Top edge
+    vignetteEdge.rect(0, 0, VILLAGE_W, 15);
+    vignetteEdge.fill({ color: 0x000000, alpha: 0.2 });
+    // Bottom edge
+    vignetteEdge.rect(0, VILLAGE_H - 15, VILLAGE_W, 15);
+    vignetteEdge.fill({ color: 0x000000, alpha: 0.25 });
+    // Left edge
+    vignetteEdge.rect(0, 0, 15, VILLAGE_H);
+    vignetteEdge.fill({ color: 0x000000, alpha: 0.15 });
+    // Right edge
+    vignetteEdge.rect(VILLAGE_W - 15, 0, 15, VILLAGE_H);
+    vignetteEdge.fill({ color: 0x000000, alpha: 0.15 });
+    fxLayer.addChild(vignetteEdge);
+
+    // Light rays (subtle golden overlay particles)
+    const lightRays: { sprite: Graphics; baseX: number; speed: number }[] = [];
+    for (let i = 0; i < 6; i++) {
+      const ray = new Graphics();
+      const rx = Math.random() * VILLAGE_W;
+      ray.rect(-2, 0, 4, 60 + Math.random() * 80);
+      ray.fill({ color: 0xFFE082, alpha: 0.03 + Math.random() * 0.04 });
+      ray.x = rx; ray.y = 0;
+      ray.rotation = -0.1 + Math.random() * 0.2;
+      fxLayer.addChild(ray);
+      lightRays.push({ sprite: ray, baseX: rx, speed: 0.02 + Math.random() * 0.03 });
+    }
+
+    // Color warmth overlay (HD-2D warm tone)
+    const warmOverlay = new Graphics();
+    warmOverlay.rect(0, 0, VILLAGE_W, VILLAGE_H);
+    warmOverlay.fill({ color: 0xFFF3E0, alpha: 0.06 });
+    fxLayer.addChild(warmOverlay);
+
+    // Subtle color grading on entire world
+    const colorMatrix = new ColorMatrixFilter();
+    colorMatrix.saturate(0.15); // slightly boost saturation
+    world.filters = [colorMatrix];
+
+    /* ====== ANIMATION LOOP ====== */
+    let frame = 0;
     app.ticker.add(() => {
-      // Clouds drift
+      frame++;
+      // Clouds
       for (const c of cloudSprites) {
-        c.x += 0.15;
+        c.x += 0.12;
         if (c.x > VILLAGE_W + 50) c.x = -c.width;
       }
-
-      // NPC wandering
+      // NPCs
       for (const npc of npcs) {
-        if (npc.waitTimer > 0) {
-          npc.waitTimer--;
-          continue;
-        }
+        if (npc.waitTimer > 0) { npc.waitTimer--; continue; }
         const dx = npc.targetX - npc.sprite.x;
         const dy = npc.targetY - npc.sprite.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < 2) {
-          // Pick new target
           npc.waitTimer = 60 + Math.random() * 120;
-          const ngx = Math.max(0, Math.min(GRID_COLS - 1, Math.floor(Math.random() * GRID_COLS)));
-          const ngy = Math.max(1, Math.min(GRID_ROWS - 1, Math.floor(Math.random() * GRID_ROWS)));
-          const tp = gridToScreen(ngx, ngy);
+          const tp = gridToScreen(
+            Math.floor(Math.random() * GRID_COLS),
+            1 + Math.floor(Math.random() * (GRID_ROWS - 1)),
+          );
           npc.targetX = tp.x + (Math.random() - 0.5) * 30;
           npc.targetY = tp.y + (Math.random() - 0.5) * 15;
         } else {
           npc.sprite.x += (dx / dist) * npc.speed;
           npc.sprite.y += (dy / dist) * npc.speed;
-          npc.sprite.scale.x = dx > 0 ? 0.3 : -0.3; // flip direction
+          npc.sprite.scale.x = dx > 0 ? 0.3 : -0.3;
           npc.sprite.zIndex = npc.sprite.y;
         }
+      }
+      // Light rays sway
+      for (const lr of lightRays) {
+        lr.sprite.x = lr.baseX + Math.sin(frame * lr.speed) * 15;
+        lr.sprite.alpha = 0.03 + Math.sin(frame * 0.01 + lr.baseX) * 0.02;
       }
     });
   }, [builtIds]);
@@ -383,41 +441,28 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
   useEffect(() => {
     initApp();
     return () => {
-      if (appRef.current) {
-        appRef.current.destroy(true, { children: true });
-        appRef.current = null;
-      }
+      if (appRef.current) { appRef.current.destroy(true, { children: true }); appRef.current = null; }
     };
   }, [initApp]);
 
-  // Handle click fallback for grid detection
   const handleClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const app = appRef.current;
     const container = containerRef.current;
-    if (!app || !container) return;
-
+    if (!appRef.current || !container) return;
     const rect = container.getBoundingClientRect();
     const viewW = container.clientWidth;
     const viewH = container.clientHeight;
-    const scale = Math.min(viewW / VILLAGE_W, viewH / VILLAGE_H);
-    const offX = (viewW - VILLAGE_W * scale) / 2;
-    const offY = (viewH - VILLAGE_H * scale) / 2;
-
-    const mx = (e.clientX - rect.left - offX) / scale;
-    const my = (e.clientY - rect.top - offY) / scale;
+    const s = Math.min(viewW / VILLAGE_W, viewH / VILLAGE_H);
+    const offX = (viewW - VILLAGE_W * s) / 2;
+    const offY = (viewH - VILLAGE_H * s) / 2;
+    const mx = (e.clientX - rect.left - offX) / s;
+    const my = (e.clientY - rect.top - offY) / s;
     const { gx, gy } = screenToGrid(mx, my);
-
     const building = BUILDINGS.find(b => b.gridX === gx && b.gridY === gy);
-    if (building) {
-      onTapRef.current(building.id);
-    }
+    if (building) onTapRef.current(building.id);
   }, []);
 
   return (
-    <div
-      ref={containerRef}
-      onClick={handleClick}
-      style={{ width: '100%', height: '100%', overflow: 'hidden', borderRadius: 12 }}
-    />
+    <div ref={containerRef} onClick={handleClick}
+      style={{ width: '100%', height: '100%', overflow: 'hidden', borderRadius: 12 }} />
   );
 }
