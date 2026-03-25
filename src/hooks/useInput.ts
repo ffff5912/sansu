@@ -8,7 +8,9 @@ interface UseInputOptions {
 
 export function useInput({ onDirection, enabled = true }: UseInputOptions) {
   const onDirRef = useRef(onDirection);
-  onDirRef.current = onDirection;
+  useEffect(() => {
+    onDirRef.current = onDirection;
+  }, [onDirection]);
 
   // Keyboard
   useEffect(() => {

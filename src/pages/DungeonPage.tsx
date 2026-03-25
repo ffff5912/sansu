@@ -38,7 +38,7 @@ export default function DungeonPage({
     encounterMonster,
     clearEncounter,
     defeatEnemy,
-  } = useDungeon(floorId, player);
+  } = useDungeon(floorId);
 
   const {
     battle,

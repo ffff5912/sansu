@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import type { BattleState, Monster, PlayerState, GameDifficulty } from '../data/types.ts';
 import { getRandomQuestion, pickDifficulty } from '../data/questions/index.ts';
 import {
@@ -12,7 +12,6 @@ interface UseBattleReturn {
   timer: ReturnType<typeof useTimer>;
   startBattle: (monster: Monster) => void;
   submitAnswer: (choiceIndex: number) => void;
-  nextTurn: () => void;
   endBattle: () => void;
   playerUpdate: PlayerState | null;
   leveledUp: boolean;
@@ -31,6 +30,25 @@ export function useBattle(
   const [goldEarned, setGoldEarned] = useState(0);
   const timer = useTimer(timerSecs);
   const askedRef = useRef<Set<string>>(new Set());
+
+  const nextQuestionRef = useRef<() => void>(() => {});
+
+  const advanceToNextQuestion = useCallback(() => {
+    setBattle(b => {
+      if (!b) return b;
+      const diff = pickDifficulty(b.questionsAnswered);
+      const q = getRandomQuestion(floorId, diff, askedRef.current);
+      if (q) askedRef.current.add(q.id);
+      timer.reset(timerSecs);
+      timer.start();
+      return { ...b, phase: 'question', currentQuestion: q };
+    });
+  }, [floorId, timer, timerSecs]);
+
+  // Keep ref in sync via effect to satisfy lint (no ref writes during render)
+  useEffect(() => {
+    nextQuestionRef.current = advanceToNextQuestion;
+  }, [advanceToNextQuestion]);
 
   const startBattle = useCallback((monster: Monster) => {
     const scaled = scaleMonster(monster, gameDifficulty);
@@ -89,7 +107,7 @@ export function useBattle(
     setTimeout(() => {
       if (newMonsterHp <= 0) {
         // Victory - give exp and gold
-        const gold = calculateGoldReward(battle.monster, gameDifficulty);
+        const gold = calculateGoldReward(battle.monster);
         const expResult = applyExp(newPlayer, battle.monster.exp);
         const playerWithGold = { ...expResult.newPlayer, gold: expResult.newPlayer.gold + gold };
         setPlayerUpdate(playerWithGold);
@@ -100,29 +118,11 @@ export function useBattle(
         // Defeat
         setBattle(b => b ? { ...b, phase: 'defeat' } : b);
       } else {
-        // Continue with next question
-        nextQuestion(b => b);
+        // Continue with next question via ref (avoids circular dep)
+        nextQuestionRef.current();
       }
     }, 1200);
-  }, [battle, timer, player, gameDifficulty]);
-
-  const nextQuestion = useCallback((
-    _updater?: (b: BattleState | null) => BattleState | null
-  ) => {
-    setBattle(b => {
-      if (!b) return b;
-      const diff = pickDifficulty(b.questionsAnswered);
-      const q = getRandomQuestion(floorId, diff, askedRef.current);
-      if (q) askedRef.current.add(q.id);
-      timer.reset(timerSecs);
-      timer.start();
-      return { ...b, phase: 'question', currentQuestion: q };
-    });
-  }, [floorId, timer, timerSecs]);
-
-  const nextTurn = useCallback(() => {
-    nextQuestion();
-  }, [nextQuestion]);
+  }, [battle, timer, player]);
 
   const endBattle = useCallback(() => {
     setBattle(null);
@@ -134,7 +134,6 @@ export function useBattle(
     timer,
     startBattle,
     submitAnswer,
-    nextTurn,
     endBattle,
     playerUpdate,
     leveledUp,

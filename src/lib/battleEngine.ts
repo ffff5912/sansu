@@ -1,5 +1,6 @@
 import type { PlayerState, Monster, GameDifficulty } from '../data/types.ts';
 
+
 /** Apply difficulty scaling to a monster */
 export function scaleMonster(monster: Monster, difficulty: GameDifficulty): Monster {
   if (difficulty === 'normal') return monster;
@@ -43,12 +44,12 @@ export function calculateExpToNext(level: number): number {
   return 30 + (level - 1) * 15;
 }
 
-export function calculateGoldReward(monster: Monster, difficulty: GameDifficulty): number {
+export function calculateGoldReward(monster: Monster): number {
+  // Monster stats are already scaled by difficulty via scaleMonster()
   const base = monster.isBoss ? monster.exp * 2 : monster.exp;
-  const multiplier = difficulty === 'hard' ? 1.5 : 1;
   // Add small random variation ±20%
   const variation = 0.8 + Math.random() * 0.4;
-  return Math.round(base * multiplier * variation);
+  return Math.round(base * variation);
 }
 
 export interface LevelUpResult {
@@ -57,7 +58,7 @@ export interface LevelUpResult {
 }
 
 export function applyExp(player: PlayerState, expGain: number): LevelUpResult {
-  let p = { ...player };
+  const p = { ...player };
   p.exp += expGain;
   let leveled = false;
 

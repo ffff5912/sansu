@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import type { DungeonState, Direction, PlayerState, Monster } from '../data/types.ts';
+import type { DungeonState, Direction, Monster } from '../data/types.ts';
 import { getMap } from '../data/maps/index.ts';
 import { getMonster } from '../data/monsters.ts';
 import { getFloor } from '../data/floors.ts';
@@ -16,7 +16,7 @@ interface UseDungeonReturn {
   resetDungeon: (floorId: number) => void;
 }
 
-export function useDungeon(floorId: number, player: PlayerState): UseDungeonReturn {
+export function useDungeon(floorId: number): UseDungeonReturn {
   const map = getMap(floorId)!;
   const floor = getFloor(floorId)!;
 
@@ -44,9 +44,10 @@ export function useDungeon(floorId: number, player: PlayerState): UseDungeonRetu
 
     // Check for enemy encounter
     if ((tile === 'E' || tile === 'B') && !dungeon.defeatedEnemies.has(enemyKey)) {
-      const monsterIds = tile === 'B' ? [floor.bossId] : floor.monsterIds;
-      const monsterId = monsterIds[Math.floor(Math.random() * monsterIds.length)];
-      const monster = getMonster(tile === 'B' ? floor.bossId : monsterId);
+      const monsterId = tile === 'B'
+        ? floor.bossId
+        : floor.monsterIds[Math.floor(Math.random() * floor.monsterIds.length)];
+      const monster = getMonster(monsterId);
       if (monster) {
         setEncounterMonster(monster);
         setDungeon(d => ({ ...d, phase: 'battle' }));
