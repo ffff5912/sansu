@@ -17,6 +17,7 @@ export default function App() {
     finishDungeon,
     updatePlayer,
     updateInventory,
+    updateBuildings,
   } = useGameState();
 
   const handleRetry = useCallback(() => {
@@ -40,10 +41,12 @@ export default function App() {
         <BasePage
           player={state.player}
           inventory={state.inventory}
+          buildings={state.buildings}
           grade={state.grade}
           clearedFloors={state.clearedFloors}
           onUpdatePlayer={updatePlayer}
           onUpdateInventory={updateInventory}
+          onUpdateBuildings={updateBuildings}
           onGoDungeon={goToWorldMap}
           onGoTitle={goToTitle}
         />

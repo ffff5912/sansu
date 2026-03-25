@@ -37,6 +37,20 @@ export interface Question {
   text: string;
   choices: [string, string, string, string];
   answerIndex: number;
+  /** Optional clock display for time questions (hour, minute) */
+  clockTime?: { hour: number; minute: number };
+}
+
+/* ========== Building ========== */
+export interface BuildingDef {
+  id: string;
+  name: string;
+  emoji: string;
+  description: string;
+  cost: number;
+  /** Position in village grid (0-based, 0,0 = top-left) */
+  gridX: number;
+  gridY: number;
 }
 
 /* ========== Grade ========== */
@@ -124,6 +138,7 @@ export interface SaveData {
   clearedFloors: number[];
   currentFloor: number | null;
   inventory: Inventory;
+  buildings: string[];
   timestamp: number;
 }
 
@@ -139,4 +154,5 @@ export interface GameState {
   currentFloor: number | null;
   resultType: 'clear' | 'gameover' | null;
   inventory: Inventory;
+  buildings: string[];
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import type { BattleState, PlayerState } from '../data/types.ts';
 import HpBar from './HpBar.tsx';
 import MonsterSprite from './MonsterSprite.tsx';
@@ -27,42 +27,54 @@ export default function BattleOverlay({
   goldEarned,
 }: BattleOverlayProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [monsterPhase, setMonsterPhase] = useState<'appear' | 'idle' | 'hit' | 'defeat'>('appear');
-  const [showDamage, setShowDamage] = useState(false);
+  const [prevQuestionId, setPrevQuestionId] = useState<string | null>(null);
+  const [prevPhase, setPrevPhase] = useState(battle.phase);
 
-  // Reset selection when new question arrives
-  useEffect(() => {
-    if (battle.phase === 'question') {
-      setSelectedIndex(null);
-      setMonsterPhase('idle');
-      setShowDamage(false);
-    }
-  }, [battle.phase, battle.currentQuestion?.id]);
-
-  // Handle result phase animations
-  useEffect(() => {
-    if (battle.phase === 'result') {
-      setShowDamage(true);
-      if (battle.lastDamage > 0) {
-        setMonsterPhase('hit');
-      }
-    } else if (battle.phase === 'victory') {
-      setMonsterPhase('defeat');
-    }
+  // Derive monster animation phase from battle state
+  const monsterPhase = useMemo((): 'appear' | 'idle' | 'hit' | 'defeat' => {
+    if (battle.phase === 'intro') return 'appear';
+    if (battle.phase === 'victory') return 'defeat';
+    if (battle.phase === 'result' && battle.lastDamage > 0) return 'hit';
+    return 'idle';
   }, [battle.phase, battle.lastDamage]);
 
-  // Auto-submit on timeout
-  useEffect(() => {
-    if (battle.phase === 'question' && timeLeft <= 0 && selectedIndex === null) {
-      handleAnswer(-1); // timeout = wrong answer
-    }
-  }, [timeLeft, battle.phase, selectedIndex]);
+  const showDamage = battle.phase === 'result';
 
-  const handleAnswer = (index: number) => {
+  // Reset selection when new question arrives
+  const questionId = battle.currentQuestion?.id ?? null;
+  if (questionId !== prevQuestionId) {
+    setPrevQuestionId(questionId);
+    if (battle.phase === 'question') {
+      setSelectedIndex(null);
+    }
+  }
+
+  // Reset selection on phase transition to question
+  if (battle.phase !== prevPhase) {
+    setPrevPhase(battle.phase);
+    if (battle.phase === 'question') {
+      setSelectedIndex(null);
+    }
+  }
+
+  const handleAnswer = useCallback((index: number) => {
     if (selectedIndex !== null) return;
     setSelectedIndex(index);
     onAnswer(index === -1 ? -1 : index);
-  };
+  }, [selectedIndex, onAnswer]);
+
+  // Auto-submit on timeout
+  const timeoutFiredRef = useRef(false);
+  useEffect(() => {
+    // Reset timeout flag when a new question starts
+    timeoutFiredRef.current = false;
+  }, [questionId]);
+  useEffect(() => {
+    if (battle.phase === 'question' && timeLeft <= 0 && selectedIndex === null && !timeoutFiredRef.current) {
+      timeoutFiredRef.current = true;
+      onAnswer(-1);
+    }
+  }, [timeLeft, battle.phase, selectedIndex, onAnswer]);
 
   return (
     <div style={{

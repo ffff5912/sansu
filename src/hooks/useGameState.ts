@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import type { GameState, PlayerState, Grade, Inventory, GameDifficulty } from '../data/types.ts';
 import { loadSave, writeSave, DEFAULT_PLAYER, DEFAULT_INVENTORY } from '../lib/storage.ts';
+import { DEFAULT_BUILDINGS } from '../data/buildings.ts';
 
 function initState(): GameState {
   return {
@@ -12,6 +13,7 @@ function initState(): GameState {
     currentFloor: null,
     resultType: null,
     inventory: { ...DEFAULT_INVENTORY },
+    buildings: [...DEFAULT_BUILDINGS],
   };
 }
 
@@ -28,9 +30,10 @@ export function useGameState() {
       clearedFloors: state.clearedFloors,
       currentFloor: state.currentFloor,
       inventory: state.inventory,
+      buildings: state.buildings,
       timestamp: Date.now(),
     });
-  }, [state.player, state.clearedFloors, state.currentFloor, state.scene, state.grade, state.inventory]);
+  }, [state.player, state.clearedFloors, state.currentFloor, state.scene, state.grade, state.inventory, state.buildings]);
 
   const goToTitle = useCallback(() => {
     setState(s => ({ ...s, scene: 'title', currentFloor: null, resultType: null }));
@@ -47,6 +50,7 @@ export function useGameState() {
       currentFloor: null,
       resultType: null,
       inventory: save.inventory,
+      buildings: save.buildings,
     }));
   }, []);
 
@@ -79,6 +83,10 @@ export function useGameState() {
     setState(s => ({ ...s, inventory }));
   }, []);
 
+  const updateBuildings = useCallback((buildings: string[]) => {
+    setState(s => ({ ...s, buildings }));
+  }, []);
+
   const resetGame = useCallback(() => {
     setState(initState());
   }, []);
@@ -93,6 +101,7 @@ export function useGameState() {
     finishDungeon,
     updatePlayer,
     updateInventory,
+    updateBuildings,
     resetGame,
   };
 }
