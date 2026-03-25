@@ -1,5 +1,5 @@
 import { useRef, useEffect, useCallback } from 'react';
-import { Application, Sprite, Texture, Container, AnimatedSprite, Graphics, Text, TextStyle, Rectangle } from 'pixi.js';
+import { Application, Assets, Sprite, Texture, Container, AnimatedSprite, Graphics, Text, TextStyle, Rectangle } from 'pixi.js';
 import { BUILDINGS } from '../data/buildings.ts';
 
 interface VillageCanvasProps {
@@ -117,6 +117,17 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
     container.appendChild(app.canvas as HTMLCanvasElement);
     appRef.current = app;
 
+    // Preload all assets
+    const allPaths = [
+      ...Object.values(BUILDING_SPRITES),
+      ...TREE_PATHS,
+      ...CLOUD_PATHS,
+      ...BUSH_PATHS,
+      PAWN_RUN_PATH,
+      SHEEP_IDLE_PATH,
+    ];
+    await Assets.load(allPaths);
+
     // Scale to fit
     const scale = Math.min(viewW / VILLAGE_W, viewH / VILLAGE_H);
     const world = new Container();
@@ -150,7 +161,7 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
     world.addChild(cloudContainer);
     const cloudSprites: Sprite[] = [];
     for (let i = 0; i < 3; i++) {
-      const tex = await Texture.from(CLOUD_PATHS[i % CLOUD_PATHS.length]);
+      const tex = Texture.from(CLOUD_PATHS[i % CLOUD_PATHS.length]);
       const c = new Sprite(tex);
       c.scale.set(0.15 + Math.random() * 0.1);
       c.x = Math.random() * VILLAGE_W;
@@ -174,7 +185,7 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
       const hasBuilding = BUILDINGS.some(b => b.gridX === spot.gx && b.gridY === spot.gy);
       if (hasBuilding) continue;
       const treePath = TREE_PATHS[Math.floor(Math.random() * TREE_PATHS.length)];
-      const tex = await Texture.from(treePath);
+      const tex = Texture.from(treePath);
       // Tree spritesheet: 8 frames, each ~192x256
       const frameW = tex.width / 8;
       const frameH = tex.height;
@@ -200,7 +211,7 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
       const hasBuilding = BUILDINGS.some(b => b.gridX === spot.gx && b.gridY === spot.gy);
       if (hasBuilding) continue;
       const bushPath = BUSH_PATHS[Math.floor(Math.random() * BUSH_PATHS.length)];
-      const tex = await Texture.from(bushPath);
+      const tex = Texture.from(bushPath);
       const bush = new Sprite(tex);
       bush.anchor.set(0.5, 0.7);
       const pos = gridToScreen(spot.gx, spot.gy);
@@ -229,7 +240,7 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
       if (builtIds.includes(b.id)) {
         const spritePath = BUILDING_SPRITES[b.id];
         if (spritePath) {
-          const tex = await Texture.from(spritePath);
+          const tex = Texture.from(spritePath);
           const sprite = new Sprite(tex);
           sprite.anchor.set(0.5, 0.85);
           sprite.scale.set(0.45);
@@ -286,7 +297,7 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
     }
 
     // === NPCS (Pawn with walk animation) ===
-    const pawnTex = await Texture.from(PAWN_RUN_PATH);
+    const pawnTex = Texture.from(PAWN_RUN_PATH);
     const pawnFrameW = pawnTex.width / 6;
     const pawnFrameH = pawnTex.height;
     const pawnFrames = createFrames(pawnTex, 6, pawnFrameW, pawnFrameH);
@@ -315,7 +326,7 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
     }
 
     // === SHEEP ===
-    const sheepTex = await Texture.from(SHEEP_IDLE_PATH);
+    const sheepTex = Texture.from(SHEEP_IDLE_PATH);
     const sheepFrameW = sheepTex.width / 6;
     const sheepFrameH = sheepTex.height;
     const sheepFrames = createFrames(sheepTex, 6, sheepFrameW, sheepFrameH);
