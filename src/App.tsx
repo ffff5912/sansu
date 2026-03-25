@@ -12,6 +12,7 @@ export default function App() {
     goToTitle,
     goToBase,
     goToWorldMap,
+    setDifficulty,
     enterDungeon,
     finishDungeon,
     updatePlayer,
@@ -53,6 +54,8 @@ export default function App() {
         <WorldMapPage
           grade={state.grade}
           clearedFloors={state.clearedFloors}
+          difficulty={state.gameDifficulty}
+          onSetDifficulty={setDifficulty}
           onSelectFloor={enterDungeon}
           onBack={handleBackToBase}
         />
@@ -64,6 +67,7 @@ export default function App() {
         <DungeonPage
           floorId={state.currentFloor}
           player={state.player}
+          gameDifficulty={state.gameDifficulty}
           onClear={() => finishDungeon('clear')}
           onGameOver={() => finishDungeon('gameover')}
           onUpdatePlayer={updatePlayer}

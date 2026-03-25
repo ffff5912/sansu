@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { PlayerState } from '../data/types.ts';
+import type { PlayerState, GameDifficulty } from '../data/types.ts';
 import { getMap } from '../data/maps/index.ts';
 import { getFloor } from '../data/floors.ts';
 import { useDungeon } from '../hooks/useDungeon.ts';
@@ -13,6 +13,7 @@ import BattleOverlay from '../components/BattleOverlay.tsx';
 interface DungeonPageProps {
   floorId: number;
   player: PlayerState;
+  gameDifficulty: GameDifficulty;
   onClear: () => void;
   onGameOver: () => void;
   onUpdatePlayer: (player: PlayerState) => void;
@@ -22,6 +23,7 @@ interface DungeonPageProps {
 export default function DungeonPage({
   floorId,
   player,
+  gameDifficulty,
   onClear,
   onGameOver,
   onUpdatePlayer,
@@ -47,7 +49,7 @@ export default function DungeonPage({
     playerUpdate,
     leveledUp,
     goldEarned,
-  } = useBattle(floorId, player);
+  } = useBattle(floorId, player, gameDifficulty);
 
   // Start battle when encounter happens
   useEffect(() => {

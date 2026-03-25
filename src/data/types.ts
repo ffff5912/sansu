@@ -42,6 +42,9 @@ export interface Question {
 /* ========== Grade ========== */
 export type Grade = 1 | 4;
 
+/* ========== Game Difficulty ========== */
+export type GameDifficulty = 'normal' | 'hard';
+
 /* ========== Floor ========== */
 export interface FloorDef {
   id: number;
@@ -130,6 +133,7 @@ export type GameScene = 'title' | 'base' | 'worldmap' | 'dungeon' | 'result';
 export interface GameState {
   scene: GameScene;
   grade: Grade;
+  gameDifficulty: GameDifficulty;
   player: PlayerState;
   clearedFloors: number[];
   currentFloor: number | null;

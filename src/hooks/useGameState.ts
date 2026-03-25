@@ -1,11 +1,12 @@
 import { useState, useCallback, useEffect } from 'react';
-import type { GameState, PlayerState, Grade, Inventory } from '../data/types.ts';
+import type { GameState, PlayerState, Grade, Inventory, GameDifficulty } from '../data/types.ts';
 import { loadSave, writeSave, DEFAULT_PLAYER, DEFAULT_INVENTORY } from '../lib/storage.ts';
 
 function initState(): GameState {
   return {
     scene: 'title',
     grade: 4,
+    gameDifficulty: 'normal',
     player: { ...DEFAULT_PLAYER },
     clearedFloors: [],
     currentFloor: null,
@@ -37,19 +38,24 @@ export function useGameState() {
 
   const goToBase = useCallback((grade: Grade) => {
     const save = loadSave(grade);
-    setState({
+    setState(s => ({
       scene: 'base',
       grade,
+      gameDifficulty: s.gameDifficulty,
       player: save.player,
       clearedFloors: save.clearedFloors,
       currentFloor: null,
       resultType: null,
       inventory: save.inventory,
-    });
+    }));
   }, []);
 
   const goToWorldMap = useCallback(() => {
     setState(s => ({ ...s, scene: 'worldmap', currentFloor: null, resultType: null }));
+  }, []);
+
+  const setDifficulty = useCallback((diff: GameDifficulty) => {
+    setState(s => ({ ...s, gameDifficulty: diff }));
   }, []);
 
   const enterDungeon = useCallback((floorId: number) => {
@@ -82,6 +88,7 @@ export function useGameState() {
     goToTitle,
     goToBase,
     goToWorldMap,
+    setDifficulty,
     enterDungeon,
     finishDungeon,
     updatePlayer,
