@@ -1,10 +1,10 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import type { BattleState, Monster, PlayerState, GameDifficulty, MaterialBag } from '../data/types.ts';
+import type { BattleState, Monster, PlayerState, GameDifficulty, MaterialBag, EquipmentSlots } from '../data/types.ts';
 import { rollDrops } from '../data/crafting.ts';
 import { getRandomQuestion, pickDifficulty } from '../data/questions/index.ts';
 import {
   calculateDamage, calculateMonsterDamage, calculateGoldReward,
-  applyExp, applyDamageToPlayer, scaleMonster, getTimerSeconds,
+  applyExp, applyDamageToPlayer, scaleMonster, getTimerSeconds, getEquipmentBonuses,
 } from '../lib/battleEngine.ts';
 import { useTimer } from './useTimer.ts';
 
@@ -24,7 +24,9 @@ export function useBattle(
   floorId: number,
   player: PlayerState,
   gameDifficulty: GameDifficulty = 'normal',
+  equipment: EquipmentSlots = { weapon: null, armor: null, accessory: null },
 ): UseBattleReturn {
+  const equipBonus = getEquipmentBonuses(equipment);
   const timerSecs = getTimerSeconds(gameDifficulty);
   const [battle, setBattle] = useState<BattleState | null>(null);
   const [playerUpdate, setPlayerUpdate] = useState<PlayerState | null>(null);
@@ -87,11 +89,14 @@ export function useBattle(
 
     const elapsed = timer.stop();
     const correct = choiceIndex === battle.currentQuestion.answerIndex;
-    const dmg = calculateDamage(correct, elapsed, player.attack);
-    const monsterDmg = calculateMonsterDamage(correct, battle.monster);
+    // Apply equipment bonuses to damage
+    const effectiveAtk = player.attack + equipBonus.atk;
+    const dmg = calculateDamage(correct, elapsed, effectiveAtk);
+    const rawMonsterDmg = calculateMonsterDamage(correct, battle.monster);
+    const monsterDmg = Math.max(0, rawMonsterDmg - equipBonus.def);
     const newMonsterHp = Math.max(0, battle.monsterHp - dmg);
 
-    // Apply monster damage to player
+    // Apply monster damage to player (reduced by armor)
     const newPlayer = applyDamageToPlayer(player, monsterDmg);
 
     setBattle(b => b ? {
@@ -112,7 +117,9 @@ export function useBattle(
       if (newMonsterHp <= 0) {
         // Victory - give exp and gold
         const gold = calculateGoldReward(battle.monster);
-        const expResult = applyExp(newPlayer, battle.monster.exp);
+        // Apply EXP bonus from equipment
+        const expGain = Math.round(battle.monster.exp * (1 + equipBonus.expPct / 100));
+        const expResult = applyExp(newPlayer, expGain);
         const playerWithGold = { ...expResult.newPlayer, gold: expResult.newPlayer.gold + gold };
         setPlayerUpdate(playerWithGold);
         setLeveledUp(expResult.leveled);
@@ -133,7 +140,7 @@ export function useBattle(
         nextQuestionRef.current();
       }
     }, 1200);
-  }, [battle, timer, player, floorId]);
+  }, [battle, timer, player, floorId, equipBonus.atk, equipBonus.def, equipBonus.expPct]);
 
   const endBattle = useCallback(() => {
     setBattle(null);

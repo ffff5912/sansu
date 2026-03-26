@@ -92,6 +92,7 @@ export default function App() {
           floorId={state.currentFloor}
           player={state.player}
           gameDifficulty={state.gameDifficulty}
+          equipment={state.equipment}
           onClear={() => finishDungeon('clear')}
           onGameOver={() => finishDungeon('gameover')}
           onUpdatePlayer={updatePlayer}
