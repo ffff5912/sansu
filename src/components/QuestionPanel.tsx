@@ -25,16 +25,18 @@ export default function QuestionPanel({
       gap: 12,
       padding: '0 16px 16px',
     }}>
-      {/* Timer */}
-      <div style={{
-        textAlign: 'center',
-        fontSize: 28,
-        fontWeight: 900,
-        color: urgent ? 'var(--color-danger)' : 'var(--color-text-accent)',
-        animation: urgent ? 'timerUrgent 0.5s ease infinite' : 'none',
-      }}>
-        {Math.ceil(timeLeft)}
-      </div>
+      {/* Timer (hidden when no limit, i.e. timeLeft stays at 0) */}
+      {timeLeft > 0 && (
+        <div style={{
+          textAlign: 'center',
+          fontSize: 28,
+          fontWeight: 900,
+          color: urgent ? 'var(--color-danger)' : 'var(--color-text-accent)',
+          animation: urgent ? 'timerUrgent 0.5s ease infinite' : 'none',
+        }}>
+          {Math.ceil(timeLeft)}
+        </div>
+      )}
 
       {/* Clock display for time questions */}
       {question.clockTime && (

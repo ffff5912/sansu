@@ -4,7 +4,7 @@ import { rollDrops } from '../data/crafting.ts';
 import { getRandomQuestion, pickDifficulty } from '../data/questions/index.ts';
 import {
   calculateDamage, calculateMonsterDamage, calculateGoldReward,
-  applyExp, applyDamageToPlayer, scaleMonster, getTimerSeconds, getEquipmentBonuses,
+  applyExp, applyDamageToPlayer, scaleMonster, getEquipmentBonuses,
 } from '../lib/battleEngine.ts';
 import { useTimer } from './useTimer.ts';
 
@@ -30,8 +30,7 @@ export function useBattle(
   const equipBonus = getEquipmentBonuses(equipment);
   // Apply dungeon buff bonuses
   const buffAtkMult = dungeonBuff === 'atk' ? 1.15 : 1;
-  const buffTimerExtra = dungeonBuff === 'timer' ? 3 : 0;
-  const timerSecs = getTimerSeconds(gameDifficulty) + buffTimerExtra;
+  const timerSecs = 0; // no time limit
   const [battle, setBattle] = useState<BattleState | null>(null);
   const [playerUpdate, setPlayerUpdate] = useState<PlayerState | null>(null);
   const [leveledUp, setLeveledUp] = useState(false);
@@ -48,8 +47,7 @@ export function useBattle(
       const diff = pickDifficulty(b.questionsAnswered);
       const q = getRandomQuestion(floorId, diff, askedRef.current);
       if (q) askedRef.current.add(q.id);
-      timer.reset(timerSecs);
-      timer.start();
+      if (timerSecs > 0) { timer.reset(timerSecs); timer.start(); }
       return { ...b, phase: 'question', currentQuestion: q };
     });
   }, [floorId, timer, timerSecs]);
@@ -83,8 +81,7 @@ export function useBattle(
       const q = getRandomQuestion(floorId, diff, askedRef.current);
       if (q) askedRef.current.add(q.id);
       setBattle(b => b ? { ...b, phase: 'question', currentQuestion: q } : b);
-      timer.reset(timerSecs);
-      timer.start();
+      if (timerSecs > 0) { timer.reset(timerSecs); timer.start(); }
     }, 800);
   }, [floorId, timer, gameDifficulty, timerSecs]);
 

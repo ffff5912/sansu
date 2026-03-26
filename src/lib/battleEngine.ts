@@ -25,9 +25,9 @@ export function scaleMonster(monster: Monster, difficulty: GameDifficulty): Mons
   };
 }
 
-/** Timer seconds per difficulty */
-export function getTimerSeconds(difficulty: GameDifficulty): number {
-  return difficulty === 'hard' ? 10 : 15;
+/** Timer seconds per difficulty (0 = no limit) */
+export function getTimerSeconds(): number {
+  return 0;
 }
 
 export function calculateDamage(

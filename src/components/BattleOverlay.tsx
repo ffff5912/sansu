@@ -67,17 +67,20 @@ export default function BattleOverlay({
     onAnswer(index === -1 ? -1 : index);
   }, [selectedIndex, onAnswer]);
 
-  // Auto-submit on timeout
+  // Auto-submit on timeout (only when timer is active, i.e. timeLeft was > 0)
   const timeoutFiredRef = useRef(false);
+  const hadPositiveTime = useRef(false);
   useEffect(() => {
-    // Reset timeout flag when a new question starts
     timeoutFiredRef.current = false;
+    hadPositiveTime.current = false;
   }, [questionId]);
   useEffect(() => {
-    if (battle.phase === 'question' && timeLeft <= 0 && selectedIndex === null && !timeoutFiredRef.current) {
-      timeoutFiredRef.current = true;
-      onAnswer(-1);
-    }
+    if (timeLeft > 0) { hadPositiveTime.current = true; return; }
+    if (!hadPositiveTime.current) return; // timer never ran (no limit mode)
+    if (timeoutFiredRef.current) return;
+    if (battle.phase !== 'question' || selectedIndex !== null) return;
+    timeoutFiredRef.current = true;
+    onAnswer(-1);
   }, [timeLeft, battle.phase, selectedIndex, onAnswer]);
 
   return (
