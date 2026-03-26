@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import type { PlayerState, Inventory, Grade, BuildingSave } from '../data/types.ts';
+import type { PlayerState, Inventory, Grade, BuildingSave, MaterialBag, EquipmentSlots } from '../data/types.ts';
 import { ITEMS, getItem } from '../data/items.ts';
 import { BUILDINGS, getBuilding } from '../data/buildings.ts';
 import { MONSTERS } from '../data/monsters.ts';
+import { MATERIALS, getMaterial, EQUIPMENT, getEquipment } from '../data/crafting.ts';
 import { applyExp } from '../lib/battleEngine.ts';
 import { getMonsterSprite } from '../lib/monsterSprites.ts';
 import HpBar from '../components/HpBar.tsx';
@@ -21,11 +22,16 @@ interface BasePageProps {
   onUpdateInventory: (inventory: Inventory) => void;
   onUpdateBuildings: (buildings: string[]) => void;
   onUpdateBuildingLevels: (levels: BuildingSave[]) => void;
+  materials: MaterialBag;
+  craftedEquipment: string[];
+  equipment: EquipmentSlots;
+  onUpdateMaterials: (materials: MaterialBag) => void;
+  onUpdateCrafting: (crafted: string[], equip: EquipmentSlots) => void;
   onGoDungeon: () => void;
   onGoTitle: () => void;
 }
 
-type Panel = null | 'shop' | 'items' | 'building' | 'encyclopedia';
+type Panel = null | 'shop' | 'items' | 'building' | 'encyclopedia' | 'smithy' | 'equip';
 
 export default function BasePage({
   player,
@@ -39,6 +45,11 @@ export default function BasePage({
   onUpdateInventory,
   onUpdateBuildings,
   onUpdateBuildingLevels,
+  materials,
+  craftedEquipment,
+  equipment,
+  onUpdateMaterials,
+  onUpdateCrafting,
   onGoDungeon,
   onGoTitle,
 }: BasePageProps) {
@@ -118,6 +129,9 @@ export default function BasePage({
           }
           break;
         }
+        case 'smithy':
+          setPanel('smithy');
+          break;
         case 'inn':
           showMessage('やどやで ゆっくりやすもう');
           break;
@@ -221,6 +235,48 @@ export default function BasePage({
     onUpdateInventory(newInv);
   };
 
+  const handleCraft = (equipId: string) => {
+    const equip = getEquipment(equipId);
+    if (!equip) return;
+    if (craftedEquipment.includes(equipId)) {
+      // Already crafted — equip it
+      const newEquip = { ...equipment };
+      if (newEquip[equip.slot] === equipId) {
+        newEquip[equip.slot] = null; // unequip
+        showMessage(`${equip.name}をはずした`);
+      } else {
+        newEquip[equip.slot] = equipId;
+        showMessage(`${equip.name}をそうびした！`);
+      }
+      onUpdateCrafting(craftedEquipment, newEquip);
+      return;
+    }
+    // Check materials
+    for (const req of equip.recipe) {
+      if ((materials[req.materialId] ?? 0) < req.count) {
+        const mat = getMaterial(req.materialId);
+        showMessage(`${mat?.name ?? req.materialId}が たりないよ`);
+        return;
+      }
+    }
+    if (player.gold < equip.craftGold) {
+      showMessage('ゴールドが たりないよ…');
+      return;
+    }
+    // Consume materials and gold
+    const newMats = { ...materials };
+    for (const req of equip.recipe) {
+      newMats[req.materialId] = (newMats[req.materialId] ?? 0) - req.count;
+      if (newMats[req.materialId] <= 0) delete newMats[req.materialId];
+    }
+    onUpdateMaterials(newMats);
+    onUpdatePlayer({ ...player, gold: player.gold - equip.craftGold });
+    // Auto-equip
+    const newEquip = { ...equipment, [equip.slot]: equipId };
+    onUpdateCrafting([...craftedEquipment, equipId], newEquip);
+    showMessage(`${equip.name}を つくった！ そうびした！`);
+  };
+
   const floorCount = grade === 1 ? 6 : 12;
   const buildingDef = selectedBuilding ? getBuilding(selectedBuilding) : null;
 
@@ -315,6 +371,8 @@ export default function BasePage({
                 {panel === 'items' && '🎒 もちもの'}
                 {panel === 'building' && '🔨 けんせつ'}
                 {panel === 'encyclopedia' && '📖 モンスターずかん'}
+                {panel === 'smithy' && '🔨 かじや'}
+                {panel === 'equip' && '⚔️ そうび'}
               </span>
               <button onClick={() => { setPanel(null); setSelectedBuilding(null); }}
                 style={{ fontSize: 20, padding: '4px 8px', color: 'var(--color-text-dim)' }}>✕</button>
@@ -445,6 +503,60 @@ export default function BasePage({
                           </div>
                         </div>
                       </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {panel === 'smithy' && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <div style={{ fontSize: 12, color: 'var(--color-text-dim)', marginBottom: 2 }}>もっている そざい:</div>
+                  <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 8 }}>
+                    {MATERIALS.map(mat => {
+                      const count = materials[mat.id] ?? 0;
+                      if (count === 0) return null;
+                      return (
+                        <div key={mat.id} style={{
+                          display: 'flex', alignItems: 'center', gap: 3,
+                          background: 'var(--color-bg-light)', borderRadius: 6,
+                          padding: '2px 8px', fontSize: 11, fontWeight: 700,
+                        }}>
+                          <img src={mat.icon} alt="" style={{ width: 14, height: 14, imageRendering: 'pixelated' }} />
+                          {mat.name} ×{count}
+                        </div>
+                      );
+                    })}
+                    {Object.keys(materials).length === 0 && (
+                      <div style={{ fontSize: 12, color: 'var(--color-text-dim)' }}>そざいが ないよ</div>
+                    )}
+                  </div>
+                  <div style={{ fontSize: 12, color: 'var(--color-text-dim)', marginBottom: 2 }}>つくれる そうび:</div>
+                  {EQUIPMENT.map(eq => {
+                    const crafted = craftedEquipment.includes(eq.id);
+                    const equipped = equipment[eq.slot] === eq.id;
+                    const canCraft = !crafted && eq.recipe.every(r => (materials[r.materialId] ?? 0) >= r.count) && player.gold >= eq.craftGold;
+                    return (
+                      <button key={eq.id} onClick={() => handleCraft(eq.id)}
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: 10, width: '100%',
+                          padding: '10px 12px', borderRadius: 'var(--radius)',
+                          background: crafted ? (equipped ? '#e8f5e9' : 'var(--color-bg-light)') : (canCraft ? 'var(--color-bg-light)' : 'var(--color-bg)'),
+                          border: equipped ? '2px solid var(--color-success)' : '2px solid var(--color-bg-lighter)',
+                          opacity: crafted || canCraft ? 1 : 0.5, textAlign: 'left',
+                        }}>
+                        <img src={eq.icon} alt="" style={{ width: 28, height: 28, imageRendering: 'pixelated' }} />
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: 13, fontWeight: 700 }}>
+                            {eq.name} {crafted && (equipped ? '✅' : '（タップでそうび）')}
+                          </div>
+                          <div style={{ fontSize: 10, color: 'var(--color-text-dim)' }}>{eq.description}</div>
+                          {!crafted && (
+                            <div style={{ fontSize: 10, color: 'var(--color-text-dim)', marginTop: 2 }}>
+                              {eq.recipe.map(r => `${getMaterial(r.materialId)?.name}×${r.count}`).join(' + ')} + {eq.craftGold}G
+                            </div>
+                          )}
+                        </div>
+                      </button>
                     );
                   })}
                 </div>

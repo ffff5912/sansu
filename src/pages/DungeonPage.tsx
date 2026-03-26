@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { PlayerState, GameDifficulty } from '../data/types.ts';
+import type { PlayerState, GameDifficulty, MaterialBag } from '../data/types.ts';
 import { getMap } from '../data/maps/index.ts';
 import { getFloor } from '../data/floors.ts';
 import { useDungeon } from '../hooks/useDungeon.ts';
@@ -18,6 +18,7 @@ interface DungeonPageProps {
   onGameOver: () => void;
   onUpdatePlayer: (player: PlayerState) => void;
   onMonsterDefeated: (monsterId: string) => void;
+  onMaterialsGained: (materials: MaterialBag) => void;
   onBack: () => void;
 }
 
@@ -29,6 +30,7 @@ export default function DungeonPage({
   onGameOver,
   onUpdatePlayer,
   onMonsterDefeated,
+  onMaterialsGained,
   onBack,
 }: DungeonPageProps) {
   const map = getMap(floorId)!;
@@ -51,6 +53,7 @@ export default function DungeonPage({
     playerUpdate,
     leveledUp,
     goldEarned,
+    droppedMaterials,
   } = useBattle(floorId, player, gameDifficulty);
 
   // Start battle when encounter happens
@@ -75,14 +78,17 @@ export default function DungeonPage({
   }, [dungeon.phase, onClear]);
 
   const handleVictory = useCallback(() => {
-    // Track defeated monster in encyclopedia
     if (battle?.monster) {
       onMonsterDefeated(battle.monster.id);
+    }
+    // Collect dropped materials
+    if (Object.keys(droppedMaterials).length > 0) {
+      onMaterialsGained(droppedMaterials);
     }
     defeatEnemy();
     clearEncounter();
     endBattle();
-  }, [defeatEnemy, clearEncounter, endBattle, battle, onMonsterDefeated]);
+  }, [defeatEnemy, clearEncounter, endBattle, battle, onMonsterDefeated, droppedMaterials, onMaterialsGained]);
 
   const handleDefeat = useCallback(() => {
     endBattle();
@@ -223,6 +229,7 @@ export default function DungeonPage({
           onDefeat={handleDefeat}
           leveledUp={leveledUp}
           goldEarned={goldEarned}
+          droppedMaterials={droppedMaterials}
         />
       )}
     </div>

@@ -135,6 +135,39 @@ export interface DungeonState {
   chestsOpened: Set<string>;
 }
 
+/* ========== Materials ========== */
+export interface MaterialDef {
+  id: string;
+  name: string;
+  icon: string;
+  description: string;
+}
+
+/** Bag of materials: materialId → count */
+export interface MaterialBag {
+  [materialId: string]: number;
+}
+
+/* ========== Equipment ========== */
+export interface EquipmentDef {
+  id: string;
+  name: string;
+  icon: string;
+  description: string;
+  slot: 'weapon' | 'armor' | 'accessory';
+  atkBonus: number;
+  defBonus: number;
+  expBonus: number;
+  recipe: { materialId: string; count: number }[];
+  craftGold: number;
+}
+
+export interface EquipmentSlots {
+  weapon: string | null;
+  armor: string | null;
+  accessory: string | null;
+}
+
 /* ========== Building Save ========== */
 export interface BuildingSave {
   id: string;
@@ -155,6 +188,9 @@ export interface SaveData {
   buildings: string[];
   buildingLevels: BuildingSave[];
   defeatedMonsterIds: string[];
+  materials: MaterialBag;
+  craftedEquipment: string[];
+  equipment: EquipmentSlots;
   timestamp: number;
 }
 
@@ -173,5 +209,8 @@ export interface GameState {
   buildings: string[];
   buildingLevels: BuildingSave[];
   defeatedMonsterIds: string[];
+  materials: MaterialBag;
+  craftedEquipment: string[];
+  equipment: EquipmentSlots;
   dungeonBuff: DungeonBuff;
 }

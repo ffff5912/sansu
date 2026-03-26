@@ -1,4 +1,16 @@
-import type { PlayerState, Monster, GameDifficulty } from '../data/types.ts';
+import type { PlayerState, Monster, GameDifficulty, EquipmentSlots } from '../data/types.ts';
+import { getEquipment } from '../data/crafting.ts';
+
+/** Calculate total equipment bonuses */
+export function getEquipmentBonuses(equip: EquipmentSlots): { atk: number; def: number; expPct: number } {
+  let atk = 0, def = 0, expPct = 0;
+  for (const slotId of [equip.weapon, equip.armor, equip.accessory]) {
+    if (!slotId) continue;
+    const e = getEquipment(slotId);
+    if (e) { atk += e.atkBonus; def += e.defBonus; expPct += e.expBonus; }
+  }
+  return { atk, def, expPct };
+}
 
 
 /** Apply difficulty scaling to a monster */

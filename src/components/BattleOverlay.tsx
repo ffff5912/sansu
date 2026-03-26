@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import type { BattleState, PlayerState } from '../data/types.ts';
+import type { BattleState, PlayerState, MaterialBag } from '../data/types.ts';
+import { getMaterial } from '../data/crafting.ts';
 import HpBar from './HpBar.tsx';
 import MonsterSprite from './MonsterSprite.tsx';
 import { getMonsterSprite } from '../lib/monsterSprites.ts';
@@ -15,6 +16,7 @@ interface BattleOverlayProps {
   onDefeat: () => void;
   leveledUp: boolean;
   goldEarned: number;
+  droppedMaterials: MaterialBag;
 }
 
 export default function BattleOverlay({
@@ -26,6 +28,7 @@ export default function BattleOverlay({
   onDefeat,
   leveledUp,
   goldEarned,
+  droppedMaterials,
 }: BattleOverlayProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [prevQuestionId, setPrevQuestionId] = useState<string | null>(null);
@@ -189,6 +192,24 @@ export default function BattleOverlay({
             {goldEarned > 0 && (
               <div style={{ fontSize: 14, color: '#f6a800', fontWeight: 700, marginBottom: 4 }}>
                 💰 +{goldEarned}G
+              </div>
+            )}
+            {Object.keys(droppedMaterials).length > 0 && (
+              <div style={{ display: 'flex', gap: 6, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 4 }}>
+                {Object.entries(droppedMaterials).map(([matId, count]) => {
+                  const mat = getMaterial(matId);
+                  if (!mat) return null;
+                  return (
+                    <div key={matId} style={{
+                      display: 'flex', alignItems: 'center', gap: 3,
+                      background: 'var(--color-bg-light)', borderRadius: 8,
+                      padding: '2px 8px', fontSize: 12, fontWeight: 700,
+                    }}>
+                      <img src={mat.icon} alt="" style={{ width: 16, height: 16, imageRendering: 'pixelated' }} />
+                      {mat.name} ×{count}
+                    </div>
+                  );
+                })}
               </div>
             )}
             {leveledUp && (

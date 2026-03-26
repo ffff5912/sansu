@@ -69,6 +69,15 @@ export const BUILDINGS: BuildingDef[] = [
   },
   // === Far (expensive, endgame) ===
   {
+    id: 'smithy',
+    name: 'かじや',
+    emoji: '🔨',
+    description: 'そざいから そうびを つくる',
+    cost: 100,
+    gridX: 3,
+    gridY: 7,
+  },
+  {
     id: 'tower',
     name: 'ものみのとう',
     emoji: '🗼',

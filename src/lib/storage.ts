@@ -1,4 +1,4 @@
-import type { SaveData, PlayerState, Grade, Inventory } from '../data/types.ts';
+import type { SaveData, PlayerState, Grade, Inventory, EquipmentSlots, MaterialBag } from '../data/types.ts';
 
 const SAVE_KEY_PREFIX = 'sansu-dungeon-save';
 const CURRENT_VERSION = 1;
@@ -32,6 +32,9 @@ function defaultSave(grade: Grade): SaveData {
     buildings: [...DEFAULT_BUILDINGS],
     buildingLevels: DEFAULT_BUILDINGS.map(id => ({ id, level: 1 })),
     defeatedMonsterIds: [],
+    materials: {} as MaterialBag,
+    craftedEquipment: [],
+    equipment: { weapon: null, armor: null, accessory: null } as EquipmentSlots,
     timestamp: Date.now(),
   };
 }
@@ -52,6 +55,9 @@ export function loadSave(grade: Grade): SaveData {
       buildings: data.buildings ?? base.buildings,
       buildingLevels: data.buildingLevels ?? base.buildingLevels,
       defeatedMonsterIds: data.defeatedMonsterIds ?? base.defeatedMonsterIds,
+      materials: data.materials ?? base.materials,
+      craftedEquipment: data.craftedEquipment ?? base.craftedEquipment,
+      equipment: data.equipment ?? base.equipment,
       version: CURRENT_VERSION,
     };
   } catch {

@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import type { MaterialBag } from './data/types.ts';
 import { useGameState } from './hooks/useGameState.ts';
 import TitlePage from './pages/TitlePage.tsx';
 import BasePage from './pages/BasePage.tsx';
@@ -20,6 +21,8 @@ export default function App() {
     updateBuildings,
     updateBuildingLevels,
     addDefeatedMonster,
+    updateMaterials,
+    updateCrafting,
   } = useGameState();
 
   const handleRetry = useCallback(() => {
@@ -29,6 +32,14 @@ export default function App() {
       enterDungeon(state.currentFloor);
     }
   }, [state.currentFloor, state.player, updatePlayer, enterDungeon]);
+
+  const handleMaterialsGained = useCallback((drops: MaterialBag) => {
+    const current = { ...state.materials };
+    for (const [matId, count] of Object.entries(drops)) {
+      current[matId] = (current[matId] ?? 0) + count;
+    }
+    updateMaterials(current);
+  }, [state.materials, updateMaterials]);
 
   const handleBackToBase = useCallback(() => {
     goToBase(state.grade);
@@ -52,6 +63,11 @@ export default function App() {
           onUpdateInventory={updateInventory}
           onUpdateBuildings={updateBuildings}
           onUpdateBuildingLevels={updateBuildingLevels}
+          materials={state.materials}
+          craftedEquipment={state.craftedEquipment}
+          equipment={state.equipment}
+          onUpdateMaterials={updateMaterials}
+          onUpdateCrafting={updateCrafting}
           onGoDungeon={goToWorldMap}
           onGoTitle={goToTitle}
         />
@@ -80,6 +96,7 @@ export default function App() {
           onGameOver={() => finishDungeon('gameover')}
           onUpdatePlayer={updatePlayer}
           onMonsterDefeated={addDefeatedMonster}
+          onMaterialsGained={handleMaterialsGained}
           onBack={handleBackToBase}
         />
       );

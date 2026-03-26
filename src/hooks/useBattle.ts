@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import type { BattleState, Monster, PlayerState, GameDifficulty } from '../data/types.ts';
+import type { BattleState, Monster, PlayerState, GameDifficulty, MaterialBag } from '../data/types.ts';
+import { rollDrops } from '../data/crafting.ts';
 import { getRandomQuestion, pickDifficulty } from '../data/questions/index.ts';
 import {
   calculateDamage, calculateMonsterDamage, calculateGoldReward,
@@ -16,6 +17,7 @@ interface UseBattleReturn {
   playerUpdate: PlayerState | null;
   leveledUp: boolean;
   goldEarned: number;
+  droppedMaterials: MaterialBag;
 }
 
 export function useBattle(
@@ -28,6 +30,7 @@ export function useBattle(
   const [playerUpdate, setPlayerUpdate] = useState<PlayerState | null>(null);
   const [leveledUp, setLeveledUp] = useState(false);
   const [goldEarned, setGoldEarned] = useState(0);
+  const [droppedMaterials, setDroppedMaterials] = useState<MaterialBag>({});
   const timer = useTimer(timerSecs);
   const askedRef = useRef<Set<string>>(new Set());
 
@@ -56,6 +59,7 @@ export function useBattle(
     setPlayerUpdate(null);
     setLeveledUp(false);
     setGoldEarned(0);
+    setDroppedMaterials({});
     setBattle({
       phase: 'intro',
       monster: scaled,
@@ -113,6 +117,13 @@ export function useBattle(
         setPlayerUpdate(playerWithGold);
         setLeveledUp(expResult.leveled);
         setGoldEarned(gold);
+        // Roll material drops
+        const drops = rollDrops(floorId, battle.monster.isBoss);
+        const matBag: MaterialBag = {};
+        for (const d of drops) {
+          matBag[d.materialId] = (matBag[d.materialId] ?? 0) + d.count;
+        }
+        setDroppedMaterials(matBag);
         setBattle(b => b ? { ...b, phase: 'victory' } : b);
       } else if (newPlayer.hp <= 0) {
         // Defeat
@@ -122,7 +133,7 @@ export function useBattle(
         nextQuestionRef.current();
       }
     }, 1200);
-  }, [battle, timer, player]);
+  }, [battle, timer, player, floorId]);
 
   const endBattle = useCallback(() => {
     setBattle(null);
@@ -138,5 +149,6 @@ export function useBattle(
     playerUpdate,
     leveledUp,
     goldEarned,
+    droppedMaterials,
   };
 }

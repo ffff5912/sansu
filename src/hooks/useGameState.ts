@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import type { GameState, PlayerState, Grade, Inventory, GameDifficulty, BuildingSave, DungeonBuff } from '../data/types.ts';
+import type { GameState, PlayerState, Grade, Inventory, GameDifficulty, BuildingSave, DungeonBuff, MaterialBag, EquipmentSlots } from '../data/types.ts';
 import { loadSave, writeSave, DEFAULT_PLAYER, DEFAULT_INVENTORY } from '../lib/storage.ts';
 import { DEFAULT_BUILDINGS } from '../data/buildings.ts';
 
@@ -16,6 +16,9 @@ function initState(): GameState {
     buildings: [...DEFAULT_BUILDINGS],
     buildingLevels: DEFAULT_BUILDINGS.map(id => ({ id, level: 1 })),
     defeatedMonsterIds: [],
+    materials: {},
+    craftedEquipment: [],
+    equipment: { weapon: null, armor: null, accessory: null },
     dungeonBuff: 'none' as DungeonBuff,
   };
 }
@@ -36,9 +39,12 @@ export function useGameState() {
       buildings: state.buildings,
       buildingLevels: state.buildingLevels,
       defeatedMonsterIds: state.defeatedMonsterIds,
+      materials: state.materials,
+      craftedEquipment: state.craftedEquipment,
+      equipment: state.equipment,
       timestamp: Date.now(),
     });
-  }, [state.player, state.clearedFloors, state.currentFloor, state.scene, state.grade, state.inventory, state.buildings, state.buildingLevels, state.defeatedMonsterIds]);
+  }, [state.player, state.clearedFloors, state.currentFloor, state.scene, state.grade, state.inventory, state.buildings, state.buildingLevels, state.defeatedMonsterIds, state.materials, state.craftedEquipment, state.equipment]);
 
   const goToTitle = useCallback(() => {
     setState(s => ({ ...s, scene: 'title', currentFloor: null, resultType: null }));
@@ -58,6 +64,9 @@ export function useGameState() {
       buildings: save.buildings,
       buildingLevels: save.buildingLevels,
       defeatedMonsterIds: save.defeatedMonsterIds,
+      materials: save.materials,
+      craftedEquipment: save.craftedEquipment,
+      equipment: save.equipment,
       dungeonBuff: 'none' as DungeonBuff,
     }));
   }, []);
@@ -106,6 +115,14 @@ export function useGameState() {
     }));
   }, []);
 
+  const updateMaterials = useCallback((materials: MaterialBag) => {
+    setState(s => ({ ...s, materials }));
+  }, []);
+
+  const updateCrafting = useCallback((craftedEquipment: string[], equipment: EquipmentSlots) => {
+    setState(s => ({ ...s, craftedEquipment, equipment }));
+  }, []);
+
   const setDungeonBuff = useCallback((buff: DungeonBuff) => {
     setState(s => ({ ...s, dungeonBuff: buff }));
   }, []);
@@ -127,6 +144,8 @@ export function useGameState() {
     updateBuildings,
     updateBuildingLevels,
     addDefeatedMonster,
+    updateMaterials,
+    updateCrafting,
     setDungeonBuff,
     resetGame,
   };
