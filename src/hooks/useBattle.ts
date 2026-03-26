@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import type { BattleState, Monster, PlayerState, GameDifficulty, MaterialBag, EquipmentSlots } from '../data/types.ts';
+import type { BattleState, Monster, PlayerState, GameDifficulty, MaterialBag, EquipmentSlots, DungeonBuff } from '../data/types.ts';
 import { rollDrops } from '../data/crafting.ts';
 import { getRandomQuestion, pickDifficulty } from '../data/questions/index.ts';
 import {
@@ -25,9 +25,13 @@ export function useBattle(
   player: PlayerState,
   gameDifficulty: GameDifficulty = 'normal',
   equipment: EquipmentSlots = { weapon: null, armor: null, accessory: null },
+  dungeonBuff: DungeonBuff = 'none',
 ): UseBattleReturn {
   const equipBonus = getEquipmentBonuses(equipment);
-  const timerSecs = getTimerSeconds(gameDifficulty);
+  // Apply dungeon buff bonuses
+  const buffAtkMult = dungeonBuff === 'atk' ? 1.15 : 1;
+  const buffTimerExtra = dungeonBuff === 'timer' ? 3 : 0;
+  const timerSecs = getTimerSeconds(gameDifficulty) + buffTimerExtra;
   const [battle, setBattle] = useState<BattleState | null>(null);
   const [playerUpdate, setPlayerUpdate] = useState<PlayerState | null>(null);
   const [leveledUp, setLeveledUp] = useState(false);
@@ -90,7 +94,7 @@ export function useBattle(
     const elapsed = timer.stop();
     const correct = choiceIndex === battle.currentQuestion.answerIndex;
     // Apply equipment bonuses to damage
-    const effectiveAtk = player.attack + equipBonus.atk;
+    const effectiveAtk = Math.round((player.attack + equipBonus.atk) * buffAtkMult);
     const dmg = calculateDamage(correct, elapsed, effectiveAtk);
     const rawMonsterDmg = calculateMonsterDamage(correct, battle.monster);
     const monsterDmg = Math.max(0, rawMonsterDmg - equipBonus.def);
@@ -140,7 +144,7 @@ export function useBattle(
         nextQuestionRef.current();
       }
     }, 1200);
-  }, [battle, timer, player, floorId, equipBonus.atk, equipBonus.def, equipBonus.expPct]);
+  }, [battle, timer, player, floorId, equipBonus.atk, equipBonus.def, equipBonus.expPct, buffAtkMult]);
 
   const endBattle = useCallback(() => {
     setBattle(null);

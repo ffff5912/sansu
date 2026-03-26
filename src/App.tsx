@@ -23,6 +23,7 @@ export default function App() {
     addDefeatedMonster,
     updateMaterials,
     updateCrafting,
+    setDungeonBuff,
   } = useGameState();
 
   const handleRetry = useCallback(() => {
@@ -68,6 +69,8 @@ export default function App() {
           equipment={state.equipment}
           onUpdateMaterials={updateMaterials}
           onUpdateCrafting={updateCrafting}
+          dungeonBuff={state.dungeonBuff}
+          onSetBuff={setDungeonBuff}
           onGoDungeon={goToWorldMap}
           onGoTitle={goToTitle}
         />
@@ -93,6 +96,7 @@ export default function App() {
           player={state.player}
           gameDifficulty={state.gameDifficulty}
           equipment={state.equipment}
+          dungeonBuff={state.dungeonBuff}
           onClear={() => finishDungeon('clear')}
           onGameOver={() => finishDungeon('gameover')}
           onUpdatePlayer={updatePlayer}

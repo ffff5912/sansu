@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { PlayerState, Inventory, Grade, BuildingSave, MaterialBag, EquipmentSlots } from '../data/types.ts';
+import type { PlayerState, Inventory, Grade, BuildingSave, MaterialBag, EquipmentSlots, DungeonBuff } from '../data/types.ts';
 import { ITEMS, getItem } from '../data/items.ts';
 import { BUILDINGS, getBuilding } from '../data/buildings.ts';
 import { MONSTERS } from '../data/monsters.ts';
@@ -27,11 +27,13 @@ interface BasePageProps {
   equipment: EquipmentSlots;
   onUpdateMaterials: (materials: MaterialBag) => void;
   onUpdateCrafting: (crafted: string[], equip: EquipmentSlots) => void;
+  dungeonBuff: DungeonBuff;
+  onSetBuff: (buff: DungeonBuff) => void;
   onGoDungeon: () => void;
   onGoTitle: () => void;
 }
 
-type Panel = null | 'shop' | 'items' | 'building' | 'encyclopedia' | 'smithy' | 'equip';
+type Panel = null | 'shop' | 'items' | 'building' | 'encyclopedia' | 'smithy' | 'equip' | 'inn';
 
 export default function BasePage({
   player,
@@ -50,6 +52,8 @@ export default function BasePage({
   equipment,
   onUpdateMaterials,
   onUpdateCrafting,
+  dungeonBuff,
+  onSetBuff,
   onGoDungeon,
   onGoTitle,
 }: BasePageProps) {
@@ -133,7 +137,7 @@ export default function BasePage({
           setPanel('smithy');
           break;
         case 'inn':
-          showMessage('やどやで ゆっくりやすもう');
+          setPanel('inn');
           break;
         case 'tower':
           setPanel('encyclopedia');
@@ -373,6 +377,7 @@ export default function BasePage({
                 {panel === 'encyclopedia' && '📖 モンスターずかん'}
                 {panel === 'smithy' && '🔨 かじや'}
                 {panel === 'equip' && '⚔️ そうび'}
+                {panel === 'inn' && '🏨 やどや'}
               </span>
               <button onClick={() => { setPanel(null); setSelectedBuilding(null); }}
                 style={{ fontSize: 20, padding: '4px 8px', color: 'var(--color-text-dim)' }}>✕</button>
@@ -559,6 +564,35 @@ export default function BasePage({
                       </button>
                     );
                   })}
+                </div>
+              )}
+
+              {panel === 'inn' && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: 8 }}>
+                  <div style={{ fontSize: 13, color: 'var(--color-text-dim)', textAlign: 'center' }}>
+                    ダンジョンに もっていく バフを えらぼう！
+                  </div>
+                  {([
+                    { id: 'none' as DungeonBuff, label: 'なし', desc: 'バフなし', emoji: '➖' },
+                    { id: 'hp' as DungeonBuff, label: 'HP+20%', desc: 'さいだいHPが 20% アップ', emoji: '❤️' },
+                    { id: 'atk' as DungeonBuff, label: 'ATK+15%', desc: 'こうげき力が 15% アップ', emoji: '⚔️' },
+                    { id: 'timer' as DungeonBuff, label: 'タイマー+3秒', desc: 'こたえる じかんが 3びょう ふえる', emoji: '⏱️' },
+                  ]).map(buff => (
+                    <button key={buff.id} onClick={() => { onSetBuff(buff.id); showMessage(`${buff.label} を セット！`); setPanel(null); }}
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: 10, width: '100%',
+                        padding: '12px 14px', borderRadius: 'var(--radius)',
+                        background: dungeonBuff === buff.id ? '#e8f5e9' : 'var(--color-bg-light)',
+                        border: dungeonBuff === buff.id ? '2px solid var(--color-success)' : '2px solid var(--color-bg-lighter)',
+                        textAlign: 'left',
+                      }}>
+                      <span style={{ fontSize: 24 }}>{buff.emoji}</span>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: 14, fontWeight: 700 }}>{buff.label} {dungeonBuff === buff.id && '✅'}</div>
+                        <div style={{ fontSize: 11, color: 'var(--color-text-dim)' }}>{buff.desc}</div>
+                      </div>
+                    </button>
+                  ))}
                 </div>
               )}
             </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { PlayerState, GameDifficulty, MaterialBag, EquipmentSlots } from '../data/types.ts';
+import type { PlayerState, GameDifficulty, MaterialBag, EquipmentSlots, DungeonBuff } from '../data/types.ts';
 import { getMap } from '../data/maps/index.ts';
 import { getFloor } from '../data/floors.ts';
 import { useDungeon } from '../hooks/useDungeon.ts';
@@ -15,6 +15,7 @@ interface DungeonPageProps {
   player: PlayerState;
   gameDifficulty: GameDifficulty;
   equipment: EquipmentSlots;
+  dungeonBuff: DungeonBuff;
   onClear: () => void;
   onGameOver: () => void;
   onUpdatePlayer: (player: PlayerState) => void;
@@ -28,6 +29,7 @@ export default function DungeonPage({
   player,
   gameDifficulty,
   equipment,
+  dungeonBuff,
   onClear,
   onGameOver,
   onUpdatePlayer,
@@ -46,6 +48,18 @@ export default function DungeonPage({
     defeatEnemy,
   } = useDungeon(floorId);
 
+  // Apply HP buff on dungeon entry
+  useEffect(() => {
+    if (dungeonBuff === 'hp') {
+      const boostedMax = Math.round(player.maxHp * 1.2);
+      if (player.hp === player.maxHp) {
+        onUpdatePlayer({ ...player, maxHp: boostedMax, hp: boostedMax });
+      }
+    }
+  // Only on mount
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const {
     battle,
     timer,
@@ -56,7 +70,7 @@ export default function DungeonPage({
     leveledUp,
     goldEarned,
     droppedMaterials,
-  } = useBattle(floorId, player, gameDifficulty, equipment);
+  } = useBattle(floorId, player, gameDifficulty, equipment, dungeonBuff);
 
   // Start battle when encounter happens
   useEffect(() => {
