@@ -1,14 +1,15 @@
 import type { BuildingDef } from './types.ts';
 
 export const BUILDINGS: BuildingDef[] = [
+  // === Center area (always built) ===
   {
     id: 'fountain',
     name: 'いやしの泉',
     emoji: '⛲',
     description: 'HPをまんたんにする',
     cost: 0,
-    gridX: 3,
-    gridY: 4,
+    gridX: 7,
+    gridY: 7,
   },
   {
     id: 'shop',
@@ -16,8 +17,8 @@ export const BUILDINGS: BuildingDef[] = [
     emoji: '🏪',
     description: 'アイテムをかう',
     cost: 0,
-    gridX: 1,
-    gridY: 2,
+    gridX: 5,
+    gridY: 5,
   },
   {
     id: 'guild',
@@ -25,45 +26,10 @@ export const BUILDINGS: BuildingDef[] = [
     emoji: '⚔️',
     description: 'ダンジョンへ出発する',
     cost: 0,
-    gridX: 5,
-    gridY: 2,
+    gridX: 9,
+    gridY: 5,
   },
-  {
-    id: 'dojo',
-    name: 'たいりょくどうじょう',
-    emoji: '🥋',
-    description: 'HP上限+20（1回のみ）',
-    cost: 120,
-    gridX: 1,
-    gridY: 6,
-  },
-  {
-    id: 'library',
-    name: 'まほうとしょかん',
-    emoji: '📚',
-    description: 'こうげき力+5（1回のみ）',
-    cost: 150,
-    gridX: 5,
-    gridY: 6,
-  },
-  {
-    id: 'inn',
-    name: 'やどや',
-    emoji: '🏨',
-    description: 'ダンジョン前に自動回復',
-    cost: 200,
-    gridX: 1,
-    gridY: 4,
-  },
-  {
-    id: 'tower',
-    name: 'ものみのとう',
-    emoji: '🗼',
-    description: '村のシンボル！',
-    cost: 300,
-    gridX: 3,
-    gridY: 1,
-  },
+  // === Near center (cheap) ===
   {
     id: 'garden',
     name: 'おはなばたけ',
@@ -71,7 +37,45 @@ export const BUILDINGS: BuildingDef[] = [
     description: '村がにぎやかになる',
     cost: 80,
     gridX: 5,
-    gridY: 4,
+    gridY: 9,
+  },
+  {
+    id: 'dojo',
+    name: 'たいりょくどうじょう',
+    emoji: '🥋',
+    description: 'HP上限+20（1回のみ）',
+    cost: 120,
+    gridX: 3,
+    gridY: 3,
+  },
+  // === Mid range ===
+  {
+    id: 'library',
+    name: 'まほうとしょかん',
+    emoji: '📚',
+    description: 'こうげき力+5（1回のみ）',
+    cost: 150,
+    gridX: 11,
+    gridY: 3,
+  },
+  {
+    id: 'inn',
+    name: 'やどや',
+    emoji: '🏨',
+    description: 'ダンジョン前にバフ選択',
+    cost: 200,
+    gridX: 9,
+    gridY: 9,
+  },
+  // === Far (expensive, endgame) ===
+  {
+    id: 'tower',
+    name: 'ものみのとう',
+    emoji: '🗼',
+    description: 'モンスター図鑑がみれる',
+    cost: 300,
+    gridX: 7,
+    gridY: 2,
   },
 ];
 

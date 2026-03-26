@@ -30,6 +30,8 @@ function defaultSave(grade: Grade): SaveData {
     currentFloor: null,
     inventory: { ...DEFAULT_INVENTORY },
     buildings: [...DEFAULT_BUILDINGS],
+    buildingLevels: DEFAULT_BUILDINGS.map(id => ({ id, level: 1 })),
+    defeatedMonsterIds: [],
     timestamp: Date.now(),
   };
 }
@@ -48,6 +50,8 @@ export function loadSave(grade: Grade): SaveData {
       clearedFloors: data.clearedFloors ?? base.clearedFloors,
       inventory: data.inventory ?? base.inventory,
       buildings: data.buildings ?? base.buildings,
+      buildingLevels: data.buildingLevels ?? base.buildingLevels,
+      defeatedMonsterIds: data.defeatedMonsterIds ?? base.defeatedMonsterIds,
       version: CURRENT_VERSION,
     };
   } catch {

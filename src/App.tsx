@@ -18,6 +18,8 @@ export default function App() {
     updatePlayer,
     updateInventory,
     updateBuildings,
+    updateBuildingLevels,
+    addDefeatedMonster,
   } = useGameState();
 
   const handleRetry = useCallback(() => {
@@ -42,11 +44,14 @@ export default function App() {
           player={state.player}
           inventory={state.inventory}
           buildings={state.buildings}
+          buildingLevels={state.buildingLevels}
+          defeatedMonsterIds={state.defeatedMonsterIds}
           grade={state.grade}
           clearedFloors={state.clearedFloors}
           onUpdatePlayer={updatePlayer}
           onUpdateInventory={updateInventory}
           onUpdateBuildings={updateBuildings}
+          onUpdateBuildingLevels={updateBuildingLevels}
           onGoDungeon={goToWorldMap}
           onGoTitle={goToTitle}
         />
@@ -74,6 +79,7 @@ export default function App() {
           onClear={() => finishDungeon('clear')}
           onGameOver={() => finishDungeon('gameover')}
           onUpdatePlayer={updatePlayer}
+          onMonsterDefeated={addDefeatedMonster}
           onBack={handleBackToBase}
         />
       );

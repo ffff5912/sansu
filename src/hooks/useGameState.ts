@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import type { GameState, PlayerState, Grade, Inventory, GameDifficulty } from '../data/types.ts';
+import type { GameState, PlayerState, Grade, Inventory, GameDifficulty, BuildingSave, DungeonBuff } from '../data/types.ts';
 import { loadSave, writeSave, DEFAULT_PLAYER, DEFAULT_INVENTORY } from '../lib/storage.ts';
 import { DEFAULT_BUILDINGS } from '../data/buildings.ts';
 
@@ -14,6 +14,9 @@ function initState(): GameState {
     resultType: null,
     inventory: { ...DEFAULT_INVENTORY },
     buildings: [...DEFAULT_BUILDINGS],
+    buildingLevels: DEFAULT_BUILDINGS.map(id => ({ id, level: 1 })),
+    defeatedMonsterIds: [],
+    dungeonBuff: 'none' as DungeonBuff,
   };
 }
 
@@ -31,9 +34,11 @@ export function useGameState() {
       currentFloor: state.currentFloor,
       inventory: state.inventory,
       buildings: state.buildings,
+      buildingLevels: state.buildingLevels,
+      defeatedMonsterIds: state.defeatedMonsterIds,
       timestamp: Date.now(),
     });
-  }, [state.player, state.clearedFloors, state.currentFloor, state.scene, state.grade, state.inventory, state.buildings]);
+  }, [state.player, state.clearedFloors, state.currentFloor, state.scene, state.grade, state.inventory, state.buildings, state.buildingLevels, state.defeatedMonsterIds]);
 
   const goToTitle = useCallback(() => {
     setState(s => ({ ...s, scene: 'title', currentFloor: null, resultType: null }));
@@ -51,6 +56,9 @@ export function useGameState() {
       resultType: null,
       inventory: save.inventory,
       buildings: save.buildings,
+      buildingLevels: save.buildingLevels,
+      defeatedMonsterIds: save.defeatedMonsterIds,
+      dungeonBuff: 'none' as DungeonBuff,
     }));
   }, []);
 
@@ -87,6 +95,21 @@ export function useGameState() {
     setState(s => ({ ...s, buildings }));
   }, []);
 
+  const updateBuildingLevels = useCallback((buildingLevels: BuildingSave[]) => {
+    setState(s => ({ ...s, buildingLevels }));
+  }, []);
+
+  const addDefeatedMonster = useCallback((monsterId: string) => {
+    setState(s => ({
+      ...s,
+      defeatedMonsterIds: [...new Set([...s.defeatedMonsterIds, monsterId])],
+    }));
+  }, []);
+
+  const setDungeonBuff = useCallback((buff: DungeonBuff) => {
+    setState(s => ({ ...s, dungeonBuff: buff }));
+  }, []);
+
   const resetGame = useCallback(() => {
     setState(initState());
   }, []);
@@ -102,6 +125,9 @@ export function useGameState() {
     updatePlayer,
     updateInventory,
     updateBuildings,
+    updateBuildingLevels,
+    addDefeatedMonster,
+    setDungeonBuff,
     resetGame,
   };
 }

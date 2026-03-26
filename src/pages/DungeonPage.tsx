@@ -17,6 +17,7 @@ interface DungeonPageProps {
   onClear: () => void;
   onGameOver: () => void;
   onUpdatePlayer: (player: PlayerState) => void;
+  onMonsterDefeated: (monsterId: string) => void;
   onBack: () => void;
 }
 
@@ -27,6 +28,7 @@ export default function DungeonPage({
   onClear,
   onGameOver,
   onUpdatePlayer,
+  onMonsterDefeated,
   onBack,
 }: DungeonPageProps) {
   const map = getMap(floorId)!;
@@ -73,10 +75,14 @@ export default function DungeonPage({
   }, [dungeon.phase, onClear]);
 
   const handleVictory = useCallback(() => {
+    // Track defeated monster in encyclopedia
+    if (battle?.monster) {
+      onMonsterDefeated(battle.monster.id);
+    }
     defeatEnemy();
     clearEncounter();
     endBattle();
-  }, [defeatEnemy, clearEncounter, endBattle]);
+  }, [defeatEnemy, clearEncounter, endBattle, battle, onMonsterDefeated]);
 
   const handleDefeat = useCallback(() => {
     endBattle();

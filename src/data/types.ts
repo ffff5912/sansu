@@ -22,6 +22,10 @@ export interface Monster {
   id: string;
   name: string;
   emoji: string;
+  /** Sprite sheet path for battle display */
+  sprite?: string;
+  /** Number of animation frames in sprite sheet */
+  spriteFrames?: number;
   hp: number;
   attack: number;
   exp: number;
@@ -131,6 +135,15 @@ export interface DungeonState {
   chestsOpened: Set<string>;
 }
 
+/* ========== Building Save ========== */
+export interface BuildingSave {
+  id: string;
+  level: number;
+}
+
+/* ========== Dungeon Buff ========== */
+export type DungeonBuff = 'none' | 'hp' | 'atk' | 'timer';
+
 /* ========== Save Data ========== */
 export interface SaveData {
   version: number;
@@ -140,6 +153,8 @@ export interface SaveData {
   currentFloor: number | null;
   inventory: Inventory;
   buildings: string[];
+  buildingLevels: BuildingSave[];
+  defeatedMonsterIds: string[];
   timestamp: number;
 }
 
@@ -156,4 +171,7 @@ export interface GameState {
   resultType: 'clear' | 'gameover' | null;
   inventory: Inventory;
   buildings: string[];
+  buildingLevels: BuildingSave[];
+  defeatedMonsterIds: string[];
+  dungeonBuff: DungeonBuff;
 }

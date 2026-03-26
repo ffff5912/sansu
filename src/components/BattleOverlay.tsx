@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import type { BattleState, PlayerState } from '../data/types.ts';
 import HpBar from './HpBar.tsx';
 import MonsterSprite from './MonsterSprite.tsx';
+import { getMonsterSprite } from '../lib/monsterSprites.ts';
 import DamageNumber from './DamageNumber.tsx';
 import QuestionPanel from './QuestionPanel.tsx';
 
@@ -101,6 +102,8 @@ export default function BattleOverlay({
           emoji={battle.monster.emoji}
           name={battle.monster.name}
           phase={monsterPhase}
+          spritePath={getMonsterSprite(battle.monster.floorId, battle.monster.isBoss).path}
+          spriteFrames={getMonsterSprite(battle.monster.floorId, battle.monster.isBoss).frames}
         />
         <div style={{ width: '60%', marginTop: 8 }}>
           <HpBar

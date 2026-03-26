@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import type { PlayerState, Inventory, Grade } from '../data/types.ts';
+import type { PlayerState, Inventory, Grade, BuildingSave } from '../data/types.ts';
 import { ITEMS, getItem } from '../data/items.ts';
 import { BUILDINGS, getBuilding } from '../data/buildings.ts';
+import { MONSTERS } from '../data/monsters.ts';
 import { applyExp } from '../lib/battleEngine.ts';
+import { getMonsterSprite } from '../lib/monsterSprites.ts';
 import HpBar from '../components/HpBar.tsx';
 import ExpBar from '../components/ExpBar.tsx';
 import VillageCanvas from '../components/VillageCanvas.tsx';
@@ -11,26 +13,32 @@ interface BasePageProps {
   player: PlayerState;
   inventory: Inventory;
   buildings: string[];
+  buildingLevels: BuildingSave[];
+  defeatedMonsterIds: string[];
   grade: Grade;
   clearedFloors: number[];
   onUpdatePlayer: (player: PlayerState) => void;
   onUpdateInventory: (inventory: Inventory) => void;
   onUpdateBuildings: (buildings: string[]) => void;
+  onUpdateBuildingLevels: (levels: BuildingSave[]) => void;
   onGoDungeon: () => void;
   onGoTitle: () => void;
 }
 
-type Panel = null | 'shop' | 'items' | 'building';
+type Panel = null | 'shop' | 'items' | 'building' | 'encyclopedia';
 
 export default function BasePage({
   player,
   inventory,
   buildings,
+  buildingLevels,
+  defeatedMonsterIds,
   grade,
   clearedFloors,
   onUpdatePlayer,
   onUpdateInventory,
   onUpdateBuildings,
+  onUpdateBuildingLevels,
   onGoDungeon,
   onGoTitle,
 }: BasePageProps) {
@@ -41,6 +49,20 @@ export default function BasePage({
   const showMessage = (msg: string) => {
     setMessage(msg);
     setTimeout(() => setMessage(null), 1800);
+  };
+
+  const getBuildingLevel = (id: string): number => {
+    const entry = buildingLevels.find(b => b.id === id);
+    return entry?.level ?? 1;
+  };
+
+  const levelUpBuilding = (id: string) => {
+    const current = buildingLevels.find(b => b.id === id);
+    if (current) {
+      onUpdateBuildingLevels(buildingLevels.map(b => b.id === id ? { ...b, level: b.level + 1 } : b));
+    } else {
+      onUpdateBuildingLevels([...buildingLevels, { id, level: 2 }]);
+    }
   };
 
   const handleTapBuilding = (id: string) => {
@@ -64,17 +86,43 @@ export default function BasePage({
         case 'guild':
           onGoDungeon();
           break;
-        case 'dojo':
-          showMessage('たいりょくどうじょう！ けんせつずみ');
+        case 'dojo': {
+          const lvl = getBuildingLevel(id);
+          if (lvl < 3) {
+            const cost = lvl * 100;
+            if (player.gold >= cost) {
+              onUpdatePlayer({ ...player, gold: player.gold - cost, maxHp: player.maxHp + 10, hp: player.hp + 10 });
+              levelUpBuilding(id);
+              showMessage(`たいりょくどうじょう Lv${lvl + 1}！ HP+10！`);
+            } else {
+              showMessage(`レベルアップに ${cost}G ひつよう`);
+            }
+          } else {
+            showMessage('たいりょくどうじょう MAX！');
+          }
           break;
-        case 'library':
-          showMessage('まほうとしょかん！ けんせつずみ');
+        }
+        case 'library': {
+          const lvl = getBuildingLevel(id);
+          if (lvl < 3) {
+            const cost = lvl * 120;
+            if (player.gold >= cost) {
+              onUpdatePlayer({ ...player, gold: player.gold - cost, attack: player.attack + 3 });
+              levelUpBuilding(id);
+              showMessage(`まほうとしょかん Lv${lvl + 1}！ ATK+3！`);
+            } else {
+              showMessage(`レベルアップに ${cost}G ひつよう`);
+            }
+          } else {
+            showMessage('まほうとしょかん MAX！');
+          }
           break;
+        }
         case 'inn':
           showMessage('やどやで ゆっくりやすもう');
           break;
         case 'tower':
-          showMessage('ものみのとうから 村がみわたせる！');
+          setPanel('encyclopedia');
           break;
         case 'garden':
           showMessage('きれいな おはながさいている！');
@@ -266,6 +314,7 @@ export default function BasePage({
                 {panel === 'shop' && '🏪 ショップ'}
                 {panel === 'items' && '🎒 もちもの'}
                 {panel === 'building' && '🔨 けんせつ'}
+                {panel === 'encyclopedia' && '📖 モンスターずかん'}
               </span>
               <button onClick={() => { setPanel(null); setSelectedBuilding(null); }}
                 style={{ fontSize: 20, padding: '4px 8px', color: 'var(--color-text-dim)' }}>✕</button>
@@ -359,6 +408,45 @@ export default function BasePage({
                       やめる
                     </button>
                   </div>
+                </div>
+              )}
+
+              {panel === 'encyclopedia' && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <div style={{ fontSize: 12, color: 'var(--color-text-dim)', marginBottom: 4 }}>
+                    たおした モンスター: {defeatedMonsterIds.length} / {MONSTERS.length}
+                  </div>
+                  {MONSTERS.map(m => {
+                    const defeated = defeatedMonsterIds.includes(m.id);
+                    const spriteInfo = getMonsterSprite(m.floorId, m.isBoss);
+                    return (
+                      <div key={m.id} style={{
+                        display: 'flex', alignItems: 'center', gap: 10,
+                        padding: '8px 12px', borderRadius: 'var(--radius)',
+                        background: defeated ? 'var(--color-bg-light)' : 'var(--color-bg)',
+                        border: '1px solid var(--color-bg-lighter)',
+                        opacity: defeated ? 1 : 0.4,
+                      }}>
+                        {defeated ? (
+                          <img src={spriteInfo.path} alt="" style={{
+                            width: 32, height: 32, imageRendering: 'pixelated',
+                            objectFit: 'cover', objectPosition: '0 0',
+                          }} />
+                        ) : (
+                          <div style={{ width: 32, height: 32, background: 'var(--color-bg-lighter)', borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>？</div>
+                        )}
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: 13, fontWeight: 700 }}>
+                            {defeated ? m.name : '？？？'}
+                          </div>
+                          <div style={{ fontSize: 10, color: 'var(--color-text-dim)' }}>
+                            {defeated ? `HP ${m.hp} / ATK ${m.attack} / EXP ${m.exp}` : '???'}
+                            {m.isBoss && defeated && ' ★BOSS'}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               )}
             </div>
