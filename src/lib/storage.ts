@@ -35,6 +35,7 @@ function defaultSave(grade: Grade): SaveData {
     materials: {} as MaterialBag,
     craftedEquipment: [],
     equipment: { weapon: null, armor: null, accessory: null } as EquipmentSlots,
+    defeatedBossIds: [],
     timestamp: Date.now(),
   };
 }
@@ -58,6 +59,7 @@ export function loadSave(grade: Grade): SaveData {
       materials: data.materials ?? base.materials,
       craftedEquipment: data.craftedEquipment ?? base.craftedEquipment,
       equipment: data.equipment ?? base.equipment,
+      defeatedBossIds: data.defeatedBossIds ?? base.defeatedBossIds,
       version: CURRENT_VERSION,
     };
   } catch {

@@ -20,6 +20,7 @@ interface DungeonPageProps {
   onGameOver: () => void;
   onUpdatePlayer: (player: PlayerState) => void;
   onMonsterDefeated: (monsterId: string) => void;
+  onBossDefeated: (bossId: string) => void;
   onMaterialsGained: (materials: MaterialBag) => void;
   onBack: () => void;
 }
@@ -34,6 +35,7 @@ export default function DungeonPage({
   onGameOver,
   onUpdatePlayer,
   onMonsterDefeated,
+  onBossDefeated,
   onMaterialsGained,
   onBack,
 }: DungeonPageProps) {
@@ -96,6 +98,9 @@ export default function DungeonPage({
   const handleVictory = useCallback(() => {
     if (battle?.monster) {
       onMonsterDefeated(battle.monster.id);
+      if (battle.monster.isBoss) {
+        onBossDefeated(battle.monster.id);
+      }
     }
     // Collect dropped materials
     if (Object.keys(droppedMaterials).length > 0) {
@@ -104,7 +109,7 @@ export default function DungeonPage({
     defeatEnemy();
     clearEncounter();
     endBattle();
-  }, [defeatEnemy, clearEncounter, endBattle, battle, onMonsterDefeated, droppedMaterials, onMaterialsGained]);
+  }, [defeatEnemy, clearEncounter, endBattle, battle, onMonsterDefeated, onBossDefeated, droppedMaterials, onMaterialsGained]);
 
   const handleDefeat = useCallback(() => {
     endBattle();

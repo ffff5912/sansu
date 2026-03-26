@@ -177,6 +177,15 @@ export interface BuildingSave {
 /* ========== Dungeon Buff ========== */
 export type DungeonBuff = 'none' | 'hp' | 'atk' | 'timer';
 
+/* ========== Villager ========== */
+export interface VillagerDef {
+  id: string;
+  name: string;
+  sprite: string;
+  dialogue: string[];
+  unlockCondition: { type: 'villageLv' | 'floor'; value: number };
+}
+
 /* ========== Save Data ========== */
 export interface SaveData {
   version: number;
@@ -191,6 +200,7 @@ export interface SaveData {
   materials: MaterialBag;
   craftedEquipment: string[];
   equipment: EquipmentSlots;
+  defeatedBossIds: string[];
   timestamp: number;
 }
 
@@ -212,5 +222,6 @@ export interface GameState {
   materials: MaterialBag;
   craftedEquipment: string[];
   equipment: EquipmentSlots;
+  defeatedBossIds: string[];
   dungeonBuff: DungeonBuff;
 }

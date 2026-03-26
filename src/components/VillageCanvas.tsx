@@ -1,10 +1,17 @@
 import { useRef, useEffect, useCallback } from 'react';
 import { Application, Assets, Sprite, Texture, Container, AnimatedSprite, Graphics, Text, TextStyle, Rectangle, BlurFilter, ColorMatrixFilter } from 'pixi.js';
 import { BUILDINGS } from '../data/buildings.ts';
+import type { VillagerDef } from '../data/types.ts';
+import type { MonumentDef } from '../data/villageProgression.ts';
+import { getVillageLevelInfo } from '../data/villageProgression.ts';
 
 interface VillageCanvasProps {
   builtIds: string[];
+  villageLv: number;
+  villagers: VillagerDef[];
+  monuments: MonumentDef[];
   onTapBuilding: (id: string) => void;
+  onTapVillager: (id: string) => void;
 }
 
 /* ====== Asset paths ====== */
@@ -41,10 +48,12 @@ const TILEMAP_PATH = `${A}/Terrain/Tileset/Tilemap_color1.png`;
 const TOOL_HAMMER_PATH = `${A}/Terrain/Resources/Tools/Tool_01.png`;
 const GOLD_ICON_PATH = `${A}/UI Elements/UI Elements/Icons/Icon_03.png`;
 const SHADOW_PATH = `${A}/Terrain/Tileset/Shadow.png`;
+const CASTLE_PATH = `${A}/Buildings/Blue Buildings/Castle.png`;
+const TILEMAP2_PATH = `${A}/Terrain/Tileset/Tilemap_color3.png`;
 
 /* ====== Expanded Layout (scrollable) ====== */
-const GRID_COLS = 14;
-const GRID_ROWS = 14;
+const GRID_COLS = 20;
+const GRID_ROWS = 20;
 const TILE_W = 56;
 const TILE_H = 56;
 const MAP_W = GRID_COLS * TILE_W;
@@ -73,11 +82,13 @@ interface NPCState {
   speed: number; waitTimer: number;
 }
 
-export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvasProps) {
+export default function VillageCanvas({ builtIds, villageLv, villagers, monuments, onTapBuilding, onTapVillager }: VillageCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const appRef = useRef<Application | null>(null);
   const onTapRef = useRef(onTapBuilding);
   useEffect(() => { onTapRef.current = onTapBuilding; }, [onTapBuilding]);
+  const onTapVillagerRef = useRef(onTapVillager);
+  useEffect(() => { onTapVillagerRef.current = onTapVillager; }, [onTapVillager]);
 
   const initApp = useCallback(async () => {
     const el = containerRef.current;
@@ -102,7 +113,8 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
     const allPaths = [
       ...Object.values(BUILDING_SPRITES), ...TREE_PATHS, ...CLOUD_PATHS,
       ...BUSH_PATHS, PAWN_RUN_PATH, SHEEP_IDLE_PATH, TILEMAP_PATH,
-      TOOL_HAMMER_PATH, GOLD_ICON_PATH, SHADOW_PATH,
+      TOOL_HAMMER_PATH, GOLD_ICON_PATH, SHADOW_PATH, CASTLE_PATH, TILEMAP2_PATH,
+      ...villagers.map(v => v.sprite),
     ];
     await Assets.load(allPaths);
 
@@ -152,15 +164,30 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
 
     /* ====== GROUND ====== */
     const tilemapTex = Texture.from(TILEMAP_PATH);
-    const grassTile = tileTexture(tilemapTex, 1, 1);
-    const grassTile2 = tileTexture(tilemapTex, 2, 1);
-    const pathTile = tileTexture(tilemapTex, 1, 0);
+    const tilemapTex2 = Texture.from(TILEMAP2_PATH);
+    const lvInfo = getVillageLevelInfo(villageLv);
+    // Ground tiles based on village level
+    let grassTile: Texture, grassTile2: Texture, pathTile: Texture;
+    if (lvInfo.groundType === 'dirt') {
+      grassTile = tileTexture(tilemapTex, 3, 0);
+      grassTile2 = tileTexture(tilemapTex, 4, 0);
+      pathTile = tileTexture(tilemapTex, 1, 0);
+    } else if (lvInfo.groundType === 'stone') {
+      grassTile = tileTexture(tilemapTex2, 1, 1);
+      grassTile2 = tileTexture(tilemapTex2, 2, 1);
+      pathTile = tileTexture(tilemapTex2, 5, 4);
+    } else {
+      // grass or flower
+      grassTile = tileTexture(tilemapTex, 1, 1);
+      grassTile2 = tileTexture(tilemapTex, 2, 1);
+      pathTile = tileTexture(tilemapTex, 1, 0);
+    }
 
     const groundLayer = new Container();
     world.addChild(groundLayer);
     for (let gy = 0; gy < GRID_ROWS; gy++) {
       for (let gx = 0; gx < GRID_COLS; gx++) {
-        const isPath = gx === 7 || gy === 7;
+        const isPath = gx === 10 || gy === 10;
         const tex = isPath ? pathTile : ((gx + gy) % 2 === 0 ? grassTile : grassTile2);
         const tile = new Sprite(tex);
         tile.x = gx * TILE_W;
@@ -195,12 +222,14 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
     const shadowTex = Texture.from(SHADOW_PATH);
 
     // === TREES (scatter around edges and empty areas) ===
+    // Trees scattered around the expanded 20x20 map
     const treeSpots = [
-      { gx: 0, gy: 0 }, { gx: 2, gy: 0 }, { gx: 5, gy: 0 }, { gx: 8, gy: 0 }, { gx: 11, gy: 0 }, { gx: 13, gy: 0 },
-      { gx: 0, gy: 3 }, { gx: 13, gy: 3 },
-      { gx: 0, gy: 6 }, { gx: 13, gy: 6 },
-      { gx: 0, gy: 10 }, { gx: 6, gy: 10 }, { gx: 8, gy: 10 }, { gx: 13, gy: 10 },
-      { gx: 0, gy: 13 }, { gx: 3, gy: 13 }, { gx: 10, gy: 13 }, { gx: 13, gy: 13 },
+      { gx: 0, gy: 0 }, { gx: 3, gy: 0 }, { gx: 7, gy: 0 }, { gx: 12, gy: 0 }, { gx: 16, gy: 0 }, { gx: 19, gy: 0 },
+      { gx: 0, gy: 4 }, { gx: 19, gy: 4 }, { gx: 0, gy: 8 }, { gx: 19, gy: 8 },
+      { gx: 0, gy: 12 }, { gx: 19, gy: 12 }, { gx: 0, gy: 16 }, { gx: 19, gy: 16 },
+      { gx: 0, gy: 19 }, { gx: 5, gy: 19 }, { gx: 14, gy: 19 }, { gx: 19, gy: 19 },
+      { gx: 1, gy: 1 }, { gx: 18, gy: 1 }, { gx: 1, gy: 18 }, { gx: 18, gy: 18 },
+      { gx: 15, gy: 3 }, { gx: 4, gy: 15 }, { gx: 15, gy: 15 },
     ];
     for (const spot of treeSpots) {
       if (BUILDINGS.some(b => b.gridX === spot.gx && b.gridY === spot.gy)) continue;
@@ -218,10 +247,11 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
 
     // === BUSHES ===
     const bushSpots = [
-      { gx: 1, gy: 1 }, { gx: 4, gy: 0 }, { gx: 12, gy: 1 },
-      { gx: 3, gy: 5 }, { gx: 10, gy: 5 },
-      { gx: 2, gy: 9 }, { gx: 11, gy: 9 },
-      { gx: 5, gy: 13 }, { gx: 8, gy: 13 },
+      { gx: 2, gy: 2 }, { gx: 6, gy: 0 }, { gx: 17, gy: 2 },
+      { gx: 4, gy: 6 }, { gx: 15, gy: 6 },
+      { gx: 3, gy: 13 }, { gx: 16, gy: 13 },
+      { gx: 7, gy: 19 }, { gx: 12, gy: 19 },
+      { gx: 2, gy: 10 }, { gx: 17, gy: 10 },
     ];
     for (const spot of bushSpots) {
       if (BUILDINGS.some(b => b.gridX === spot.gx && b.gridY === spot.gy)) continue;
@@ -322,14 +352,102 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
     // === SHEEP ===
     const sheepTex = Texture.from(SHEEP_IDLE_PATH);
     const sheepFrames = createFrames(sheepTex, 6, sheepTex.width / 6, sheepTex.height);
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
       const sheep = new AnimatedSprite(sheepFrames);
       sheep.animationSpeed = 0.06; sheep.play();
       sheep.anchor.set(0.5, 0.7); sheep.scale.set(0.3);
-      const pos = gridToScreen(9 + i, 11);
+      const pos = gridToScreen(13 + i, 16);
       sheep.x = pos.x + (Math.random() - 0.5) * 20;
       sheep.y = pos.y; sheep.zIndex = pos.y;
       sortLayer.addChild(sheep);
+    }
+
+    // === CASTLE (village Lv5) ===
+    if (lvInfo.hasCastle) {
+      const castleTex = Texture.from(CASTLE_PATH);
+      const castle = new Sprite(castleTex);
+      castle.anchor.set(0.5, 0.85);
+      castle.scale.set(0.55);
+      const cPos = gridToScreen(10, 5);
+      castle.x = cPos.x; castle.y = cPos.y;
+      castle.zIndex = cPos.y + 2;
+      sortLayer.addChild(castle);
+      // Castle label
+      const cLabel = new Text({
+        text: 'さんすう王国 おしろ',
+        style: new TextStyle({
+          fontFamily: '"Zen Maru Gothic", sans-serif', fontSize: 10, fontWeight: 'bold',
+          fill: '#FFD700', stroke: { color: '#1a1a2e', width: 3 },
+        }),
+      });
+      cLabel.anchor.set(0.5, 0); cLabel.x = cPos.x; cLabel.y = cPos.y + 20;
+      cLabel.zIndex = cPos.y + 3;
+      sortLayer.addChild(cLabel);
+    }
+
+    // === WALLS (village Lv3+) ===
+    if (lvInfo.hasWalls) {
+      const wallGraphics = new Graphics();
+      const wallInset = TILE_W * 2;
+      wallGraphics.roundRect(wallInset, wallInset, MAP_W - wallInset * 2, MAP_H - wallInset * 2, 12);
+      wallGraphics.stroke({ color: 0x8B7355, width: 4, alpha: 0.5 });
+      wallGraphics.zIndex = -1;
+      sortLayer.addChild(wallGraphics);
+    }
+
+    // === VILLAGERS (from progression) ===
+    for (let i = 0; i < villagers.length; i++) {
+      const v = villagers[i];
+      try {
+        const vTex = Texture.from(v.sprite);
+        const vFrames = createFrames(vTex, 8, vTex.width / 8, vTex.height);
+        const vSprite = new AnimatedSprite(vFrames);
+        vSprite.animationSpeed = 0.07; vSprite.play();
+        vSprite.anchor.set(0.5, 0.8); vSprite.scale.set(0.25);
+        // Spread villagers around the village center
+        const angle = (i / Math.max(villagers.length, 1)) * Math.PI * 2;
+        const radius = 3 + (i % 3);
+        const vgx = Math.round(10 + Math.cos(angle) * radius);
+        const vgy = Math.round(10 + Math.sin(angle) * radius);
+        const vPos = gridToScreen(Math.max(2, Math.min(17, vgx)), Math.max(2, Math.min(17, vgy)));
+        vSprite.x = vPos.x; vSprite.y = vPos.y;
+        vSprite.zIndex = vPos.y;
+        vSprite.eventMode = 'static'; vSprite.cursor = 'pointer';
+        const vid = v.id;
+        vSprite.on('pointertap', () => { if (!dragMoved) onTapVillagerRef.current(vid); });
+        sortLayer.addChild(vSprite);
+      } catch { /* skip if sprite fails to load */ }
+    }
+
+    // === MONUMENTS (boss trophies) ===
+    for (let i = 0; i < monuments.length; i++) {
+      const m = monuments[i];
+      const mPos = gridToScreen(4 + (i % 6) * 2, 14 + Math.floor(i / 6) * 2);
+      const mText = new Text({
+        text: m.emoji,
+        style: new TextStyle({ fontSize: 24 }),
+      });
+      mText.anchor.set(0.5, 0.5);
+      mText.x = mPos.x; mText.y = mPos.y - 8;
+      mText.zIndex = mPos.y;
+      sortLayer.addChild(mText);
+      // Pedestal
+      const pedestal = new Graphics();
+      pedestal.roundRect(mPos.x - 12, mPos.y, 24, 8, 3);
+      pedestal.fill(0x8B7355);
+      pedestal.zIndex = mPos.y - 1;
+      sortLayer.addChild(pedestal);
+      // Name
+      const mLabel = new Text({
+        text: m.name,
+        style: new TextStyle({
+          fontFamily: '"Zen Maru Gothic", sans-serif', fontSize: 7, fontWeight: 'bold',
+          fill: '#fff', stroke: { color: '#000', width: 2 },
+        }),
+      });
+      mLabel.anchor.set(0.5, 0); mLabel.x = mPos.x; mLabel.y = mPos.y + 8;
+      mLabel.zIndex = mPos.y + 1;
+      sortLayer.addChild(mLabel);
     }
 
     /* ====== FX LAYER ====== */
@@ -383,7 +501,7 @@ export default function VillageCanvas({ builtIds, onTapBuilding }: VillageCanvas
         }
       }
     });
-  }, [builtIds]);
+  }, [builtIds, villageLv, villagers, monuments]);
 
   useEffect(() => {
     initApp();

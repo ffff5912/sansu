@@ -19,6 +19,7 @@ function initState(): GameState {
     materials: {},
     craftedEquipment: [],
     equipment: { weapon: null, armor: null, accessory: null },
+    defeatedBossIds: [],
     dungeonBuff: 'none' as DungeonBuff,
   };
 }
@@ -42,9 +43,10 @@ export function useGameState() {
       materials: state.materials,
       craftedEquipment: state.craftedEquipment,
       equipment: state.equipment,
+      defeatedBossIds: state.defeatedBossIds,
       timestamp: Date.now(),
     });
-  }, [state.player, state.clearedFloors, state.currentFloor, state.scene, state.grade, state.inventory, state.buildings, state.buildingLevels, state.defeatedMonsterIds, state.materials, state.craftedEquipment, state.equipment]);
+  }, [state.player, state.clearedFloors, state.currentFloor, state.scene, state.grade, state.inventory, state.buildings, state.buildingLevels, state.defeatedMonsterIds, state.materials, state.craftedEquipment, state.equipment, state.defeatedBossIds]);
 
   const goToTitle = useCallback(() => {
     setState(s => ({ ...s, scene: 'title', currentFloor: null, resultType: null }));
@@ -67,6 +69,7 @@ export function useGameState() {
       materials: save.materials,
       craftedEquipment: save.craftedEquipment,
       equipment: save.equipment,
+      defeatedBossIds: save.defeatedBossIds,
       dungeonBuff: 'none' as DungeonBuff,
     }));
   }, []);
@@ -115,6 +118,13 @@ export function useGameState() {
     }));
   }, []);
 
+  const addDefeatedBoss = useCallback((bossId: string) => {
+    setState(s => ({
+      ...s,
+      defeatedBossIds: [...new Set([...s.defeatedBossIds, bossId])],
+    }));
+  }, []);
+
   const updateMaterials = useCallback((materials: MaterialBag) => {
     setState(s => ({ ...s, materials }));
   }, []);
@@ -144,6 +154,7 @@ export function useGameState() {
     updateBuildings,
     updateBuildingLevels,
     addDefeatedMonster,
+    addDefeatedBoss,
     updateMaterials,
     updateCrafting,
     setDungeonBuff,

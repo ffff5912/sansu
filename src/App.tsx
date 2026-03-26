@@ -21,6 +21,7 @@ export default function App() {
     updateBuildings,
     updateBuildingLevels,
     addDefeatedMonster,
+    addDefeatedBoss,
     updateMaterials,
     updateCrafting,
     setDungeonBuff,
@@ -64,6 +65,7 @@ export default function App() {
           onUpdateInventory={updateInventory}
           onUpdateBuildings={updateBuildings}
           onUpdateBuildingLevels={updateBuildingLevels}
+          defeatedBossIds={state.defeatedBossIds}
           materials={state.materials}
           craftedEquipment={state.craftedEquipment}
           equipment={state.equipment}
@@ -101,6 +103,7 @@ export default function App() {
           onGameOver={() => finishDungeon('gameover')}
           onUpdatePlayer={updatePlayer}
           onMonsterDefeated={addDefeatedMonster}
+          onBossDefeated={addDefeatedBoss}
           onMaterialsGained={handleMaterialsGained}
           onBack={handleBackToBase}
         />

@@ -6,6 +6,7 @@ import { MONSTERS } from '../data/monsters.ts';
 import { MATERIALS, getMaterial, EQUIPMENT, getEquipment } from '../data/crafting.ts';
 import { applyExp } from '../lib/battleEngine.ts';
 import { getMonsterSprite } from '../lib/monsterSprites.ts';
+import { calcVillageLevel, getVillageLevelInfo, getUnlockedVillagers, getUnlockedMonuments } from '../data/villageProgression.ts';
 import HpBar from '../components/HpBar.tsx';
 import ExpBar from '../components/ExpBar.tsx';
 import VillageCanvas from '../components/VillageCanvas.tsx';
@@ -22,6 +23,7 @@ interface BasePageProps {
   onUpdateInventory: (inventory: Inventory) => void;
   onUpdateBuildings: (buildings: string[]) => void;
   onUpdateBuildingLevels: (levels: BuildingSave[]) => void;
+  defeatedBossIds: string[];
   materials: MaterialBag;
   craftedEquipment: string[];
   equipment: EquipmentSlots;
@@ -33,7 +35,7 @@ interface BasePageProps {
   onGoTitle: () => void;
 }
 
-type Panel = null | 'shop' | 'items' | 'building' | 'encyclopedia' | 'smithy' | 'equip' | 'inn';
+type Panel = null | 'shop' | 'items' | 'building' | 'encyclopedia' | 'smithy' | 'equip' | 'inn' | 'villager';
 
 export default function BasePage({
   player,
@@ -47,6 +49,7 @@ export default function BasePage({
   onUpdateInventory,
   onUpdateBuildings,
   onUpdateBuildingLevels,
+  defeatedBossIds,
   materials,
   craftedEquipment,
   equipment,
@@ -283,6 +286,12 @@ export default function BasePage({
 
   const floorCount = grade === 1 ? 6 : 12;
   const buildingDef = selectedBuilding ? getBuilding(selectedBuilding) : null;
+  const villageLv = calcVillageLevel(buildings, buildingLevels);
+  const villageLvInfo = getVillageLevelInfo(villageLv);
+  const villagers = getUnlockedVillagers(villageLv, clearedFloors);
+  const monuments = getUnlockedMonuments(defeatedBossIds);
+  const [selectedVillager, setSelectedVillager] = useState<string | null>(null);
+  const activeVillager = villagers.find(v => v.id === selectedVillager);
 
   return (
     <div style={{
@@ -306,8 +315,8 @@ export default function BasePage({
       }}>
         <div style={{ flex: 1 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
-            <span style={{ fontSize: 15, fontWeight: 900, color: 'var(--color-text)' }}>
-              🏠 さんすうの村
+            <span style={{ fontSize: 14, fontWeight: 900, color: 'var(--color-text)' }}>
+              🏠 {villageLvInfo.name} <span style={{ fontSize: 11, color: 'var(--color-primary)' }}>Lv.{villageLv}</span>
             </span>
             <span style={{
               display: 'flex', alignItems: 'center', gap: 4,
@@ -332,7 +341,14 @@ export default function BasePage({
 
       {/* Village canvas */}
       <div style={{ flex: 1, padding: '8px 12px', overflow: 'hidden' }}>
-        <VillageCanvas builtIds={buildings} onTapBuilding={handleTapBuilding} />
+        <VillageCanvas
+          builtIds={buildings}
+          villageLv={villageLv}
+          villagers={villagers}
+          monuments={monuments}
+          onTapBuilding={handleTapBuilding}
+          onTapVillager={(id) => { setSelectedVillager(id); setPanel('villager'); }}
+        />
       </div>
 
       {/* Bottom bar */}
@@ -378,6 +394,7 @@ export default function BasePage({
                 {panel === 'smithy' && '🔨 かじや'}
                 {panel === 'equip' && '⚔️ そうび'}
                 {panel === 'inn' && '🏨 やどや'}
+                {panel === 'villager' && activeVillager && `💬 ${activeVillager.name}`}
               </span>
               <button onClick={() => { setPanel(null); setSelectedBuilding(null); }}
                 style={{ fontSize: 20, padding: '4px 8px', color: 'var(--color-text-dim)' }}>✕</button>
@@ -593,6 +610,23 @@ export default function BasePage({
                       </div>
                     </button>
                   ))}
+                </div>
+              )}
+
+              {panel === 'villager' && activeVillager && (
+                <div style={{ textAlign: 'center', padding: 16 }}>
+                  <img src={activeVillager.sprite} alt="" style={{
+                    width: 64, height: 64, imageRendering: 'pixelated',
+                    objectFit: 'cover', objectPosition: '0 0',
+                  }} />
+                  <div style={{ fontSize: 16, fontWeight: 700, marginTop: 8 }}>{activeVillager.name}</div>
+                  <div style={{
+                    marginTop: 12, padding: '12px 16px',
+                    background: 'var(--color-bg-light)', borderRadius: 'var(--radius)',
+                    fontSize: 14, lineHeight: 1.6, textAlign: 'left',
+                  }}>
+                    「{activeVillager.dialogue[activeVillager.id.length % activeVillager.dialogue.length]}」
+                  </div>
                 </div>
               )}
             </div>
