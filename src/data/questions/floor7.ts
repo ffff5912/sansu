@@ -2,7 +2,7 @@ import type { Question } from '../types.ts';
 
 // Floor 7: 分数のどうくつ (Fractions)
 export const floor7Questions: Question[] = [
-  // === easy (5問) ===
+  // === easy (16問) ===
   {
     id: 'f7-e1', floorId: 7, difficulty: 'easy',
     text: '1/2 + 1/2 = ?',
@@ -33,8 +33,74 @@ export const floor7Questions: Question[] = [
     choices: ['2/3', '2/6', '1/6', '1/3'],
     answerIndex: 0,
   },
+  {
+    id: 'f7-e6', floorId: 7, difficulty: 'easy',
+    text: '3/4 の分子はどれ？',
+    choices: ['3', '4', '7', '12'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-e7', floorId: 7, difficulty: 'easy',
+    text: '2/5 + 1/5 = ?',
+    choices: ['3/5', '3/10', '1/5', '2/5'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-e8', floorId: 7, difficulty: 'easy',
+    text: '3/3 はいくつ？',
+    choices: ['1', '3', '0', '1/3'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-e9', floorId: 7, difficulty: 'easy',
+    text: '4/6 の分母はどれ？',
+    choices: ['6', '4', '2', '10'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-e10', floorId: 7, difficulty: 'easy',
+    text: '3/8 + 2/8 = ?',
+    choices: ['5/8', '5/16', '1/8', '6/8'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-e11', floorId: 7, difficulty: 'easy',
+    text: '4/4 はいくつ？',
+    choices: ['1', '4', '0', '2'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-e12', floorId: 7, difficulty: 'easy',
+    text: '5/6 - 2/6 = ?',
+    choices: ['3/6', '3/12', '7/6', '2/6'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-e13', floorId: 7, difficulty: 'easy',
+    text: '1/4 + 1/4 = ?',
+    choices: ['2/4', '2/8', '1/2', '1/8'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-e14', floorId: 7, difficulty: 'easy',
+    text: '分母が同じ分数のたし算は、何をたす？',
+    choices: ['分子どうし', '分母どうし', '分母と分子', '全部'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-e15', floorId: 7, difficulty: 'easy',
+    text: '6/7 - 4/7 = ?',
+    choices: ['2/7', '2/14', '10/7', '4/7'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-e16', floorId: 7, difficulty: 'easy',
+    text: '0/5 はいくつ？',
+    choices: ['0', '5', '1', '1/5'],
+    answerIndex: 0,
+  },
 
-  // === normal (5問) ===
+  // === normal (16問) ===
   {
     id: 'f7-n1', floorId: 7, difficulty: 'normal',
     text: '2/5 + 2/5 = ?',
@@ -65,8 +131,74 @@ export const floor7Questions: Question[] = [
     choices: ['3/4', '2/3', '同じ', 'わからない'],
     answerIndex: 0,
   },
+  {
+    id: 'f7-n6', floorId: 7, difficulty: 'normal',
+    text: '4/10 を約分すると？',
+    choices: ['2/5', '1/5', '4/5', '2/10'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-n7', floorId: 7, difficulty: 'normal',
+    text: '1と1/3 を仮分数にすると？',
+    choices: ['4/3', '3/1', '2/3', '11/3'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-n8', floorId: 7, difficulty: 'normal',
+    text: '5/6 + 1/6 = ?',
+    choices: ['1', '6/12', '4/6', '6/6'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-n9', floorId: 7, difficulty: 'normal',
+    text: '大きいのはどっち？ 1/2 と 2/5',
+    choices: ['1/2', '2/5', '同じ', 'わからない'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-n10', floorId: 7, difficulty: 'normal',
+    text: '6/8 を約分すると？',
+    choices: ['3/4', '2/4', '1/2', '6/4'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-n11', floorId: 7, difficulty: 'normal',
+    text: '2と1/5 を仮分数にすると？',
+    choices: ['11/5', '3/5', '21/5', '5/2'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-n12', floorId: 7, difficulty: 'normal',
+    text: '1/2 と同じ大きさの分数はどれ？',
+    choices: ['3/6', '2/6', '1/3', '2/3'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-n13', floorId: 7, difficulty: 'normal',
+    text: '9/10 - 3/10 = ?',
+    choices: ['6/10', '6/20', '12/10', '3/10'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-n14', floorId: 7, difficulty: 'normal',
+    text: '8/12 を約分すると？',
+    choices: ['2/3', '4/6', '4/3', '1/3'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-n15', floorId: 7, difficulty: 'normal',
+    text: '3と1/2 を仮分数にすると？',
+    choices: ['7/2', '4/2', '31/2', '6/2'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-n16', floorId: 7, difficulty: 'normal',
+    text: '大きいのはどっち？ 5/8 と 3/8',
+    choices: ['5/8', '3/8', '同じ', 'わからない'],
+    answerIndex: 0,
+  },
 
-  // === hard (5問) ===
+  // === hard (16問) ===
   {
     id: 'f7-h1', floorId: 7, difficulty: 'hard',
     text: '1/2 + 1/3 = ?（通分して計算）',
@@ -95,6 +227,72 @@ export const floor7Questions: Question[] = [
     id: 'f7-h5', floorId: 7, difficulty: 'hard',
     text: '2と1/2 + 1と1/2 = ?',
     choices: ['4', '3と2/4', '3', '3と1/2'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-h6', floorId: 7, difficulty: 'hard',
+    text: '1/3 + 1/4 = ?（通分して計算）',
+    choices: ['7/12', '2/7', '1/7', '4/12'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-h7', floorId: 7, difficulty: 'hard',
+    text: '11/3 を帯分数にすると？',
+    choices: ['3と2/3', '2と5/3', '3と1/3', '1と8/3'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-h8', floorId: 7, difficulty: 'hard',
+    text: '5/6 - 1/2 = ?（通分して計算）',
+    choices: ['2/6', '4/6', '3/6', '1/3'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-h9', floorId: 7, difficulty: 'hard',
+    text: '15/20 を約分すると？',
+    choices: ['3/4', '5/10', '1/2', '5/4'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-h10', floorId: 7, difficulty: 'hard',
+    text: '3と1/4 - 1と3/4 = ?',
+    choices: ['1と2/4', '2と2/4', '1', '2'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-h11', floorId: 7, difficulty: 'hard',
+    text: '2/3 + 1/6 = ?（通分して計算）',
+    choices: ['5/6', '3/9', '3/6', '1/2'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-h12', floorId: 7, difficulty: 'hard',
+    text: '17/5 を帯分数にすると？',
+    choices: ['3と2/5', '2と7/5', '3と1/5', '4と2/5'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-h13', floorId: 7, difficulty: 'hard',
+    text: '1/2、1/3、1/4 の中で一番大きいのは？',
+    choices: ['1/2', '1/3', '1/4', '全部同じ'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-h14', floorId: 7, difficulty: 'hard',
+    text: '16/24 を約分すると？',
+    choices: ['2/3', '4/6', '8/12', '3/4'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-h15', floorId: 7, difficulty: 'hard',
+    text: '1と1/6 + 2と1/3 = ?（通分して計算）',
+    choices: ['3と1/2', '3と2/9', '3と1/3', '4'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f7-h16', floorId: 7, difficulty: 'hard',
+    text: '3/5 と 2/3 はどちらが大きい？（通分して考えよう）',
+    choices: ['2/3', '3/5', '同じ', 'わからない'],
     answerIndex: 0,
   },
 ];

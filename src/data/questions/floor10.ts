@@ -2,7 +2,7 @@ import type { Question } from '../types.ts';
 
 // Floor 10: そろばんのやま (Mental Math / Abacus)
 export const floor10Questions: Question[] = [
-  // === easy (5問) ===
+  // === easy (16問) ===
   {
     id: 'f10-e1', floorId: 10, difficulty: 'easy',
     text: '25 + 37 = ?（暗算）',
@@ -33,8 +33,74 @@ export const floor10Questions: Question[] = [
     choices: ['60', '50', '70', '55'],
     answerIndex: 0,
   },
+  {
+    id: 'f10-e6', floorId: 10, difficulty: 'easy',
+    text: '34 + 28 = ?（暗算）',
+    choices: ['62', '52', '72', '58'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-e7', floorId: 10, difficulty: 'easy',
+    text: '70 - 26 = ?（暗算）',
+    choices: ['44', '54', '34', '46'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-e8', floorId: 10, difficulty: 'easy',
+    text: '8 × 9 = ?',
+    choices: ['72', '63', '81', '64'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-e9', floorId: 10, difficulty: 'easy',
+    text: '50 + 50 = ?（暗算）',
+    choices: ['100', '90', '110', '105'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-e10', floorId: 10, difficulty: 'easy',
+    text: '63 ÷ 9 = ?',
+    choices: ['7', '8', '6', '9'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-e11', floorId: 10, difficulty: 'easy',
+    text: '45 + 19 = ?（暗算）',
+    choices: ['64', '54', '74', '63'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-e12', floorId: 10, difficulty: 'easy',
+    text: '90 - 57 = ?（暗算）',
+    choices: ['33', '43', '37', '23'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-e13', floorId: 10, difficulty: 'easy',
+    text: '12 × 5 = ?',
+    choices: ['60', '65', '55', '50'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-e14', floorId: 10, difficulty: 'easy',
+    text: '56 ÷ 8 = ?',
+    choices: ['7', '6', '8', '9'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-e15', floorId: 10, difficulty: 'easy',
+    text: 'みかんが38こ、りんごが24こあります。合わせて何こ？（暗算）',
+    choices: ['62こ', '52こ', '72こ', '58こ'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-e16', floorId: 10, difficulty: 'easy',
+    text: '100 - 63 = ?（暗算）',
+    choices: ['37', '47', '27', '33'],
+    answerIndex: 0,
+  },
 
-  // === normal (5問) ===
+  // === normal (16問) ===
   {
     id: 'f10-n1', floorId: 10, difficulty: 'normal',
     text: '125 + 278 = ?（暗算）',
@@ -65,8 +131,74 @@ export const floor10Questions: Question[] = [
     choices: ['375', '385', '475', '365'],
     answerIndex: 0,
   },
+  {
+    id: 'f10-n6', floorId: 10, difficulty: 'normal',
+    text: '236 + 164 = ?（暗算）',
+    choices: ['400', '390', '410', '300'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-n7', floorId: 10, difficulty: 'normal',
+    text: '800 - 345 = ?（暗算）',
+    choices: ['455', '465', '445', '555'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-n8', floorId: 10, difficulty: 'normal',
+    text: '50 × 6 = ?',
+    choices: ['300', '350', '250', '280'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-n9', floorId: 10, difficulty: 'normal',
+    text: '75 + 48 + 25 = ?（くふうして計算）',
+    choices: ['148', '138', '158', '143'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-n10', floorId: 10, difficulty: 'normal',
+    text: '1本150円のジュースを4本買うといくら？（暗算）',
+    choices: ['600円', '500円', '550円', '650円'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-n11', floorId: 10, difficulty: 'normal',
+    text: '999 + 1 = ?（暗算）',
+    choices: ['1000', '9991', '990', '1001'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-n12', floorId: 10, difficulty: 'normal',
+    text: '360 ÷ 6 = ?',
+    choices: ['60', '50', '70', '66'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-n13', floorId: 10, difficulty: 'normal',
+    text: '198 + 56 = ?（くふうして計算）',
+    choices: ['254', '244', '264', '248'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-n14', floorId: 10, difficulty: 'normal',
+    text: '700 - 283 = ?（暗算）',
+    choices: ['417', '427', '317', '407'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-n15', floorId: 10, difficulty: 'normal',
+    text: '125 × 4 = ?（くふうして計算）',
+    choices: ['500', '450', '525', '475'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-n16', floorId: 10, difficulty: 'normal',
+    text: '450 + 350 = ?（暗算）',
+    choices: ['800', '700', '900', '750'],
+    answerIndex: 0,
+  },
 
-  // === hard (5問) ===
+  // === hard (16問) ===
   {
     id: 'f10-h1', floorId: 10, difficulty: 'hard',
     text: '250 × 4 = ?',
@@ -95,6 +227,72 @@ export const floor10Questions: Question[] = [
     id: 'f10-h5', floorId: 10, difficulty: 'hard',
     text: '756 - 298 = ?（暗算のくふう）',
     choices: ['458', '448', '468', '558'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-h6', floorId: 10, difficulty: 'hard',
+    text: '75 × 12 = ?（くふうして計算）',
+    choices: ['900', '850', '950', '800'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-h7', floorId: 10, difficulty: 'hard',
+    text: '10000 - 3678 = ?（暗算）',
+    choices: ['6322', '6422', '7322', '6332'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-h8', floorId: 10, difficulty: 'hard',
+    text: '125 × 8 = ?（くふうして計算）',
+    choices: ['1000', '900', '1100', '950'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-h9', floorId: 10, difficulty: 'hard',
+    text: '997 + 486 = ?（くふうして計算）',
+    choices: ['1483', '1493', '1473', '1583'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-h10', floorId: 10, difficulty: 'hard',
+    text: '36 × 25 = ?（くふうして計算）',
+    choices: ['900', '850', '950', '800'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-h11', floorId: 10, difficulty: 'hard',
+    text: '1234 + 766 = ?（暗算）',
+    choices: ['2000', '1900', '2100', '1990'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-h12', floorId: 10, difficulty: 'hard',
+    text: '5000 - 1847 = ?（暗算）',
+    choices: ['3153', '3253', '3143', '3053'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-h13', floorId: 10, difficulty: 'hard',
+    text: '99 × 8 = ?（くふうして計算）',
+    choices: ['792', '800', '796', '788'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-h14', floorId: 10, difficulty: 'hard',
+    text: '1本250円のケーキを8こ買うといくら？（暗算）',
+    choices: ['2000円', '1800円', '2200円', '1750円'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-h15', floorId: 10, difficulty: 'hard',
+    text: '2468 + 7532 = ?',
+    choices: ['10000', '9900', '10100', '9000'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f10-h16', floorId: 10, difficulty: 'hard',
+    text: '4 × 25 × 13 = ?（くふうして計算）',
+    choices: ['1300', '1200', '1400', '1100'],
     answerIndex: 0,
   },
 ];

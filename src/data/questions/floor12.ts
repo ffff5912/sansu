@@ -2,7 +2,7 @@ import type { Question } from '../types.ts';
 
 // Floor 12: 立体のてんくう (3D Shapes - Rectangular prisms & Cubes)
 export const floor12Questions: Question[] = [
-  // === easy (5問) ===
+  // === easy (16問) ===
   {
     id: 'f12-e1', floorId: 12, difficulty: 'easy',
     text: '立方体の面はいくつ？',
@@ -33,8 +33,74 @@ export const floor12Questions: Question[] = [
     choices: ['長方形（または正方形）', '三角形', '円', '五角形'],
     answerIndex: 0,
   },
+  {
+    id: 'f12-e6', floorId: 12, difficulty: 'easy',
+    text: '直方体の面はいくつ？',
+    choices: ['6つ', '4つ', '8つ', '10つ'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-e7', floorId: 12, difficulty: 'easy',
+    text: '直方体の頂点はいくつ？',
+    choices: ['8つ', '6つ', '10つ', '4つ'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-e8', floorId: 12, difficulty: 'easy',
+    text: '直方体の辺はいくつ？',
+    choices: ['12本', '8本', '6本', '10本'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-e9', floorId: 12, difficulty: 'easy',
+    text: '立方体のすべての面の形は？',
+    choices: ['正方形', '長方形', '三角形', '円'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-e10', floorId: 12, difficulty: 'easy',
+    text: 'ティッシュの箱の形は？',
+    choices: ['直方体', '立方体', '円柱', '三角柱'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-e11', floorId: 12, difficulty: 'easy',
+    text: '立方体のすべての辺の長さは？',
+    choices: ['全部同じ', '3種類', '2種類', '全部ちがう'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-e12', floorId: 12, difficulty: 'easy',
+    text: '直方体は立方体の仲間？',
+    choices: ['はい', 'いいえ', '場合による', 'ちがう形'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-e13', floorId: 12, difficulty: 'easy',
+    text: '立方体の向かい合う面は何組？',
+    choices: ['3組', '2組', '4組', '6組'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-e14', floorId: 12, difficulty: 'easy',
+    text: 'ボールの形は何という立体？',
+    choices: ['球', '円柱', '立方体', '円すい'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-e15', floorId: 12, difficulty: 'easy',
+    text: '立方体を平らなところに置くと、下の面の形は？',
+    choices: ['正方形', '長方形', '三角形', '円'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-e16', floorId: 12, difficulty: 'easy',
+    text: '直方体の辺の長さは何種類ある？',
+    choices: ['最大3種類', '1種類', '6種類', '12種類'],
+    answerIndex: 0,
+  },
 
-  // === normal (5問) ===
+  // === normal (16問) ===
   {
     id: 'f12-n1', floorId: 12, difficulty: 'normal',
     text: '直方体で向かい合う面の関係は？',
@@ -65,8 +131,74 @@ export const floor12Questions: Question[] = [
     choices: ['3本', '2本', '4本', '6本'],
     answerIndex: 0,
   },
+  {
+    id: 'f12-n6', floorId: 12, difficulty: 'normal',
+    text: '直方体で平行な辺は何組ある？',
+    choices: ['3組（各4本）', '6組（各2本）', '4組（各3本）', '2組（各6本）'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-n7', floorId: 12, difficulty: 'normal',
+    text: '1辺4cmの立方体の1つの面のまわりの長さは？',
+    choices: ['16cm', '12cm', '8cm', '20cm'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-n8', floorId: 12, difficulty: 'normal',
+    text: '直方体の1つの面に垂直な面はいくつ？',
+    choices: ['4つ', '2つ', '1つ', '5つ'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-n9', floorId: 12, difficulty: 'normal',
+    text: '直方体の1つの面に平行な面はいくつ？',
+    choices: ['1つ', '2つ', '3つ', '4つ'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-n10', floorId: 12, difficulty: 'normal',
+    text: '1辺が2cmの立方体の全部の面の面積の合計は？',
+    choices: ['24cm²', '12cm²', '8cm²', '48cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-n11', floorId: 12, difficulty: 'normal',
+    text: '直方体で1つの辺に平行な辺は何本？',
+    choices: ['3本', '2本', '4本', '1本'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-n12', floorId: 12, difficulty: 'normal',
+    text: '立方体の展開図をつくると、面はいくつならぶ？',
+    choices: ['6つ', '4つ', '8つ', '5つ'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-n13', floorId: 12, difficulty: 'normal',
+    text: '直方体(たて2cm, 横3cm, 高さ4cm)で一番大きい面の面積は？',
+    choices: ['12cm²', '8cm²', '6cm²', '24cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-n14', floorId: 12, difficulty: 'normal',
+    text: '直方体で1つの辺に垂直な辺は何本？',
+    choices: ['4本', '3本', '2本', '8本'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-n15', floorId: 12, difficulty: 'normal',
+    text: '1辺5cmの立方体の1つの面の面積は？',
+    choices: ['25cm²', '20cm²', '30cm²', '10cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-n16', floorId: 12, difficulty: 'normal',
+    text: '直方体の向かい合う面は何組？',
+    choices: ['3組', '2組', '4組', '6組'],
+    answerIndex: 0,
+  },
 
-  // === hard (5問) ===
+  // === hard (16問) ===
   {
     id: 'f12-h1', floorId: 12, difficulty: 'hard',
     text: '直方体(たて3cm, 横4cm, 高さ5cm)の全部の辺の長さの合計は？',
@@ -95,6 +227,72 @@ export const floor12Questions: Question[] = [
     id: 'f12-h5', floorId: 12, difficulty: 'hard',
     text: '1辺5cmの立方体の辺の長さの合計は？',
     choices: ['60cm', '30cm', '50cm', '20cm'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-h6', floorId: 12, difficulty: 'hard',
+    text: '1辺4cmの立方体の表面積は？',
+    choices: ['96cm²', '64cm²', '48cm²', '80cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-h7', floorId: 12, difficulty: 'hard',
+    text: '直方体(たて2cm, 横5cm, 高さ3cm)の全部の辺の長さの合計は？',
+    choices: ['40cm', '30cm', '50cm', '60cm'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-h8', floorId: 12, difficulty: 'hard',
+    text: '直方体(3cm×4cm×5cm)の一番大きい面の面積は？',
+    choices: ['20cm²', '15cm²', '12cm²', '60cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-h9', floorId: 12, difficulty: 'hard',
+    text: '1辺6cmの立方体の表面積は？',
+    choices: ['216cm²', '144cm²', '72cm²', '36cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-h10', floorId: 12, difficulty: 'hard',
+    text: '直方体(1cm×2cm×3cm)の表面積は？',
+    choices: ['22cm²', '18cm²', '11cm²', '6cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-h11', floorId: 12, difficulty: 'hard',
+    text: '1辺3cmの立方体の表面積は？',
+    choices: ['54cm²', '27cm²', '36cm²', '18cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-h12', floorId: 12, difficulty: 'hard',
+    text: '1辺2cmの立方体を2こくっつけてできる直方体の表面積は？',
+    choices: ['40cm²', '48cm²', '32cm²', '24cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-h13', floorId: 12, difficulty: 'hard',
+    text: '直方体(4cm×5cm×6cm)の全部の辺の長さの合計は？',
+    choices: ['60cm', '48cm', '72cm', '40cm'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-h14', floorId: 12, difficulty: 'hard',
+    text: '直方体(5cm×5cm×10cm)の表面積は？',
+    choices: ['250cm²', '200cm²', '300cm²', '150cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-h15', floorId: 12, difficulty: 'hard',
+    text: '1辺が1cmの立方体を8こ使って大きな立方体を作ると、1辺は何cm？',
+    choices: ['2cm', '3cm', '4cm', '8cm'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f12-h16', floorId: 12, difficulty: 'hard',
+    text: '直方体(2cm×4cm×6cm)の表面積は？',
+    choices: ['88cm²', '48cm²', '96cm²', '44cm²'],
     answerIndex: 0,
   },
 ];

@@ -2,7 +2,7 @@ import type { Question } from '../types.ts';
 
 // Floor 2: わり算のもり (Division)
 export const floor2Questions: Question[] = [
-  // === easy (5問) ===
+  // === easy (16問) ===
   {
     id: 'f2-e1', floorId: 2, difficulty: 'easy',
     text: '12 ÷ 3 = ?',
@@ -33,8 +33,74 @@ export const floor2Questions: Question[] = [
     choices: ['5', '4', '6', '9'],
     answerIndex: 0,
   },
+  {
+    id: 'f2-e6', floorId: 2, difficulty: 'easy',
+    text: '24 ÷ 4 = ?',
+    choices: ['6', '5', '8', '7'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-e7', floorId: 2, difficulty: 'easy',
+    text: '30 ÷ 6 = ?',
+    choices: ['5', '4', '6', '3'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-e8', floorId: 2, difficulty: 'easy',
+    text: '16 ÷ 4 = ?',
+    choices: ['4', '3', '5', '6'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-e9', floorId: 2, difficulty: 'easy',
+    text: '42 ÷ 7 = ?',
+    choices: ['6', '7', '5', '8'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-e10', floorId: 2, difficulty: 'easy',
+    text: 'あめが21こあります。3人で同じ数ずつ分けると1人何こ？',
+    choices: ['7こ', '6こ', '8こ', '9こ'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-e11', floorId: 2, difficulty: 'easy',
+    text: '56 ÷ 8 = ?',
+    choices: ['7', '6', '8', '9'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-e12', floorId: 2, difficulty: 'easy',
+    text: '15 ÷ 3 = ?',
+    choices: ['5', '4', '6', '3'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-e13', floorId: 2, difficulty: 'easy',
+    text: '40 ÷ 8 = ?',
+    choices: ['5', '4', '6', '8'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-e14', floorId: 2, difficulty: 'easy',
+    text: '27 ÷ 9 = ?',
+    choices: ['3', '4', '2', '9'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-e15', floorId: 2, difficulty: 'easy',
+    text: '48こを6こずつ箱に入れると何箱できる？',
+    choices: ['8箱', '7箱', '6箱', '9箱'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-e16', floorId: 2, difficulty: 'easy',
+    text: '63 ÷ 9 = ?',
+    choices: ['7', '8', '6', '9'],
+    answerIndex: 0,
+  },
 
-  // === normal (5問) ===
+  // === normal (16問) ===
   {
     id: 'f2-n1', floorId: 2, difficulty: 'normal',
     text: '84 ÷ 7 = ?',
@@ -65,8 +131,74 @@ export const floor2Questions: Question[] = [
     choices: ['0', '1', '2', '3'],
     answerIndex: 0,
   },
+  {
+    id: 'f2-n6', floorId: 2, difficulty: 'normal',
+    text: '65 ÷ 4 の商とあまりは？',
+    choices: ['商16あまり1', '商15あまり5', '商17あまり1', '商16あまり2'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-n7', floorId: 2, difficulty: 'normal',
+    text: '112 ÷ 8 = ?',
+    choices: ['14', '13', '15', '16'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-n8', floorId: 2, difficulty: 'normal',
+    text: 'えんぴつが95本あります。12本ずつ箱に入れると、何箱できて何本あまる？',
+    choices: ['7箱あまり11本', '8箱あまり1本', '7箱あまり12本', '8箱あまり11本'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-n9', floorId: 2, difficulty: 'normal',
+    text: '153 ÷ 9 = ?',
+    choices: ['17', '16', '18', '19'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-n10', floorId: 2, difficulty: 'normal',
+    text: '200 ÷ 8 = ?',
+    choices: ['25', '24', '26', '30'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-n11', floorId: 2, difficulty: 'normal',
+    text: '□ ÷ 6 = 9 の□は？',
+    choices: ['54', '56', '48', '60'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-n12', floorId: 2, difficulty: 'normal',
+    text: '76 ÷ 5 のあまりは？',
+    choices: ['1', '2', '3', '4'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-n13', floorId: 2, difficulty: 'normal',
+    text: '168 ÷ 14 = ?',
+    choices: ['12', '11', '13', '14'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-n14', floorId: 2, difficulty: 'normal',
+    text: 'シールが252まいあります。7人で同じ数ずつ分けると1人何まい？',
+    choices: ['36まい', '34まい', '38まい', '32まい'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-n15', floorId: 2, difficulty: 'normal',
+    text: '144 ÷ 12 = ?',
+    choices: ['12', '11', '13', '14'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-n16', floorId: 2, difficulty: 'normal',
+    text: '85 ÷ 6 の商とあまりは？',
+    choices: ['商14あまり1', '商13あまり7', '商14あまり2', '商15あまり1'],
+    answerIndex: 0,
+  },
 
-  // === hard (5問) ===
+  // === hard (16問) ===
   {
     id: 'f2-h1', floorId: 2, difficulty: 'hard',
     text: '432 ÷ 16 = ?',
@@ -95,6 +227,72 @@ export const floor2Questions: Question[] = [
     id: 'f2-h5', floorId: 2, difficulty: 'hard',
     text: '504 ÷ 21 = ?',
     choices: ['24', '22', '26', '25'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-h6', floorId: 2, difficulty: 'hard',
+    text: '783 ÷ 27 = ?',
+    choices: ['29', '28', '30', '27'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-h7', floorId: 2, difficulty: 'hard',
+    text: '1000 ÷ 32 の商とあまりは？',
+    choices: ['商31あまり8', '商32あまり0', '商30あまり40', '商31あまり12'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-h8', floorId: 2, difficulty: 'hard',
+    text: 'ある数を14でわると商が23であまりが5。ある数は？',
+    choices: ['327', '322', '332', '319'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-h9', floorId: 2, difficulty: 'hard',
+    text: '816 ÷ 48 = ?',
+    choices: ['17', '16', '18', '19'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-h10', floorId: 2, difficulty: 'hard',
+    text: '572 ÷ 22 = ?',
+    choices: ['26', '25', '27', '24'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-h11', floorId: 2, difficulty: 'hard',
+    text: 'お花が365本あります。花びん1つに15本ずつ入れると、花びんは何こいる？',
+    choices: ['25こ', '24こ', '23こ', '26こ'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-h12', floorId: 2, difficulty: 'hard',
+    text: '□ ÷ 25 = 32 の□は？',
+    choices: ['800', '750', '825', '775'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-h13', floorId: 2, difficulty: 'hard',
+    text: '943 ÷ 41 = ?',
+    choices: ['23', '22', '24', '21'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-h14', floorId: 2, difficulty: 'hard',
+    text: '600 ÷ 13 のあまりは？',
+    choices: ['2', '1', '3', '5'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-h15', floorId: 2, difficulty: 'hard',
+    text: 'リボンが756cmあります。18cmずつ切ると何本できる？',
+    choices: ['42本', '40本', '44本', '38本'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f2-h16', floorId: 2, difficulty: 'hard',
+    text: 'ある数を23でわると商が17であまりが0。ある数は？',
+    choices: ['391', '380', '400', '414'],
     answerIndex: 0,
   },
 ];

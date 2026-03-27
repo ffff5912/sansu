@@ -108,6 +108,42 @@ export const MONSTERS: Monster[] = [
   { id: 'kumo-tokei', name: 'くもとけい', emoji: '☁️', hp: 35, attack: 10, exp: 14, isBoss: false, floorId: 106 },
   { id: 'niji-tokei', name: 'にじとけい', emoji: '🌈', hp: 38, attack: 10, exp: 15, isBoss: false, floorId: 106 },
   { id: 'maou-tokei', name: 'まおうとけい', emoji: '🕰️', hp: 110, attack: 16, exp: 50, isBoss: true, floorId: 106 },
+
+  // === Floor 107: たしざんのやま (小1) ===
+  { id: 'yama-tasu1', name: 'いわたす', emoji: '🪨', hp: 35, attack: 9, exp: 13, isBoss: false, floorId: 107 },
+  { id: 'yama-tasu2', name: 'やまねこたす', emoji: '🐱', hp: 38, attack: 10, exp: 14, isBoss: false, floorId: 107 },
+  { id: 'yama-tasu3', name: 'くもたす', emoji: '🕸️', hp: 40, attack: 11, exp: 15, isBoss: false, floorId: 107 },
+  { id: 'yama-boss-tasu', name: 'やまおうたす', emoji: '🏔️', hp: 120, attack: 17, exp: 55, isBoss: true, floorId: 107 },
+
+  // === Floor 108: ひきざんのそら (小1) ===
+  { id: 'sora-hiku1', name: 'とりひく', emoji: '🐤', hp: 38, attack: 10, exp: 14, isBoss: false, floorId: 108 },
+  { id: 'sora-hiku2', name: 'かぜひく', emoji: '🌬️', hp: 40, attack: 11, exp: 15, isBoss: false, floorId: 108 },
+  { id: 'sora-hiku3', name: 'にじひく', emoji: '🌈', hp: 42, attack: 12, exp: 16, isBoss: false, floorId: 108 },
+  { id: 'sora-boss-hiku', name: 'そらおうひく', emoji: '☁️', hp: 130, attack: 18, exp: 58, isBoss: true, floorId: 108 },
+
+  // === Floor 109: しきづくりのまち (小1) ===
+  { id: 'shiki-pawn1', name: 'しきスライム', emoji: '🟢', hp: 40, attack: 11, exp: 15, isBoss: false, floorId: 109 },
+  { id: 'shiki-pawn2', name: 'しきゴースト', emoji: '👻', hp: 42, attack: 12, exp: 16, isBoss: false, floorId: 109 },
+  { id: 'shiki-pawn3', name: 'しきロボ', emoji: '🤖', hp: 45, attack: 13, exp: 17, isBoss: false, floorId: 109 },
+  { id: 'shiki-boss', name: 'しきまおう', emoji: '📝', hp: 140, attack: 19, exp: 60, isBoss: true, floorId: 109 },
+
+  // === Floor 13: 筆算のくふう (小4) ===
+  { id: 'calc-pawn1', name: 'ひっさんスライム', emoji: '🧮', hp: 75, attack: 23, exp: 28, isBoss: false, floorId: 13 },
+  { id: 'calc-pawn2', name: 'ひっさんゴブリン', emoji: '👺', hp: 80, attack: 24, exp: 30, isBoss: false, floorId: 13 },
+  { id: 'calc-pawn3', name: 'ひっさんウルフ', emoji: '🐺', hp: 85, attack: 25, exp: 32, isBoss: false, floorId: 13 },
+  { id: 'calc-boss', name: 'ひっさんドラゴン', emoji: '🐉', hp: 230, attack: 37, exp: 100, isBoss: true, floorId: 13 },
+
+  // === Floor 14: かけ算のしろ (小4) ===
+  { id: 'mult-pawn1', name: 'かけざんスケルトン', emoji: '💀', hp: 80, attack: 24, exp: 30, isBoss: false, floorId: 14 },
+  { id: 'mult-pawn2', name: 'かけざんゴーレム', emoji: '🗿', hp: 85, attack: 25, exp: 32, isBoss: false, floorId: 14 },
+  { id: 'mult-pawn3', name: 'かけざんデーモン', emoji: '😈', hp: 90, attack: 26, exp: 34, isBoss: false, floorId: 14 },
+  { id: 'mult-boss', name: 'かけざんキング', emoji: '👑', hp: 260, attack: 40, exp: 110, isBoss: true, floorId: 14 },
+
+  // === Floor 15: 小数の計算 (小4) ===
+  { id: 'dec-pawn1', name: 'しょうすうエルフ', emoji: '🧝', hp: 85, attack: 25, exp: 32, isBoss: false, floorId: 15 },
+  { id: 'dec-pawn2', name: 'しょうすうニンフ', emoji: '🧚', hp: 88, attack: 26, exp: 34, isBoss: false, floorId: 15 },
+  { id: 'dec-pawn3', name: 'しょうすうフェアリー', emoji: '✨', hp: 92, attack: 27, exp: 36, isBoss: false, floorId: 15 },
+  { id: 'dec-boss', name: 'しょうすうまおう', emoji: '🔮', hp: 280, attack: 42, exp: 120, isBoss: true, floorId: 15 },
 ];
 
 export function getMonster(id: string): Monster | undefined {

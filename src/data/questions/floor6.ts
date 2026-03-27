@@ -2,7 +2,7 @@ import type { Question } from '../types.ts';
 
 // Floor 6: 面積のへいげん (Area)
 export const floor6Questions: Question[] = [
-  // === easy (5問) ===
+  // === easy (16問) ===
   {
     id: 'f6-e1', floorId: 6, difficulty: 'easy',
     text: 'たて3cm、横4cmの長方形の面積は？',
@@ -33,8 +33,74 @@ export const floor6Questions: Question[] = [
     choices: ['たて×横', 'たて＋横', 'たて×横×2', '（たて＋横）×2'],
     answerIndex: 0,
   },
+  {
+    id: 'f6-e6', floorId: 6, difficulty: 'easy',
+    text: '1辺が3cmの正方形の面積は？',
+    choices: ['9cm²', '6cm²', '12cm²', '3cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-e7', floorId: 6, difficulty: 'easy',
+    text: 'たて4cm、横5cmの長方形の面積は？',
+    choices: ['20cm²', '9cm²', '18cm²', '25cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-e8', floorId: 6, difficulty: 'easy',
+    text: '正方形の面積の公式は？',
+    choices: ['1辺×1辺', '1辺×4', '1辺＋1辺', '1辺×2'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-e9', floorId: 6, difficulty: 'easy',
+    text: 'たて1cm、横9cmの長方形の面積は？',
+    choices: ['9cm²', '10cm²', '18cm²', '8cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-e10', floorId: 6, difficulty: 'easy',
+    text: '1辺が4cmの正方形の面積は？',
+    choices: ['16cm²', '8cm²', '12cm²', '20cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-e11', floorId: 6, difficulty: 'easy',
+    text: 'たて7cm、横2cmの長方形の面積は？',
+    choices: ['14cm²', '9cm²', '18cm²', '12cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-e12', floorId: 6, difficulty: 'easy',
+    text: '面積が9cm²の正方形の1辺は何cm？',
+    choices: ['3cm', '9cm', '4cm', '6cm'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-e13', floorId: 6, difficulty: 'easy',
+    text: 'たて5cm、横5cmの長方形の面積は？',
+    choices: ['25cm²', '10cm²', '20cm²', '15cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-e14', floorId: 6, difficulty: 'easy',
+    text: '1辺が10cmの正方形の面積は？',
+    choices: ['100cm²', '40cm²', '20cm²', '10cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-e15', floorId: 6, difficulty: 'easy',
+    text: 'たて6cm、横3cmの長方形の面積は？',
+    choices: ['18cm²', '9cm²', '12cm²', '24cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-e16', floorId: 6, difficulty: 'easy',
+    text: '長方形のたてが8cm、面積が24cm²のとき、横は何cm？',
+    choices: ['3cm', '4cm', '16cm', '2cm'],
+    answerIndex: 0,
+  },
 
-  // === normal (5問) ===
+  // === normal (16問) ===
   {
     id: 'f6-n1', floorId: 6, difficulty: 'normal',
     text: '1m² = 何cm²？',
@@ -65,8 +131,74 @@ export const floor6Questions: Question[] = [
     choices: ['40m²', '13m²', '26m²', '80m²'],
     answerIndex: 0,
   },
+  {
+    id: 'f6-n6', floorId: 6, difficulty: 'normal',
+    text: 'たて9cm、横7cmの長方形の面積は？',
+    choices: ['63cm²', '32cm²', '16cm²', '56cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-n7', floorId: 6, difficulty: 'normal',
+    text: '1辺が8cmの正方形の面積は？',
+    choices: ['64cm²', '32cm²', '16cm²', '80cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-n8', floorId: 6, difficulty: 'normal',
+    text: '面積が64cm²の正方形の1辺は何cm？',
+    choices: ['8cm', '16cm', '4cm', '32cm'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-n9', floorId: 6, difficulty: 'normal',
+    text: 'たて12cm、横5cmの長方形の面積は？',
+    choices: ['60cm²', '17cm²', '34cm²', '50cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-n10', floorId: 6, difficulty: 'normal',
+    text: 'たて6m、横6mの正方形の花だんの面積は？',
+    choices: ['36m²', '24m²', '12m²', '48m²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-n11', floorId: 6, difficulty: 'normal',
+    text: '面積が48cm²、たてが6cmの長方形の横は何cm？',
+    choices: ['8cm', '6cm', '42cm', '12cm'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-n12', floorId: 6, difficulty: 'normal',
+    text: 'たて15cm、横4cmの長方形の面積は？',
+    choices: ['60cm²', '19cm²', '38cm²', '45cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-n13', floorId: 6, difficulty: 'normal',
+    text: '2m²は何cm²？',
+    choices: ['20000cm²', '200cm²', '2000cm²', '200000cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-n14', floorId: 6, difficulty: 'normal',
+    text: 'たて10m、横10mの正方形の面積は何a？',
+    choices: ['1a', '10a', '100a', '0.1a'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-n15', floorId: 6, difficulty: 'normal',
+    text: '面積が100cm²の正方形の1辺は何cm？',
+    choices: ['10cm', '25cm', '50cm', '20cm'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-n16', floorId: 6, difficulty: 'normal',
+    text: 'たて7m、横9mの教室の面積は？',
+    choices: ['63m²', '32m²', '16m²', '56m²'],
+    answerIndex: 0,
+  },
 
-  // === hard (5問) ===
+  // === hard (16問) ===
   {
     id: 'f6-h1', floorId: 6, difficulty: 'hard',
     text: '1ha（ヘクタール）は何m²？',
@@ -95,6 +227,72 @@ export const floor6Questions: Question[] = [
     id: 'f6-h5', floorId: 6, difficulty: 'hard',
     text: 'たて15m、横20mの長方形は何a？',
     choices: ['3a', '30a', '300a', '0.3a'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-h6', floorId: 6, difficulty: 'hard',
+    text: '1ha = 何a？',
+    choices: ['100a', '10a', '1000a', '50a'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-h7', floorId: 6, difficulty: 'hard',
+    text: 'たて25m、横40mの長方形の面積は何m²？',
+    choices: ['1000m²', '65m²', '130m²', '500m²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-h8', floorId: 6, difficulty: 'hard',
+    text: 'L字型：たて10cm横8cmの長方形から、たて4cm横3cmの長方形を切りとると？',
+    choices: ['68cm²', '80cm²', '12cm²', '92cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-h9', floorId: 6, difficulty: 'hard',
+    text: '50000cm²は何m²？',
+    choices: ['5m²', '50m²', '500m²', '0.5m²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-h10', floorId: 6, difficulty: 'hard',
+    text: '1km² = 何ha？',
+    choices: ['100ha', '10ha', '1000ha', '1ha'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-h11', floorId: 6, difficulty: 'hard',
+    text: 'たて200m、横300mの土地の面積は何ha？',
+    choices: ['6ha', '60ha', '0.6ha', '600ha'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-h12', floorId: 6, difficulty: 'hard',
+    text: '面積が7m²の長方形。たてが200cmのとき、横は何m？',
+    choices: ['3.5m', '35m', '0.35m', '5m'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-h13', floorId: 6, difficulty: 'hard',
+    text: '2つの長方形(4×6と3×5)を合わせた面積は？',
+    choices: ['39cm²', '24cm²', '15cm²', '35cm²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-h14', floorId: 6, difficulty: 'hard',
+    text: '5a = 何m²？',
+    choices: ['500m²', '50m²', '5000m²', '5m²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-h15', floorId: 6, difficulty: 'hard',
+    text: 'たて1km、横2kmの長方形の面積は何km²？',
+    choices: ['2km²', '3km²', '20km²', '200km²'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f6-h16', floorId: 6, difficulty: 'hard',
+    text: '1辺が100mの正方形の面積は何ha？',
+    choices: ['1ha', '10ha', '100ha', '0.1ha'],
     answerIndex: 0,
   },
 ];

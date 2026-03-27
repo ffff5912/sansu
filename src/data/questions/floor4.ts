@@ -2,7 +2,7 @@ import type { Question } from '../types.ts';
 
 // Floor 4: 小数のみずうみ (Decimals)
 export const floor4Questions: Question[] = [
-  // === easy (5問) ===
+  // === easy (16問) ===
   {
     id: 'f4-e1', floorId: 4, difficulty: 'easy',
     text: '0.1 + 0.2 = ?',
@@ -33,8 +33,74 @@ export const floor4Questions: Question[] = [
     choices: ['0.5', '5', '0.15', '0.05'],
     answerIndex: 0,
   },
+  {
+    id: 'f4-e6', floorId: 4, difficulty: 'easy',
+    text: '0.3 + 0.4 = ?',
+    choices: ['0.7', '0.34', '0.07', '7'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-e7', floorId: 4, difficulty: 'easy',
+    text: '0.9 - 0.5 = ?',
+    choices: ['0.4', '0.5', '0.14', '1.4'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-e8', floorId: 4, difficulty: 'easy',
+    text: '0.1が10こで何？',
+    choices: ['1', '0.1', '10', '0.01'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-e9', floorId: 4, difficulty: 'easy',
+    text: '0.6 + 0.4 = ?',
+    choices: ['1', '0.10', '0.64', '10'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-e10', floorId: 4, difficulty: 'easy',
+    text: '大きいのはどっち？ 0.8と0.6',
+    choices: ['0.8', '0.6', '同じ', 'わからない'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-e11', floorId: 4, difficulty: 'easy',
+    text: '1 - 0.3 = ?',
+    choices: ['0.7', '0.3', '0.97', '1.3'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-e12', floorId: 4, difficulty: 'easy',
+    text: '0.2 + 0.2 + 0.2 = ?',
+    choices: ['0.6', '0.222', '6', '0.06'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-e13', floorId: 4, difficulty: 'easy',
+    text: '2.0 - 0.5 = ?',
+    choices: ['1.5', '2.5', '1.0', '0.15'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-e14', floorId: 4, difficulty: 'easy',
+    text: '0.1が8こで何？',
+    choices: ['0.8', '8', '0.18', '0.08'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-e15', floorId: 4, difficulty: 'easy',
+    text: '1.0と0.9はどちらが大きい？',
+    choices: ['1.0', '0.9', '同じ', 'わからない'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-e16', floorId: 4, difficulty: 'easy',
+    text: '0.5は何が5こ？',
+    choices: ['0.1が5こ', '0.01が5こ', '1が5こ', '0.5が5こ'],
+    answerIndex: 0,
+  },
 
-  // === normal (5問) ===
+  // === normal (16問) ===
   {
     id: 'f4-n1', floorId: 4, difficulty: 'normal',
     text: '2.5 + 3.8 = ?',
@@ -65,8 +131,74 @@ export const floor4Questions: Question[] = [
     choices: ['12.5', '125', '0.125', '1.250'],
     answerIndex: 0,
   },
+  {
+    id: 'f4-n6', floorId: 4, difficulty: 'normal',
+    text: '4.7 + 2.6 = ?',
+    choices: ['7.3', '7.13', '6.3', '6.13'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-n7', floorId: 4, difficulty: 'normal',
+    text: '8.3 - 4.5 = ?',
+    choices: ['3.8', '4.8', '3.2', '4.2'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-n8', floorId: 4, difficulty: 'normal',
+    text: '0.01が50こで何？',
+    choices: ['0.5', '5', '0.05', '50'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-n9', floorId: 4, difficulty: 'normal',
+    text: '2.08の「8」は何の位？',
+    choices: ['百分の一の位', '十分の一の位', '一の位', '千分の一の位'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-n10', floorId: 4, difficulty: 'normal',
+    text: '35.6を10分の1にすると？',
+    choices: ['3.56', '0.356', '356', '0.0356'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-n11', floorId: 4, difficulty: 'normal',
+    text: '大きい順にならべたとき2番目はどれ？ 1.5、1.05、1.50',
+    choices: ['1.05', '1.5', '1.50', '同じ'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-n12', floorId: 4, difficulty: 'normal',
+    text: 'ジュースが1.5Lあります。0.8L飲むとのこりは何L？',
+    choices: ['0.7L', '0.3L', '2.3L', '1.3L'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-n13', floorId: 4, difficulty: 'normal',
+    text: '0.3 × 4 = ?',
+    choices: ['1.2', '0.12', '1.3', '0.7'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-n14', floorId: 4, difficulty: 'normal',
+    text: '6.2 + 3.85 = ?',
+    choices: ['10.05', '9.85', '10.07', '9.25'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-n15', floorId: 4, difficulty: 'normal',
+    text: '0.01を10倍すると？',
+    choices: ['0.1', '1', '0.001', '0.10'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-n16', floorId: 4, difficulty: 'normal',
+    text: 'テープが3.2mと1.9mあります。合わせて何m？',
+    choices: ['5.1m', '5.11m', '4.1m', '4.11m'],
+    answerIndex: 0,
+  },
 
-  // === hard (5問) ===
+  // === hard (16問) ===
   {
     id: 'f4-h1', floorId: 4, difficulty: 'hard',
     text: '4.56 + 3.78 = ?',
@@ -95,6 +227,72 @@ export const floor4Questions: Question[] = [
     id: 'f4-h5', floorId: 4, difficulty: 'hard',
     text: '0.001が何こで0.1？',
     choices: ['100こ', '10こ', '1000こ', '50こ'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-h6', floorId: 4, difficulty: 'hard',
+    text: '3.45 + 6.78 = ?',
+    choices: ['10.23', '10.13', '9.23', '10.33'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-h7', floorId: 4, difficulty: 'hard',
+    text: '12.5 - 7.83 = ?',
+    choices: ['4.67', '4.77', '5.67', '4.57'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-h8', floorId: 4, difficulty: 'hard',
+    text: '0.6 × 7 = ?',
+    choices: ['4.2', '4.8', '0.42', '42'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-h9', floorId: 4, difficulty: 'hard',
+    text: '5.6 ÷ 0.8 = ?',
+    choices: ['7', '8', '6', '0.7'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-h10', floorId: 4, difficulty: 'hard',
+    text: '0.125を1000倍すると？',
+    choices: ['125', '12.5', '1.25', '1250'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-h11', floorId: 4, difficulty: 'hard',
+    text: '7.04 + 2.96 = ?',
+    choices: ['10', '9.10', '10.00', '9.00'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-h12', floorId: 4, difficulty: 'hard',
+    text: 'ひもが2.4mあります。0.3mずつ切ると何本できる？',
+    choices: ['8本', '7本', '6本', '9本'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-h13', floorId: 4, difficulty: 'hard',
+    text: '100 - 45.67 = ?',
+    choices: ['54.33', '55.33', '54.43', '64.33'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-h14', floorId: 4, difficulty: 'hard',
+    text: '0.08 × 5 = ?',
+    choices: ['0.4', '0.40', '4', '0.04'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-h15', floorId: 4, difficulty: 'hard',
+    text: '小さい順にならべたとき一番大きいのは？ 0.305、0.35、0.3',
+    choices: ['0.35', '0.305', '0.3', '同じ'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f4-h16', floorId: 4, difficulty: 'hard',
+    text: '1.5 × 0.4 = ?',
+    choices: ['0.6', '0.06', '6', '0.54'],
     answerIndex: 0,
   },
 ];

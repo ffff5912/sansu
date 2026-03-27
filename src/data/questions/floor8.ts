@@ -2,7 +2,7 @@ import type { Question } from '../types.ts';
 
 // Floor 8: グラフのまち (Graphs - Line graphs)
 export const floor8Questions: Question[] = [
-  // === easy (5問) ===
+  // === easy (16問) ===
   {
     id: 'f8-e1', floorId: 8, difficulty: 'easy',
     text: '折れ線グラフで変化が大きいのはどんなとき？',
@@ -33,8 +33,74 @@ export const floor8Questions: Question[] = [
     choices: ['たて・よこを指でたどる', '暗算する', '目を閉じる', '早く読む'],
     answerIndex: 0,
   },
+  {
+    id: 'f8-e6', floorId: 8, difficulty: 'easy',
+    text: '折れ線グラフのたて軸は何を表す？',
+    choices: ['調べた数量', '時間', '名前', '場所'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-e7', floorId: 8, difficulty: 'easy',
+    text: 'グラフのたて軸とよこ軸が交わるところの数は？',
+    choices: ['0', '1', '10', '100'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-e8', floorId: 8, difficulty: 'easy',
+    text: 'クラスの好きな食べ物の人数をくらべるのにいいグラフは？',
+    choices: ['棒グラフ', '折れ線グラフ', '円グラフ', '帯グラフ'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-e9', floorId: 8, difficulty: 'easy',
+    text: '折れ線グラフの線が右上がりのとき、数は？',
+    choices: ['増えている', '減っている', '変わらない', 'わからない'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-e10', floorId: 8, difficulty: 'easy',
+    text: '折れ線グラフの線が右下がりのとき、数は？',
+    choices: ['減っている', '増えている', '変わらない', 'わからない'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-e11', floorId: 8, difficulty: 'easy',
+    text: 'グラフに書く「単位」とは？',
+    choices: ['度や人などの数の種類', 'グラフの名前', '線の太さ', '色の種類'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-e12', floorId: 8, difficulty: 'easy',
+    text: '棒グラフで一番高い棒は何を表す？',
+    choices: ['一番大きい数量', '一番小さい数量', '平均', '合計'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-e13', floorId: 8, difficulty: 'easy',
+    text: 'グラフを書くとき、まず決めるのは？',
+    choices: ['たて軸とよこ軸に何を書くか', '色をぬること', '線を引くこと', '名前を書くこと'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-e14', floorId: 8, difficulty: 'easy',
+    text: '月曜10度、火曜10度。変化は？',
+    choices: ['変化なし', '10度上がった', '10度下がった', '20度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-e15', floorId: 8, difficulty: 'easy',
+    text: '折れ線グラフの点と点を何でつなぐ？',
+    choices: ['直線', '曲線', '点線', '波線'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-e16', floorId: 8, difficulty: 'easy',
+    text: 'グラフにはかならず何をつける？',
+    choices: ['題名（タイトル）', 'イラスト', '色', 'マーク'],
+    answerIndex: 0,
+  },
 
-  // === normal (5問) ===
+  // === normal (16問) ===
   {
     id: 'f8-n1', floorId: 8, difficulty: 'normal',
     text: '月曜15度、火曜18度。何度上がった？',
@@ -65,8 +131,74 @@ export const floor8Questions: Question[] = [
     choices: ['2つのデータの変化のちがい', '合計の値', '平均の値', 'データの個数'],
     answerIndex: 0,
   },
+  {
+    id: 'f8-n6', floorId: 8, difficulty: 'normal',
+    text: '水曜20度、木曜16度。何度下がった？',
+    choices: ['4度', '36度', '16度', '20度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-n7', floorId: 8, difficulty: 'normal',
+    text: '1目もりが5人の棒グラフで4目もり分の高さは何人？',
+    choices: ['20人', '9人', '5人', '4人'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-n8', floorId: 8, difficulty: 'normal',
+    text: '1月8度、2月6度、3月10度。一番低い月は？',
+    choices: ['2月', '1月', '3月', '全部同じ'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-n9', floorId: 8, difficulty: 'normal',
+    text: '棒グラフの1目もりが10人のとき、35人はどこに点をとる？',
+    choices: ['30と40の間', '30のところ', '40のところ', '35目もり'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-n10', floorId: 8, difficulty: 'normal',
+    text: '折れ線グラフで一番かたむきが急な部分は何を表す？',
+    choices: ['変化が一番大きい', '変化が一番小さい', '値が一番大きい', '値が一番小さい'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-n11', floorId: 8, difficulty: 'normal',
+    text: '4月12度、5月18度、6月23度、7月28度。一番変化が大きい月は？',
+    choices: ['4月→5月', '5月→6月', '6月→7月', '全部同じ'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-n12', floorId: 8, difficulty: 'normal',
+    text: '表で、りんご15個、みかん20個、バナナ10個。合計は？',
+    choices: ['45個', '35個', '40個', '50個'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-n13', floorId: 8, difficulty: 'normal',
+    text: '1目もりが0.5度のグラフで、12度と14度の間は何目もり？',
+    choices: ['4目もり', '2目もり', '8目もり', '1目もり'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-n14', floorId: 8, difficulty: 'normal',
+    text: '棒グラフで、A組25人、B組30人、C組20人。B組とC組の差は？',
+    choices: ['10人', '5人', '50人', '25人'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-n15', floorId: 8, difficulty: 'normal',
+    text: '折れ線グラフを書くとき、点はどこにとる？',
+    choices: ['たて軸とよこ軸の値が交わるところ', '好きなところ', 'たて軸の上', 'よこ軸の上'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-n16', floorId: 8, difficulty: 'normal',
+    text: '8月30度、9月25度、10月18度。8月から10月で何度下がった？',
+    choices: ['12度', '5度', '7度', '18度'],
+    answerIndex: 0,
+  },
 
-  // === hard (5問) ===
+  // === hard (16問) ===
   {
     id: 'f8-h1', floorId: 8, difficulty: 'hard',
     text: '1月5度、2月3度、3月8度、4月14度。最も上がり方が大きいのは？',
@@ -93,8 +225,74 @@ export const floor8Questions: Question[] = [
   },
   {
     id: 'f8-h5', floorId: 8, difficulty: 'hard',
-    text: 'A市(8,12,18,24,28度)とB市(10,12,16,22,26度)の差が一番大きい月は？',
-    choices: ['5月目(2度差)', '4月目(2度差)', '1月目(2度差)', 'どの月も同じ'],
-    answerIndex: 3,
+    text: 'A市の5か月の気温が8,12,18,24,28度。一番変化が小さいのは？',
+    choices: ['1月目→2月目', '2月目→3月目', '3月目→4月目', '4月目→5月目'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-h6', floorId: 8, difficulty: 'hard',
+    text: '気温が10度、15度、22度、20度、25度。下がった月はどこ？',
+    choices: ['3月目→4月目', '1月目→2月目', '2月目→3月目', '4月目→5月目'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-h7', floorId: 8, difficulty: 'hard',
+    text: '1目もりが2度のグラフで、18度から26度まで何目もり？',
+    choices: ['4目もり', '8目もり', '2目もり', '6目もり'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-h8', floorId: 8, difficulty: 'hard',
+    text: '4月から8月の気温: 14, 20, 25, 30, 28度。最高気温と最低気温の差は？',
+    choices: ['16度', '14度', '28度', '30度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-h9', floorId: 8, difficulty: 'hard',
+    text: '棒グラフで1目もりが5個。棒が7目もり分のとき何個？',
+    choices: ['35個', '7個', '12個', '70個'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-h10', floorId: 8, difficulty: 'hard',
+    text: '5日間の読書ページ数: 12, 8, 15, 10, 20。合計は？',
+    choices: ['65ページ', '55ページ', '60ページ', '70ページ'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-h11', floorId: 8, difficulty: 'hard',
+    text: 'たて軸の1目もりを小さくすると、グラフの変化はどう見える？',
+    choices: ['変化が大きく見える', '変化が小さく見える', '変わらない', 'グラフが消える'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-h12', floorId: 8, difficulty: 'hard',
+    text: 'A町とB町の人口(千人): A町 5,6,8,7 B町 3,5,6,8。差が一番小さい年は？',
+    choices: ['4年目', '1年目', '2年目', '3年目'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-h13', floorId: 8, difficulty: 'hard',
+    text: '気温 15, 18, 24, 22, 26度の5日間。平均気温は？',
+    choices: ['21度', '20度', '22度', '24度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-h14', floorId: 8, difficulty: 'hard',
+    text: '折れ線グラフで波線を使うのはどんなとき？',
+    choices: ['0から最小値までの数が大きいとき', 'データが多いとき', '線が長いとき', '値が0のとき'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-h15', floorId: 8, difficulty: 'hard',
+    text: '4つの月の売上: 100個, 150個, 120個, 200個。2番目に多い月は？',
+    choices: ['150個の月', '120個の月', '100個の月', '200個の月'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f8-h16', floorId: 8, difficulty: 'hard',
+    text: '毎月5度ずつ上がるグラフ。4月が10度のとき、8月は何度？',
+    choices: ['30度', '25度', '40度', '20度'],
+    answerIndex: 0,
   },
 ];

@@ -2,7 +2,7 @@ import type { Question } from '../types.ts';
 
 // Floor 9: 図形のしんでん (Shapes - Parallel and Perpendicular)
 export const floor9Questions: Question[] = [
-  // === easy (5問) ===
+  // === easy (16問) ===
   {
     id: 'f9-e1', floorId: 9, difficulty: 'easy',
     text: '2つの直線が直角に交わるとき、この関係を何という？',
@@ -33,8 +33,74 @@ export const floor9Questions: Question[] = [
     choices: ['平行で長さが等しい', '垂直', '長さがちがう', '直角'],
     answerIndex: 0,
   },
+  {
+    id: 'f9-e6', floorId: 9, difficulty: 'easy',
+    text: '直角は何度？',
+    choices: ['90度', '45度', '180度', '60度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-e7', floorId: 9, difficulty: 'easy',
+    text: '三角じょうぎの直角の角は何度？',
+    choices: ['90度', '60度', '45度', '30度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-e8', floorId: 9, difficulty: 'easy',
+    text: '長方形の4つの角はすべて何度？',
+    choices: ['90度', '60度', '45度', '120度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-e9', floorId: 9, difficulty: 'easy',
+    text: '正方形の辺の数はいくつ？',
+    choices: ['4本', '3本', '5本', '6本'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-e10', floorId: 9, difficulty: 'easy',
+    text: '線路のレールのように2本の直線がならんでいるとき、この関係は？',
+    choices: ['平行', '垂直', '交差', '直角'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-e11', floorId: 9, difficulty: 'easy',
+    text: '長方形の向かい合う辺は平行？',
+    choices: ['はい', 'いいえ', '1組だけ', '場合による'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-e12', floorId: 9, difficulty: 'easy',
+    text: '四角形の辺は全部で何本？',
+    choices: ['4本', '3本', '5本', '6本'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-e13', floorId: 9, difficulty: 'easy',
+    text: '四角形の頂点は全部でいくつ？',
+    choices: ['4つ', '3つ', '5つ', '6つ'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-e14', floorId: 9, difficulty: 'easy',
+    text: '垂直に交わる2つの直線が作る角度は？',
+    choices: ['90度', '180度', '45度', '60度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-e15', floorId: 9, difficulty: 'easy',
+    text: '三角形の辺は全部で何本？',
+    choices: ['3本', '4本', '5本', '2本'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-e16', floorId: 9, difficulty: 'easy',
+    text: '正方形の4つの辺の長さはどうなっている？',
+    choices: ['全部同じ', '2本ずつ同じ', '全部ちがう', '1本だけちがう'],
+    answerIndex: 0,
+  },
 
-  // === normal (5問) ===
+  // === normal (16問) ===
   {
     id: 'f9-n1', floorId: 9, difficulty: 'normal',
     text: '台形はどんな四角形？',
@@ -65,8 +131,74 @@ export const floor9Questions: Question[] = [
     choices: ['ひし形', '台形', '平行四辺形', '長方形'],
     answerIndex: 0,
   },
+  {
+    id: 'f9-n6', floorId: 9, difficulty: 'normal',
+    text: '平行四辺形には平行な辺の組が何組ある？',
+    choices: ['2組', '1組', '3組', '0組'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-n7', floorId: 9, difficulty: 'normal',
+    text: '長方形の対角線の長さは？',
+    choices: ['2本とも等しい', '1本が長い', '全部ちがう', 'わからない'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-n8', floorId: 9, difficulty: 'normal',
+    text: '2組の向かい合う辺が平行な四角形を何という？',
+    choices: ['平行四辺形', '台形', '三角形', '五角形'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-n9', floorId: 9, difficulty: 'normal',
+    text: '四角形の4つの角の大きさの合計は何度？',
+    choices: ['360度', '180度', '270度', '540度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-n10', floorId: 9, difficulty: 'normal',
+    text: '三角形の3つの角の大きさの合計は何度？',
+    choices: ['180度', '360度', '90度', '270度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-n11', floorId: 9, difficulty: 'normal',
+    text: 'ひし形の向かい合う辺の関係は？',
+    choices: ['平行', '垂直', '交差', '直角'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-n12', floorId: 9, difficulty: 'normal',
+    text: '四角形の対角線は何本引ける？',
+    choices: ['2本', '1本', '3本', '4本'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-n13', floorId: 9, difficulty: 'normal',
+    text: '平行四辺形の向かい合う辺の長さは？',
+    choices: ['等しい', '片方が2倍', '全部ちがう', 'わからない'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-n14', floorId: 9, difficulty: 'normal',
+    text: '次のうち、台形はどれ？',
+    choices: ['上と下の辺だけが平行な四角形', '4つの辺が等しい四角形', '4つの角が等しい四角形', '対角線が等しい四角形'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-n15', floorId: 9, difficulty: 'normal',
+    text: '平行な2本の直線にもう1本の直線が交わるとき、同じ側にできる角の和は？',
+    choices: ['180度', '90度', '360度', '270度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-n16', floorId: 9, difficulty: 'normal',
+    text: '正方形の対角線は何本？',
+    choices: ['2本', '1本', '4本', '3本'],
+    answerIndex: 0,
+  },
 
-  // === hard (5問) ===
+  // === hard (16問) ===
   {
     id: 'f9-h1', floorId: 9, difficulty: 'hard',
     text: '正方形はひし形でもある？',
@@ -95,6 +227,72 @@ export const floor9Questions: Question[] = [
     id: 'f9-h5', floorId: 9, difficulty: 'hard',
     text: '1つの頂点から引ける対角線で四角形はいくつの三角形に分かれる？',
     choices: ['2つ', '3つ', '4つ', '1つ'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-h6', floorId: 9, difficulty: 'hard',
+    text: '五角形の5つの角の大きさの合計は何度？',
+    choices: ['540度', '360度', '720度', '450度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-h7', floorId: 9, difficulty: 'hard',
+    text: '正方形は長方形でもある？',
+    choices: ['はい', 'いいえ', '場合による', 'ちがう形'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-h8', floorId: 9, difficulty: 'hard',
+    text: '六角形の1つの頂点から引ける対角線は何本？',
+    choices: ['3本', '2本', '4本', '5本'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-h9', floorId: 9, difficulty: 'hard',
+    text: 'ひし形の対角線はおたがいをどうする？',
+    choices: ['垂直に2等分する', '平行に分ける', '3等分する', '同じ長さに分ける'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-h10', floorId: 9, difficulty: 'hard',
+    text: '1つの頂点から対角線を引くと、五角形はいくつの三角形に分かれる？',
+    choices: ['3つ', '2つ', '4つ', '5つ'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-h11', floorId: 9, difficulty: 'hard',
+    text: '4つの辺が等しく、4つの角が直角の四角形は何？',
+    choices: ['正方形', 'ひし形', '長方形', '平行四辺形'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-h12', floorId: 9, difficulty: 'hard',
+    text: '平行四辺形ABCDで角Aが70度のとき、角Bは何度？',
+    choices: ['110度', '70度', '90度', '140度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-h13', floorId: 9, difficulty: 'hard',
+    text: '六角形の対角線は全部で何本？',
+    choices: ['9本', '6本', '12本', '8本'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-h14', floorId: 9, difficulty: 'hard',
+    text: '台形は平行四辺形の仲間？',
+    choices: ['いいえ', 'はい', '場合による', '同じもの'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-h15', floorId: 9, difficulty: 'hard',
+    text: '長方形の対角線の交わる点から各頂点までの長さは？',
+    choices: ['すべて等しい', '2本ずつ等しい', '全部ちがう', 'わからない'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f9-h16', floorId: 9, difficulty: 'hard',
+    text: '平行四辺形ABCDで角Aが50度のとき、角Cは何度？',
+    choices: ['50度', '130度', '90度', '180度'],
     answerIndex: 0,
   },
 ];

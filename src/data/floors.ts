@@ -62,6 +62,22 @@ export const FLOORS: FloorDef[] = [
     name: '立体のてんくう', subtitle: '直方体と立方体', theme: 'sky', emoji: '☁️',
     unlocked: false, monsterIds: ['cloud-men', 'star-chouten', 'comet-hen'], bossId: 'bahamut-rittai',
   },
+  // === Grade 4 Extra ===
+  {
+    id: 13, grade: 4,
+    name: '筆算のくふう', subtitle: 'たし算ひき算の筆算', theme: 'cave', emoji: '✏️',
+    unlocked: false, monsterIds: ['calc-pawn1', 'calc-pawn2', 'calc-pawn3'], bossId: 'calc-boss',
+  },
+  {
+    id: 14, grade: 4,
+    name: 'かけ算のしろ', subtitle: '2けた×2けた', theme: 'tower', emoji: '✖️',
+    unlocked: false, monsterIds: ['mult-pawn1', 'mult-pawn2', 'mult-pawn3'], bossId: 'mult-boss',
+  },
+  {
+    id: 15, grade: 4,
+    name: '小数の計算', subtitle: '小数×整数・小数÷整数', theme: 'lake', emoji: '🔢',
+    unlocked: false, monsterIds: ['dec-pawn1', 'dec-pawn2', 'dec-pawn3'], bossId: 'dec-boss',
+  },
 
   // === Grade 1 (小1) ===
   {
@@ -93,6 +109,22 @@ export const FLOORS: FloorDef[] = [
     id: 106, grade: 1,
     name: 'とけいのしろ', subtitle: 'なんじ なんぷん？', theme: 'sky', emoji: '🕐',
     unlocked: false, monsterIds: ['hoshi-tokei', 'kumo-tokei', 'niji-tokei'], bossId: 'maou-tokei',
+  },
+  // === Grade 1 Extra ===
+  {
+    id: 107, grade: 1,
+    name: 'たしざんのやま', subtitle: '大きい たしざん', theme: 'mountain', emoji: '⛰️',
+    unlocked: false, monsterIds: ['yama-tasu1', 'yama-tasu2', 'yama-tasu3'], bossId: 'yama-boss-tasu',
+  },
+  {
+    id: 108, grade: 1,
+    name: 'ひきざんのそら', subtitle: '大きい ひきざん', theme: 'sky', emoji: '🌤️',
+    unlocked: false, monsterIds: ['sora-hiku1', 'sora-hiku2', 'sora-hiku3'], bossId: 'sora-boss-hiku',
+  },
+  {
+    id: 109, grade: 1,
+    name: 'しきづくりのまち', subtitle: 'ぶんしょうから しきを つくろう', theme: 'city', emoji: '🏙️',
+    unlocked: false, monsterIds: ['shiki-pawn1', 'shiki-pawn2', 'shiki-pawn3'], bossId: 'shiki-boss',
   },
 ];
 

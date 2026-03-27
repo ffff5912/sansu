@@ -2,7 +2,7 @@ import type { Question } from '../types.ts';
 
 // Floor 3: 角度のとう (Angles)
 export const floor3Questions: Question[] = [
-  // === easy (5問) ===
+  // === easy (16問) ===
   {
     id: 'f3-e1', floorId: 3, difficulty: 'easy',
     text: '直角は何度？',
@@ -33,8 +33,74 @@ export const floor3Questions: Question[] = [
     choices: ['90度', '60度', '120度', '180度'],
     answerIndex: 0,
   },
+  {
+    id: 'f3-e6', floorId: 3, difficulty: 'easy',
+    text: '直角は何回転の何分の1？',
+    choices: ['4分の1', '2分の1', '3分の1', '6分の1'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-e7', floorId: 3, difficulty: 'easy',
+    text: '30度 + 60度 = ?',
+    choices: ['90度', '80度', '100度', '70度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-e8', floorId: 3, difficulty: 'easy',
+    text: '180度 - 90度 = ?',
+    choices: ['90度', '80度', '100度', '270度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-e9', floorId: 3, difficulty: 'easy',
+    text: '角度をはかる道具を何という？',
+    choices: ['分度器', 'コンパス', '三角定規', 'ものさし'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-e10', floorId: 3, difficulty: 'easy',
+    text: '90度より小さい角を何という？',
+    choices: ['鋭角', '鈍角', '直角', '平角'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-e11', floorId: 3, difficulty: 'easy',
+    text: '90度より大きく180度より小さい角を何という？',
+    choices: ['鈍角', '鋭角', '直角', '平角'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-e12', floorId: 3, difficulty: 'easy',
+    text: '45度 + 45度 = ?',
+    choices: ['90度', '80度', '100度', '135度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-e13', floorId: 3, difficulty: 'easy',
+    text: '直角2つ分は何度？',
+    choices: ['180度', '90度', '270度', '360度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-e14', floorId: 3, difficulty: 'easy',
+    text: '時計の12時の長針と短針の角度は？',
+    choices: ['0度', '90度', '180度', '360度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-e15', floorId: 3, difficulty: 'easy',
+    text: '60度は鋭角？鈍角？',
+    choices: ['鋭角', '鈍角', '直角', '平角'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-e16', floorId: 3, difficulty: 'easy',
+    text: '直角3つ分は何度？',
+    choices: ['270度', '180度', '360度', '90度'],
+    answerIndex: 0,
+  },
 
-  // === normal (5問) ===
+  // === normal (16問) ===
   {
     id: 'f3-n1', floorId: 3, difficulty: 'normal',
     text: '三角形の3つの角の和は？',
@@ -65,8 +131,74 @@ export const floor3Questions: Question[] = [
     choices: ['70度', '80度', '60度', '50度'],
     answerIndex: 0,
   },
+  {
+    id: 'f3-n6', floorId: 3, difficulty: 'normal',
+    text: '三角形の2つの角が50度と70度のとき、のこりの角は？',
+    choices: ['60度', '50度', '70度', '40度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-n7', floorId: 3, difficulty: 'normal',
+    text: '時計の9時の長針と短針の角度は？',
+    choices: ['270度', '90度', '180度', '360度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-n8', floorId: 3, difficulty: 'normal',
+    text: '長方形の1つの角は何度？',
+    choices: ['90度', '60度', '120度', '45度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-n9', floorId: 3, difficulty: 'normal',
+    text: '二等辺三角形の底角が65度のとき、頂角は何度？',
+    choices: ['50度', '60度', '65度', '55度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-n10', floorId: 3, difficulty: 'normal',
+    text: '120度と一直線上にある角は何度？',
+    choices: ['60度', '120度', '240度', '30度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-n11', floorId: 3, difficulty: 'normal',
+    text: '正方形の対角線がつくる角の1つは何度？',
+    choices: ['90度', '45度', '60度', '120度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-n12', floorId: 3, difficulty: 'normal',
+    text: '三角定規の角度の組み合わせでないのは？',
+    choices: ['30度・60度・80度', '30度・60度・90度', '45度・45度・90度', '60度・60度・60度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-n13', floorId: 3, difficulty: 'normal',
+    text: '45度 + 90度 = ?',
+    choices: ['135度', '125度', '145度', '130度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-n14', floorId: 3, difficulty: 'normal',
+    text: '360度 - 150度 = ?',
+    choices: ['210度', '200度', '220度', '190度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-n15', floorId: 3, difficulty: 'normal',
+    text: '直角三角形の直角でない2つの角の和は？',
+    choices: ['90度', '180度', '60度', '120度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-n16', floorId: 3, difficulty: 'normal',
+    text: '三角形の2つの角が35度と35度のとき、この三角形は何三角形？',
+    choices: ['二等辺三角形', '正三角形', '直角三角形', '不等辺三角形'],
+    answerIndex: 0,
+  },
 
-  // === hard (5問) ===
+  // === hard (16問) ===
   {
     id: 'f3-h1', floorId: 3, difficulty: 'hard',
     text: '時計の6時の長針と短針の角度は？',
@@ -95,6 +227,72 @@ export const floor3Questions: Question[] = [
     id: 'f3-h5', floorId: 3, difficulty: 'hard',
     text: '135度の角は直角何個分と何度？',
     choices: ['1個分と45度', '2個分と45度', '1個分と35度', '1個分と55度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-h6', floorId: 3, difficulty: 'hard',
+    text: '六角形の内角の和は？',
+    choices: ['720度', '540度', '600度', '900度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-h7', floorId: 3, difficulty: 'hard',
+    text: '正六角形の1つの内角は何度？',
+    choices: ['120度', '90度', '135度', '150度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-h8', floorId: 3, difficulty: 'hard',
+    text: '正五角形の1つの内角は何度？',
+    choices: ['108度', '100度', '120度', '90度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-h9', floorId: 3, difficulty: 'hard',
+    text: '対頂角が55度のとき、そのとなりの角は何度？',
+    choices: ['125度', '55度', '135度', '105度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-h10', floorId: 3, difficulty: 'hard',
+    text: '三角定規の30度と45度を合わせると何度？',
+    choices: ['75度', '80度', '70度', '65度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-h11', floorId: 3, difficulty: 'hard',
+    text: '三角定規の60度と45度を合わせると何度？',
+    choices: ['105度', '110度', '100度', '95度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-h12', floorId: 3, difficulty: 'hard',
+    text: '四角形の3つの角が80度、110度、90度のとき、のこりの角は？',
+    choices: ['80度', '90度', '70度', '100度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-h13', floorId: 3, difficulty: 'hard',
+    text: '時計の2時の長針と短針の角度は？',
+    choices: ['60度', '30度', '90度', '120度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-h14', floorId: 3, difficulty: 'hard',
+    text: '三角定規の90度から30度をひくと何度？',
+    choices: ['60度', '50度', '45度', '70度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-h15', floorId: 3, difficulty: 'hard',
+    text: '一直線上にある2つの角の一方が72度のとき、もう一方は？',
+    choices: ['108度', '72度', '118度', '88度'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f3-h16', floorId: 3, difficulty: 'hard',
+    text: '二等辺三角形の頂角が90度のとき、底角は何度？',
+    choices: ['45度', '60度', '30度', '50度'],
     answerIndex: 0,
   },
 ];

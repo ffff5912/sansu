@@ -2,7 +2,7 @@ import type { Question } from '../types.ts';
 
 // Floor 11: 変わり方のラボ (Variables & Relationships)
 export const floor11Questions: Question[] = [
-  // === easy (5問) ===
+  // === easy (16問) ===
   {
     id: 'f11-e1', floorId: 11, difficulty: 'easy',
     text: '□ + 5 = 12 の□は？',
@@ -33,8 +33,74 @@ export const floor11Questions: Question[] = [
     choices: ['7', '1', '12', '3'],
     answerIndex: 0,
   },
+  {
+    id: 'f11-e6', floorId: 11, difficulty: 'easy',
+    text: '□ + 8 = 15 の□は？',
+    choices: ['7', '8', '23', '6'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-e7', floorId: 11, difficulty: 'easy',
+    text: '□ × 4 = 20 の□は？',
+    choices: ['5', '4', '80', '6'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-e8', floorId: 11, difficulty: 'easy',
+    text: '30 - □ = 17 の□は？',
+    choices: ['13', '17', '47', '23'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-e9', floorId: 11, difficulty: 'easy',
+    text: '○ = □ + 10 で、□が5のとき○は？',
+    choices: ['15', '50', '10', '5'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-e10', floorId: 11, difficulty: 'easy',
+    text: '□ ÷ 2 = 6 の□は？',
+    choices: ['12', '3', '8', '4'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-e11', floorId: 11, difficulty: 'easy',
+    text: '○ = □ × 2 で、□が3のとき○は？',
+    choices: ['6', '5', '8', '1'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-e12', floorId: 11, difficulty: 'easy',
+    text: '□が1ふえると○も1ふえる。□が2のとき○は5。□が4のとき○は？',
+    choices: ['7', '6', '8', '9'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-e13', floorId: 11, difficulty: 'easy',
+    text: '□ × 5 = 35 の□は？',
+    choices: ['7', '6', '8', '30'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-e14', floorId: 11, difficulty: 'easy',
+    text: '○ = □ - 2 で、□が10のとき○は？',
+    choices: ['8', '12', '5', '20'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-e15', floorId: 11, difficulty: 'easy',
+    text: '24 ÷ □ = 6 の□は？',
+    choices: ['4', '6', '3', '18'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-e16', floorId: 11, difficulty: 'easy',
+    text: '□ + □ = 16 の□は？',
+    choices: ['8', '16', '4', '32'],
+    answerIndex: 0,
+  },
 
-  // === normal (5問) ===
+  // === normal (16問) ===
   {
     id: 'f11-n1', floorId: 11, difficulty: 'normal',
     text: '○ = □ × 2 + 1 で、□が5のとき○は？',
@@ -65,8 +131,74 @@ export const floor11Questions: Question[] = [
     choices: ['7', '13', '3', '30'],
     answerIndex: 0,
   },
+  {
+    id: 'f11-n6', floorId: 11, difficulty: 'normal',
+    text: '○ = □ × 3 - 2 で、□が4のとき○は？',
+    choices: ['10', '14', '6', '12'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-n7', floorId: 11, difficulty: 'normal',
+    text: '長方形のたて□cmと横5cmのとき、まわりの長さ○cm。□が3のとき○は？',
+    choices: ['16', '15', '8', '20'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-n8', floorId: 11, difficulty: 'normal',
+    text: '□が1→4、2→7、3→10。きまりの式は○ = □ × ? + 1',
+    choices: ['3', '4', '2', '5'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-n9', floorId: 11, difficulty: 'normal',
+    text: '□まいのおり紙を5人に同じ数ずつ配ると1人○まい。□が35のとき○は？',
+    choices: ['7', '30', '40', '5'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-n10', floorId: 11, difficulty: 'normal',
+    text: '○ = 20 - □ × 2 で、□が6のとき○は？',
+    choices: ['8', '14', '12', '10'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-n11', floorId: 11, difficulty: 'normal',
+    text: '□が1→5、2→8、3→11。□が5のとき○は？',
+    choices: ['17', '15', '14', '20'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-n12', floorId: 11, difficulty: 'normal',
+    text: 'えんぴつが□本で1本30円のとき、代金○円。□が8のとき○は？',
+    choices: ['240', '230', '38', '250'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-n13', floorId: 11, difficulty: 'normal',
+    text: '□ × ○ = 24 で、□が6のとき○は？',
+    choices: ['4', '6', '18', '30'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-n14', floorId: 11, difficulty: 'normal',
+    text: '□が1→2、2→4、3→6、4→8。きまりは○ = □ × ?',
+    choices: ['2', '3', '4', '1'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-n15', floorId: 11, difficulty: 'normal',
+    text: '○ = □ × 5 + 3 で、□が6のとき○は？',
+    choices: ['33', '30', '35', '28'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-n16', floorId: 11, difficulty: 'normal',
+    text: '□ + ○ = 20 で、□が12のとき○は？',
+    choices: ['8', '12', '32', '20'],
+    answerIndex: 0,
+  },
 
-  // === hard (5問) ===
+  // === hard (16問) ===
   {
     id: 'f11-h1', floorId: 11, difficulty: 'hard',
     text: '○ = □ × □ で、□が7のとき○は？',
@@ -95,6 +227,72 @@ export const floor11Questions: Question[] = [
     id: 'f11-h5', floorId: 11, difficulty: 'hard',
     text: '1, 1, 2, 3, 5, 8, ? 次の数は？',
     choices: ['13', '11', '10', '15'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-h6', floorId: 11, difficulty: 'hard',
+    text: '○ = □ × □ + 1 で、□が6のとき○は？',
+    choices: ['37', '36', '42', '35'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-h7', floorId: 11, difficulty: 'hard',
+    text: '□が1→1、2→4、3→9、4→16。きまりは○ = ?',
+    choices: ['□ × □', '□ × 4', '□ + □', '□ × 2'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-h8', floorId: 11, difficulty: 'hard',
+    text: '2, 6, 12, 20, 30, ? 次の数は？',
+    choices: ['42', '40', '36', '44'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-h9', floorId: 11, difficulty: 'hard',
+    text: '□ + ○ = 15、□ - ○ = 3 のとき□は？',
+    choices: ['9', '6', '12', '8'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-h10', floorId: 11, difficulty: 'hard',
+    text: '1, 4, 9, 16, 25, ? 次の数は？',
+    choices: ['36', '30', '35', '49'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-h11', floorId: 11, difficulty: 'hard',
+    text: '○ = □ × 2 + 3 で、○が17のとき□は？',
+    choices: ['7', '10', '8', '6'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-h12', floorId: 11, difficulty: 'hard',
+    text: '正三角形を□こならべたとき、マッチぼうは○本。□が1→3、2→5、3→7。□が10のとき○は？',
+    choices: ['21', '30', '20', '22'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-h13', floorId: 11, difficulty: 'hard',
+    text: '□ × ○ = 36、□ + ○ = 13 のとき□は？（□ > ○）',
+    choices: ['9', '4', '6', '12'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-h14', floorId: 11, difficulty: 'hard',
+    text: '3, 6, 11, 18, 27, ? 次の数は？',
+    choices: ['38', '36', '35', '40'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-h15', floorId: 11, difficulty: 'hard',
+    text: '○ = □ × 3 + 5 で、○が26のとき□は？',
+    choices: ['7', '8', '6', '9'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f11-h16', floorId: 11, difficulty: 'hard',
+    text: '□ + ○ = 20、□ × ○ = 96 のとき□は？（□ > ○）',
+    choices: ['12', '8', '10', '16'],
     answerIndex: 0,
   },
 ];

@@ -1,7 +1,7 @@
 import type { Question } from '../types.ts';
 
 export const floor1Questions: Question[] = [
-  // === easy (5問) ===
+  // === easy (16問) ===
   {
     id: 'f1-e1', floorId: 1, difficulty: 'easy',
     text: '三万五千を数字で書くと？',
@@ -32,8 +32,74 @@ export const floor1Questions: Question[] = [
     choices: ['一万が9こ', '千が9こ', '十万が9こ', '百が9こ'],
     answerIndex: 0,
   },
+  {
+    id: 'f1-e6', floorId: 1, difficulty: 'easy',
+    text: '二万を数字で書くと？',
+    choices: ['20000', '2000', '200000', '200'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-e7', floorId: 1, difficulty: 'easy',
+    text: '50000は千が何こ？',
+    choices: ['50こ', '5こ', '500こ', '5000こ'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-e8', floorId: 1, difficulty: 'easy',
+    text: '10000 + 10000 = ?',
+    choices: ['20000', '100000', '11000', '2000'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-e9', floorId: 1, difficulty: 'easy',
+    text: '80000 - 30000 = ?',
+    choices: ['50000', '110000', '5000', '11000'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-e10', floorId: 1, difficulty: 'easy',
+    text: '六万四千を数字で書くと？',
+    choices: ['64000', '6400', '640000', '60400'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-e11', floorId: 1, difficulty: 'easy',
+    text: '30000は何万？',
+    choices: ['3万', '30万', '300万', '3千'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-e12', floorId: 1, difficulty: 'easy',
+    text: '一万が6こでいくつ？',
+    choices: ['60000', '6000', '600000', '600'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-e13', floorId: 1, difficulty: 'easy',
+    text: '25000の千の位の数字は？',
+    choices: ['5', '2', '0', '25'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-e14', floorId: 1, difficulty: 'easy',
+    text: '大きいのはどっち？ 50000と48000',
+    choices: ['50000', '48000', '同じ', 'わからない'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-e15', floorId: 1, difficulty: 'easy',
+    text: '千が10こでいくつ？',
+    choices: ['一万', '十万', '千', '百'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-e16', floorId: 1, difficulty: 'easy',
+    text: '99000の次の千の数は？',
+    choices: ['100000', '99100', '990000', '99001'],
+    answerIndex: 0,
+  },
 
-  // === normal (5問) ===
+  // === normal (16問) ===
   {
     id: 'f1-n1', floorId: 1, difficulty: 'normal',
     text: '三百二十五万を数字で書くと？',
@@ -64,8 +130,74 @@ export const floor1Questions: Question[] = [
     choices: ['72000000', '7200000', '720000', '700000000'],
     answerIndex: 0,
   },
+  {
+    id: 'f1-n6', floorId: 1, difficulty: 'normal',
+    text: '八百万を数字で書くと？',
+    choices: ['8000000', '800000', '80000000', '80000'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-n7', floorId: 1, difficulty: 'normal',
+    text: '4500000は百万が何こ？',
+    choices: ['4こと50万', '45こ', '450こ', '4こ'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-n8', floorId: 1, difficulty: 'normal',
+    text: '1200000 + 3800000 = ?',
+    choices: ['5000000', '4000000', '50000000', '5100000'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-n9', floorId: 1, difficulty: 'normal',
+    text: '9000000 - 2500000 = ?',
+    choices: ['6500000', '7500000', '650000', '11500000'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-n10', floorId: 1, difficulty: 'normal',
+    text: '65300000の百万の位の数字は？',
+    choices: ['5', '6', '3', '0'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-n11', floorId: 1, difficulty: 'normal',
+    text: '十万が30こでいくつ？',
+    choices: ['300万', '30万', '3000万', '3万'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-n12', floorId: 1, difficulty: 'normal',
+    text: '大きい順にならべたとき2番目はどれ？ 530万、350万、503万',
+    choices: ['503万', '530万', '350万', '同じ'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-n13', floorId: 1, difficulty: 'normal',
+    text: '一万を100こ集めるといくつ？',
+    choices: ['百万', '十万', '一億', '千万'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-n14', floorId: 1, difficulty: 'normal',
+    text: '4070000を漢字で書くと？',
+    choices: ['四百七万', '四十七万', '四千七百万', '四万七千'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-n15', floorId: 1, difficulty: 'normal',
+    text: '百万が10こでいくつ？',
+    choices: ['千万', '一億', '十万', '百万'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-n16', floorId: 1, difficulty: 'normal',
+    text: '36000000を10倍すると？',
+    choices: ['3億6000万', '360万', '36億', '3600万'],
+    answerIndex: 0,
+  },
 
-  // === hard (5問) ===
+  // === hard (16問) ===
   {
     id: 'f1-h1', floorId: 1, difficulty: 'hard',
     text: '一億三千万を数字で書くと？',
@@ -94,6 +226,72 @@ export const floor1Questions: Question[] = [
     id: 'f1-h5', floorId: 1, difficulty: 'hard',
     text: '999999999の次の数は？',
     choices: ['10億', '1億', '100億', '9億9千万'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-h6', floorId: 1, difficulty: 'hard',
+    text: '二十三億五千万を数字で書くと？',
+    choices: ['2350000000', '235000000', '23500000000', '2035000000'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-h7', floorId: 1, difficulty: 'hard',
+    text: '一兆を数字で書くと0は何こ？',
+    choices: ['12こ', '10こ', '9こ', '15こ'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-h8', floorId: 1, difficulty: 'hard',
+    text: '80億 - 35億 = ?',
+    choices: ['45億', '55億', '115億', '4500万'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-h9', floorId: 1, difficulty: 'hard',
+    text: '千億が10こでいくつ？',
+    choices: ['一兆', '一億', '十兆', '百億'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-h10', floorId: 1, difficulty: 'hard',
+    text: '50000000000は何億？',
+    choices: ['500億', '50億', '5000億', '5億'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-h11', floorId: 1, difficulty: 'hard',
+    text: '日本の人口はおよそ1億2600万人。これを万の位までのがい数にすると？',
+    choices: ['1億2600万', '1億3000万', '1億2000万', '1億'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-h12', floorId: 1, difficulty: 'hard',
+    text: '一億を1000こ集めるといくつ？',
+    choices: ['千億', '一兆', '百億', '十億'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-h13', floorId: 1, difficulty: 'hard',
+    text: '3600000000を100倍すると？',
+    choices: ['3600億', '360億', '36兆', '3兆6000億'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-h14', floorId: 1, difficulty: 'hard',
+    text: '□億の□に入る数が5のとき、数字で書くと？',
+    choices: ['500000000', '50000000', '5000000000', '5000000'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-h15', floorId: 1, difficulty: 'hard',
+    text: '7億は700万の何倍？',
+    choices: ['100倍', '10倍', '1000倍', '50倍'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f1-h16', floorId: 1, difficulty: 'hard',
+    text: '大きい順にならべたとき一番小さいのは？ 3億、2500万、9千万',
+    choices: ['2500万', '9千万', '3億', '同じ'],
     answerIndex: 0,
   },
 ];

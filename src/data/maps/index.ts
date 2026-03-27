@@ -17,6 +17,12 @@ import { floor103Map } from './floor103.ts';
 import { floor104Map } from './floor104.ts';
 import { floor105Map } from './floor105.ts';
 import { floor106Map } from './floor106.ts';
+import { floor107Map } from './floor107.ts';
+import { floor108Map } from './floor108.ts';
+import { floor109Map } from './floor109.ts';
+import { floor13Map } from './floor13.ts';
+import { floor14Map } from './floor14.ts';
+import { floor15Map } from './floor15.ts';
 
 const maps: Record<number, TileMap> = {
   1: floor1Map,
@@ -37,6 +43,12 @@ const maps: Record<number, TileMap> = {
   104: floor104Map,
   105: floor105Map,
   106: floor106Map,
+  107: floor107Map,
+  108: floor108Map,
+  109: floor109Map,
+  13: floor13Map,
+  14: floor14Map,
+  15: floor15Map,
 };
 
 export function getMap(floorId: number): TileMap | undefined {

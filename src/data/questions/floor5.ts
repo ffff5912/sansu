@@ -2,7 +2,7 @@ import type { Question } from '../types.ts';
 
 // Floor 5: がい数のさばく (Rounding / Estimation)
 export const floor5Questions: Question[] = [
-  // === easy (5問) ===
+  // === easy (16問) ===
   {
     id: 'f5-e1', floorId: 5, difficulty: 'easy',
     text: '36を四捨五入して十の位までのがい数にすると？',
@@ -33,8 +33,74 @@ export const floor5Questions: Question[] = [
     choices: ['100', '120', '130', '200'],
     answerIndex: 0,
   },
+  {
+    id: 'f5-e6', floorId: 5, difficulty: 'easy',
+    text: '42を四捨五入して十の位までのがい数にすると？',
+    choices: ['40', '50', '42', '45'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-e7', floorId: 5, difficulty: 'easy',
+    text: '58を四捨五入して十の位までのがい数にすると？',
+    choices: ['60', '50', '55', '58'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-e8', floorId: 5, difficulty: 'easy',
+    text: '四捨五入で切り捨てるのは何以下？',
+    choices: ['4以下', '5以下', '3以下', '6以下'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-e9', floorId: 5, difficulty: 'easy',
+    text: '91を四捨五入して十の位までのがい数にすると？',
+    choices: ['90', '100', '91', '95'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-e10', floorId: 5, difficulty: 'easy',
+    text: '15を四捨五入して十の位までのがい数にすると？',
+    choices: ['20', '10', '15', '25'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-e11', floorId: 5, difficulty: 'easy',
+    text: '「がい数」とはどんな数？',
+    choices: ['だいたいの数', 'ちょうどの数', '小さい数', '大きい数'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-e12', floorId: 5, difficulty: 'easy',
+    text: '67を四捨五入して十の位までのがい数にすると？',
+    choices: ['70', '60', '65', '80'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-e13', floorId: 5, difficulty: 'easy',
+    text: '23を四捨五入して十の位までのがい数にすると？',
+    choices: ['20', '30', '25', '23'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-e14', floorId: 5, difficulty: 'easy',
+    text: '350を四捨五入して百の位までのがい数にすると？',
+    choices: ['400', '300', '350', '500'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-e15', floorId: 5, difficulty: 'easy',
+    text: '44を四捨五入して十の位までのがい数にすると？',
+    choices: ['40', '50', '44', '45'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-e16', floorId: 5, difficulty: 'easy',
+    text: '四捨五入するとき、見る数字が5なら？',
+    choices: ['切り上げる', '切り捨てる', 'そのまま', '0にする'],
+    answerIndex: 0,
+  },
 
-  // === normal (5問) ===
+  // === normal (16問) ===
   {
     id: 'f5-n1', floorId: 5, difficulty: 'normal',
     text: '3456を四捨五入して千の位までのがい数にすると？',
@@ -65,8 +131,74 @@ export const floor5Questions: Question[] = [
     choices: ['3000', '2000', '2900', '2950'],
     answerIndex: 0,
   },
+  {
+    id: 'f5-n6', floorId: 5, difficulty: 'normal',
+    text: '6482を四捨五入して百の位までのがい数にすると？',
+    choices: ['6500', '6400', '6000', '7000'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-n7', floorId: 5, difficulty: 'normal',
+    text: '1350を四捨五入して千の位までのがい数にすると？',
+    choices: ['1000', '2000', '1400', '1300'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-n8', floorId: 5, difficulty: 'normal',
+    text: '「5未満」に5はふくまれる？',
+    choices: ['ふくまれない', 'ふくまれる', '場合による', 'わからない'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-n9', floorId: 5, difficulty: 'normal',
+    text: '四捨五入して十の位までのがい数が80になる数はどれ？',
+    choices: ['83', '74', '86', '90'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-n10', floorId: 5, difficulty: 'normal',
+    text: '4567を上から2けたのがい数にすると？',
+    choices: ['4600', '4500', '5000', '4570'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-n11', floorId: 5, difficulty: 'normal',
+    text: 'お店で198円のものを買います。がい数で見積もると約何円？',
+    choices: ['約200円', '約100円', '約190円', '約300円'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-n12', floorId: 5, difficulty: 'normal',
+    text: '8750を四捨五入して百の位までのがい数にすると？',
+    choices: ['8800', '8700', '9000', '8750'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-n13', floorId: 5, difficulty: 'normal',
+    text: '3254を四捨五入して百の位までのがい数にすると？',
+    choices: ['3300', '3200', '3000', '3250'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-n14', floorId: 5, difficulty: 'normal',
+    text: '10以上20未満の整数は何個？',
+    choices: ['10個', '11個', '9個', '20個'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-n15', floorId: 5, difficulty: 'normal',
+    text: '四捨五入して千の位までのがい数が5000になる数はどれ？',
+    choices: ['5230', '4400', '5600', '4300'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-n16', floorId: 5, difficulty: 'normal',
+    text: '9450を四捨五入して千の位までのがい数にすると？',
+    choices: ['9000', '10000', '9500', '9400'],
+    answerIndex: 0,
+  },
 
-  // === hard (5問) ===
+  // === hard (16問) ===
   {
     id: 'f5-h1', floorId: 5, difficulty: 'hard',
     text: '四捨五入して千の位までのがい数が6000になる整数のはんいは？',
@@ -95,6 +227,72 @@ export const floor5Questions: Question[] = [
     id: 'f5-h5', floorId: 5, difficulty: 'hard',
     text: '67890を上から3けたのがい数にすると？',
     choices: ['67900', '67800', '68000', '67000'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-h6', floorId: 5, difficulty: 'hard',
+    text: '四捨五入して百の位までのがい数が300になる整数のはんいは？',
+    choices: ['250以上349以下', '300以上399以下', '250以上350以下', '200以上399以下'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-h7', floorId: 5, difficulty: 'hard',
+    text: '389 + 624 の見積もり（百の位のがい数で計算）は？',
+    choices: ['1000', '900', '1100', '1010'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-h8', floorId: 5, difficulty: 'hard',
+    text: '45678を上から2けたのがい数にすると？',
+    choices: ['46000', '45000', '50000', '45700'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-h9', floorId: 5, difficulty: 'hard',
+    text: '812 - 396 の見積もり（百の位のがい数で計算）は？',
+    choices: ['400', '500', '300', '416'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-h10', floorId: 5, difficulty: 'hard',
+    text: '四捨五入して十の位までのがい数が50になる整数のはんいは？',
+    choices: ['45以上54以下', '50以上59以下', '45以上55以下', '40以上59以下'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-h11', floorId: 5, difficulty: 'hard',
+    text: '23456を上から1けたのがい数にすると？',
+    choices: ['20000', '23000', '30000', '24000'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-h12', floorId: 5, difficulty: 'hard',
+    text: '295円と487円の買い物。百の位のがい数で見積もると合計は約何円？',
+    choices: ['約800円', '約700円', '約900円', '約600円'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-h13', floorId: 5, difficulty: 'hard',
+    text: '10以上20以下の整数は何個？',
+    choices: ['11個', '10個', '9個', '20個'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-h14', floorId: 5, difficulty: 'hard',
+    text: '34567を上から3けたのがい数にすると？',
+    choices: ['34600', '34500', '35000', '34000'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-h15', floorId: 5, difficulty: 'hard',
+    text: '1000個のりんごを48箱に分けます。1箱あたり約何個？（がい数で見積もり）',
+    choices: ['約20個', '約25個', '約10個', '約50個'],
+    answerIndex: 0,
+  },
+  {
+    id: 'f5-h16', floorId: 5, difficulty: 'hard',
+    text: '四捨五入して千の位までのがい数が10000になる最も小さい整数は？',
+    choices: ['9500', '10000', '9000', '9999'],
     answerIndex: 0,
   },
 ];
