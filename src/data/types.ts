@@ -205,7 +205,7 @@ export interface SaveData {
 }
 
 /* ========== Game State (top level) ========== */
-export type GameScene = 'title' | 'base' | 'worldmap' | 'dungeon' | 'result';
+export type GameScene = 'title' | 'base' | 'worldmap' | 'dungeon' | 'result' | 'practice';
 
 export interface GameState {
   scene: GameScene;

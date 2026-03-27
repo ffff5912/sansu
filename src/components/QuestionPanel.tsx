@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import type { Question } from '../data/types.ts';
 import ClockFace from './ClockFace.tsx';
 
@@ -9,6 +10,32 @@ interface QuestionPanelProps {
   selectedIndex?: number | null;
 }
 
+/** Shuffle choices while tracking which shuffled index maps to which original index */
+function shuffleChoices(choices: readonly string[], answerIndex: number, seed: string): {
+  shuffled: string[];
+  /** Maps shuffled index → original index */
+  indexMap: number[];
+  /** The shuffled index of the correct answer */
+  correctShuffledIndex: number;
+} {
+  const indices = [0, 1, 2, 3];
+  // Deterministic shuffle based on question id (seed)
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = ((hash << 5) - hash + seed.charCodeAt(i)) | 0;
+  }
+  for (let i = indices.length - 1; i > 0; i--) {
+    hash = ((hash << 5) - hash + i) | 0;
+    const j = ((hash >>> 0) % (i + 1));
+    [indices[i], indices[j]] = [indices[j], indices[i]];
+  }
+  return {
+    shuffled: indices.map(i => choices[i]),
+    indexMap: indices,
+    correctShuffledIndex: indices.indexOf(answerIndex),
+  };
+}
+
 export default function QuestionPanel({
   question,
   timeLeft,
@@ -17,6 +44,21 @@ export default function QuestionPanel({
   selectedIndex = null,
 }: QuestionPanelProps) {
   const urgent = timeLeft <= 5;
+
+  // Shuffle choices once per question (stable via useMemo keyed by question.id)
+  const { shuffled, indexMap, correctShuffledIndex } = useMemo(
+    () => shuffleChoices(question.choices, question.answerIndex, question.id),
+    [question.id, question.choices, question.answerIndex],
+  );
+
+  // When user taps a shuffled choice, map back to the original index for answer checking
+  const handleChoice = (shuffledIdx: number) => {
+    if (disabled) return;
+    onAnswer(indexMap[shuffledIdx]);
+  };
+
+  // Map selectedIndex (original) to shuffled for display
+  const selectedShuffled = selectedIndex !== null ? indexMap.indexOf(selectedIndex) : null;
 
   return (
     <div style={{
@@ -59,15 +101,15 @@ export default function QuestionPanel({
         {question.text}
       </div>
 
-      {/* 4 choices */}
+      {/* 4 choices (shuffled) */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
         gap: 8,
       }}>
-        {question.choices.map((choice, i) => {
-          const isSelected = selectedIndex === i;
-          const isCorrect = i === question.answerIndex;
+        {shuffled.map((choice, i) => {
+          const isSelected = selectedShuffled === i;
+          const isCorrect = i === correctShuffledIndex;
           let bg = 'var(--color-bg-lighter)';
           if (disabled && isCorrect) bg = 'var(--color-success)';
           else if (disabled && isSelected && !isCorrect) bg = 'var(--color-danger)';
@@ -76,7 +118,7 @@ export default function QuestionPanel({
           return (
             <button
               key={i}
-              onClick={() => !disabled && onAnswer(i)}
+              onClick={() => handleChoice(i)}
               disabled={disabled}
               style={{
                 padding: '12px 8px',

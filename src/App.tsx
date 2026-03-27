@@ -6,6 +6,7 @@ import BasePage from './pages/BasePage.tsx';
 import WorldMapPage from './pages/WorldMapPage.tsx';
 import DungeonPage from './pages/DungeonPage.tsx';
 import ResultPage from './pages/ResultPage.tsx';
+import PracticePage from './pages/PracticePage.tsx';
 
 export default function App() {
   const {
@@ -13,6 +14,7 @@ export default function App() {
     goToTitle,
     goToBase,
     goToWorldMap,
+    goToPractice,
     setDifficulty,
     enterDungeon,
     finishDungeon,
@@ -74,6 +76,7 @@ export default function App() {
           dungeonBuff={state.dungeonBuff}
           onSetBuff={setDungeonBuff}
           onGoDungeon={goToWorldMap}
+          onGoPractice={goToPractice}
           onGoTitle={goToTitle}
         />
       );
@@ -105,6 +108,14 @@ export default function App() {
           onMonsterDefeated={addDefeatedMonster}
           onBossDefeated={addDefeatedBoss}
           onMaterialsGained={handleMaterialsGained}
+          onBack={handleBackToBase}
+        />
+      );
+
+    case 'practice':
+      return (
+        <PracticePage
+          grade={state.grade}
           onBack={handleBackToBase}
         />
       );

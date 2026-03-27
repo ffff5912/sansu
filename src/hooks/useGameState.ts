@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import type { GameState, PlayerState, Grade, Inventory, GameDifficulty, BuildingSave, DungeonBuff, MaterialBag, EquipmentSlots } from '../data/types.ts';
+import type { GameState, GameScene, PlayerState, Grade, Inventory, GameDifficulty, BuildingSave, DungeonBuff, MaterialBag, EquipmentSlots } from '../data/types.ts';
 import { loadSave, writeSave, DEFAULT_PLAYER, DEFAULT_INVENTORY } from '../lib/storage.ts';
 import { DEFAULT_BUILDINGS } from '../data/buildings.ts';
 
@@ -78,6 +78,10 @@ export function useGameState() {
     setState(s => ({ ...s, scene: 'worldmap', currentFloor: null, resultType: null }));
   }, []);
 
+  const goToPractice = useCallback(() => {
+    setState(s => ({ ...s, scene: 'practice' as GameScene }));
+  }, []);
+
   const setDifficulty = useCallback((diff: GameDifficulty) => {
     setState(s => ({ ...s, gameDifficulty: diff }));
   }, []);
@@ -146,6 +150,7 @@ export function useGameState() {
     goToTitle,
     goToBase,
     goToWorldMap,
+    goToPractice,
     setDifficulty,
     enterDungeon,
     finishDungeon,

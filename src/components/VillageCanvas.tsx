@@ -26,6 +26,7 @@ const BUILDING_SPRITES: Record<string, string> = {
   tower:    `${A}/Buildings/Blue Buildings/Tower.png`,
   garden:   `${A}/Buildings/Yellow Buildings/Archery.png`,
   smithy:   `${A}/Buildings/Red Buildings/House2.png`,
+  school:   `${A}/Buildings/Purple Buildings/House1.png`,
 };
 const TREE_PATHS = [
   `${A}/Terrain/Resources/Wood/Trees/Tree1.png`,
@@ -89,6 +90,9 @@ export default function VillageCanvas({ builtIds, villageLv, villagers, monument
   useEffect(() => { onTapRef.current = onTapBuilding; }, [onTapBuilding]);
   const onTapVillagerRef = useRef(onTapVillager);
   useEffect(() => { onTapVillagerRef.current = onTapVillager; }, [onTapVillager]);
+  // Persist scroll position and zoom across re-inits
+  const scrollRef = useRef<{ x: number; y: number } | null>(null);
+  const zoomRef = useRef(1);
 
   const initApp = useCallback(async () => {
     const el = containerRef.current;
@@ -118,11 +122,18 @@ export default function VillageCanvas({ builtIds, villageLv, villagers, monument
     ];
     await Assets.load(allPaths);
 
-    /* ====== WORLD (draggable) ====== */
+    /* ====== WORLD (draggable + zoomable) ====== */
     const world = new Container();
-    // Center world initially on the village center
-    world.x = viewW / 2 - MAP_W / 2;
-    world.y = viewH / 2 - MAP_H / 2;
+    let currentZoom = zoomRef.current;
+    world.scale.set(currentZoom);
+    // Restore or center scroll position
+    if (scrollRef.current) {
+      world.x = scrollRef.current.x;
+      world.y = scrollRef.current.y;
+    } else {
+      world.x = viewW / 2 - MAP_W * currentZoom / 2;
+      world.y = viewH / 2 - MAP_H * currentZoom / 2;
+    }
     app.stage.addChild(world);
 
     /* ====== DRAG TO SCROLL ====== */
@@ -134,10 +145,14 @@ export default function VillageCanvas({ builtIds, villageLv, villagers, monument
     let dragMoved = false;
 
     const clampWorld = () => {
-      const minX = viewW - MAP_W;
-      const minY = viewH - MAP_H;
+      const scaledW = MAP_W * currentZoom;
+      const scaledH = MAP_H * currentZoom;
+      const minX = viewW - scaledW;
+      const minY = viewH - scaledH;
       world.x = Math.min(0, Math.max(minX, world.x));
       world.y = Math.min(0, Math.max(minY, world.y));
+      // Save scroll position
+      scrollRef.current = { x: world.x, y: world.y };
     };
 
     const canvas = app.canvas as HTMLCanvasElement;
@@ -161,6 +176,39 @@ export default function VillageCanvas({ builtIds, villageLv, villagers, monument
     const endDrag = () => { dragging = false; };
     canvas.addEventListener('pointerup', endDrag);
     canvas.addEventListener('pointerleave', endDrag);
+
+    /* ====== PINCH ZOOM + WHEEL ZOOM ====== */
+    let lastPinchDist = 0;
+    canvas.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 2) {
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        lastPinchDist = Math.sqrt(dx * dx + dy * dy);
+      }
+    }, { passive: true });
+    canvas.addEventListener('touchmove', (e) => {
+      if (e.touches.length === 2) {
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (lastPinchDist > 0) {
+          const delta = dist / lastPinchDist;
+          currentZoom = Math.min(2, Math.max(0.5, currentZoom * delta));
+          world.scale.set(currentZoom);
+          zoomRef.current = currentZoom;
+          clampWorld();
+        }
+        lastPinchDist = dist;
+      }
+    }, { passive: true });
+    canvas.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? 0.9 : 1.1;
+      currentZoom = Math.min(2, Math.max(0.5, currentZoom * delta));
+      world.scale.set(currentZoom);
+      zoomRef.current = currentZoom;
+      clampWorld();
+    }, { passive: false });
 
     /* ====== GROUND ====== */
     const tilemapTex = Texture.from(TILEMAP_PATH);
