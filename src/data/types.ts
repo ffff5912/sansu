@@ -201,11 +201,25 @@ export interface SaveData {
   craftedEquipment: string[];
   equipment: EquipmentSlots;
   defeatedBossIds: string[];
+  colosseumHighScore: number;
+  colosseumBestRank: ColosseumRank;
   timestamp: number;
 }
 
 /* ========== Game State (top level) ========== */
-export type GameScene = 'title' | 'base' | 'worldmap' | 'dungeon' | 'result' | 'practice';
+export type GameScene = 'title' | 'base' | 'worldmap' | 'dungeon' | 'result' | 'practice' | 'colosseum';
+
+/* ========== Colosseum ========== */
+export type ColosseumRank = 'none' | 'bronze' | 'silver' | 'gold' | 'platinum' | 'diamond';
+
+export interface ColosseumResult {
+  score: number;
+  combo: number;
+  maxCombo: number;
+  correct: number;
+  total: number;
+  rank: ColosseumRank;
+}
 
 export interface GameState {
   scene: GameScene;
@@ -223,5 +237,7 @@ export interface GameState {
   craftedEquipment: string[];
   equipment: EquipmentSlots;
   defeatedBossIds: string[];
+  colosseumHighScore: number;
+  colosseumBestRank: ColosseumRank;
   dungeonBuff: DungeonBuff;
 }

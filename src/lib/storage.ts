@@ -1,4 +1,4 @@
-import type { SaveData, PlayerState, Grade, Inventory, EquipmentSlots, MaterialBag } from '../data/types.ts';
+import type { SaveData, PlayerState, Grade, Inventory, EquipmentSlots, MaterialBag, ColosseumRank } from '../data/types.ts';
 
 const SAVE_KEY_PREFIX = 'sansu-dungeon-save';
 const CURRENT_VERSION = 1;
@@ -36,6 +36,8 @@ function defaultSave(grade: Grade): SaveData {
     craftedEquipment: [],
     equipment: { weapon: null, armor: null, accessory: null } as EquipmentSlots,
     defeatedBossIds: [],
+    colosseumHighScore: 0,
+    colosseumBestRank: 'none' as ColosseumRank,
     timestamp: Date.now(),
   };
 }
@@ -60,6 +62,8 @@ export function loadSave(grade: Grade): SaveData {
       craftedEquipment: data.craftedEquipment ?? base.craftedEquipment,
       equipment: data.equipment ?? base.equipment,
       defeatedBossIds: data.defeatedBossIds ?? base.defeatedBossIds,
+      colosseumHighScore: data.colosseumHighScore ?? base.colosseumHighScore,
+      colosseumBestRank: data.colosseumBestRank ?? base.colosseumBestRank,
       version: CURRENT_VERSION,
     };
   } catch {

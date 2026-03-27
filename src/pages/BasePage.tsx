@@ -33,6 +33,7 @@ interface BasePageProps {
   onSetBuff: (buff: DungeonBuff) => void;
   onGoDungeon: () => void;
   onGoPractice: () => void;
+  onGoColosseum: () => void;
   onGoTitle: () => void;
 }
 
@@ -60,6 +61,7 @@ export default function BasePage({
   onSetBuff,
   onGoDungeon,
   onGoPractice,
+  onGoColosseum,
   onGoTitle,
 }: BasePageProps) {
   const [panel, setPanel] = useState<Panel>(null);
@@ -146,6 +148,9 @@ export default function BasePage({
           break;
         case 'school':
           onGoPractice();
+          break;
+        case 'colosseum':
+          onGoColosseum();
           break;
         case 'tower':
           setPanel('encyclopedia');

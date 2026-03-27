@@ -1,7 +1,11 @@
 import { useState, useCallback, useEffect } from 'react';
-import type { GameState, GameScene, PlayerState, Grade, Inventory, GameDifficulty, BuildingSave, DungeonBuff, MaterialBag, EquipmentSlots } from '../data/types.ts';
+import type { GameState, GameScene, PlayerState, Grade, Inventory, GameDifficulty, BuildingSave, DungeonBuff, MaterialBag, EquipmentSlots, ColosseumRank } from '../data/types.ts';
 import { loadSave, writeSave, DEFAULT_PLAYER, DEFAULT_INVENTORY } from '../lib/storage.ts';
 import { DEFAULT_BUILDINGS } from '../data/buildings.ts';
+
+function rankOrder(r: ColosseumRank): number {
+  return { none: 0, bronze: 1, silver: 2, gold: 3, platinum: 4, diamond: 5 }[r];
+}
 
 function initState(): GameState {
   return {
@@ -20,6 +24,8 @@ function initState(): GameState {
     craftedEquipment: [],
     equipment: { weapon: null, armor: null, accessory: null },
     defeatedBossIds: [],
+    colosseumHighScore: 0,
+    colosseumBestRank: 'none' as ColosseumRank,
     dungeonBuff: 'none' as DungeonBuff,
   };
 }
@@ -44,9 +50,11 @@ export function useGameState() {
       craftedEquipment: state.craftedEquipment,
       equipment: state.equipment,
       defeatedBossIds: state.defeatedBossIds,
+      colosseumHighScore: state.colosseumHighScore,
+      colosseumBestRank: state.colosseumBestRank,
       timestamp: Date.now(),
     });
-  }, [state.player, state.clearedFloors, state.currentFloor, state.scene, state.grade, state.inventory, state.buildings, state.buildingLevels, state.defeatedMonsterIds, state.materials, state.craftedEquipment, state.equipment, state.defeatedBossIds]);
+  }, [state.player, state.clearedFloors, state.currentFloor, state.scene, state.grade, state.inventory, state.buildings, state.buildingLevels, state.defeatedMonsterIds, state.materials, state.craftedEquipment, state.equipment, state.defeatedBossIds, state.colosseumHighScore, state.colosseumBestRank]);
 
   const goToTitle = useCallback(() => {
     setState(s => ({ ...s, scene: 'title', currentFloor: null, resultType: null }));
@@ -70,6 +78,8 @@ export function useGameState() {
       craftedEquipment: save.craftedEquipment,
       equipment: save.equipment,
       defeatedBossIds: save.defeatedBossIds,
+      colosseumHighScore: save.colosseumHighScore,
+      colosseumBestRank: save.colosseumBestRank,
       dungeonBuff: 'none' as DungeonBuff,
     }));
   }, []);
@@ -80,6 +90,18 @@ export function useGameState() {
 
   const goToPractice = useCallback(() => {
     setState(s => ({ ...s, scene: 'practice' as GameScene }));
+  }, []);
+
+  const goToColosseum = useCallback(() => {
+    setState(s => ({ ...s, scene: 'colosseum' as GameScene }));
+  }, []);
+
+  const updateColosseumScore = useCallback((score: number, rank: ColosseumRank) => {
+    setState(s => ({
+      ...s,
+      colosseumHighScore: Math.max(s.colosseumHighScore, score),
+      colosseumBestRank: rankOrder(rank) > rankOrder(s.colosseumBestRank) ? rank : s.colosseumBestRank,
+    }));
   }, []);
 
   const setDifficulty = useCallback((diff: GameDifficulty) => {
@@ -151,6 +173,8 @@ export function useGameState() {
     goToBase,
     goToWorldMap,
     goToPractice,
+    goToColosseum,
+    updateColosseumScore,
     setDifficulty,
     enterDungeon,
     finishDungeon,

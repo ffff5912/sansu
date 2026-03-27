@@ -7,6 +7,8 @@ import WorldMapPage from './pages/WorldMapPage.tsx';
 import DungeonPage from './pages/DungeonPage.tsx';
 import ResultPage from './pages/ResultPage.tsx';
 import PracticePage from './pages/PracticePage.tsx';
+import ColosseumPage from './pages/ColosseumPage.tsx';
+import type { ColosseumResult } from './data/types.ts';
 
 export default function App() {
   const {
@@ -15,6 +17,8 @@ export default function App() {
     goToBase,
     goToWorldMap,
     goToPractice,
+    goToColosseum,
+    updateColosseumScore,
     setDifficulty,
     enterDungeon,
     finishDungeon,
@@ -77,6 +81,7 @@ export default function App() {
           onSetBuff={setDungeonBuff}
           onGoDungeon={goToWorldMap}
           onGoPractice={goToPractice}
+          onGoColosseum={goToColosseum}
           onGoTitle={goToTitle}
         />
       );
@@ -108,6 +113,21 @@ export default function App() {
           onMonsterDefeated={addDefeatedMonster}
           onBossDefeated={addDefeatedBoss}
           onMaterialsGained={handleMaterialsGained}
+          onBack={handleBackToBase}
+        />
+      );
+
+    case 'colosseum':
+      return (
+        <ColosseumPage
+          grade={state.grade}
+          highScore={state.colosseumHighScore}
+          bestRank={state.colosseumBestRank}
+          playerGold={state.player.gold}
+          onFinish={(result: ColosseumResult, goldEarned: number) => {
+            updateColosseumScore(result.score, result.rank);
+            updatePlayer({ ...state.player, gold: state.player.gold + goldEarned });
+          }}
           onBack={handleBackToBase}
         />
       );

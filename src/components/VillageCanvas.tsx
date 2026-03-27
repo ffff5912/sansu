@@ -27,6 +27,7 @@ const BUILDING_SPRITES: Record<string, string> = {
   garden:   `${A}/Buildings/Yellow Buildings/Archery.png`,
   smithy:   `${A}/Buildings/Red Buildings/House2.png`,
   school:   `${A}/Buildings/Purple Buildings/House1.png`,
+  colosseum: `${A}/Buildings/Red Buildings/Castle.png`,
 };
 const TREE_PATHS = [
   `${A}/Terrain/Resources/Wood/Trees/Tree1.png`,

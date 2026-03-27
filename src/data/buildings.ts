@@ -78,6 +78,15 @@ export const BUILDINGS: BuildingDef[] = [
     gridY: 7,
   },
   {
+    id: 'colosseum',
+    name: 'コロシアム',
+    emoji: '🏟️',
+    description: '10もん連続チャレンジ！ランクをめざせ',
+    cost: 150,
+    gridX: 13,
+    gridY: 5,
+  },
+  {
     id: 'school',
     name: 'れんしゅうじょ',
     emoji: '📝',
