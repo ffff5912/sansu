@@ -5,6 +5,7 @@ interface ResultPageProps {
   floorId: number;
   resultType: 'clear' | 'gameover';
   player: PlayerState;
+  stars?: number;
   onContinue: () => void;
   onRetry: () => void;
 }
@@ -13,6 +14,7 @@ export default function ResultPage({
   floorId,
   resultType,
   player,
+  stars = 0,
   onContinue,
   onRetry,
 }: ResultPageProps) {
@@ -43,6 +45,19 @@ export default function ResultPage({
       }}>
         {isClear ? 'フロアクリア！' : 'ゲームオーバー'}
       </h1>
+      {isClear && stars > 0 && (
+        <div style={{ display: 'flex', gap: 4, justifyContent: 'center', fontSize: 28 }}>
+          {[1, 2, 3].map(i => (
+            <span key={i} style={{
+              opacity: i <= stars ? 1 : 0.2,
+              animation: i <= stars ? `bounceIn ${0.3 + i * 0.15}s ease` : 'none',
+            }}>★</span>
+          ))}
+        </div>
+      )}
+      {isClear && stars === 3 && (
+        <div style={{ fontSize: 13, color: '#FFD700', fontWeight: 700 }}>パーフェクト！</div>
+      )}
       {floor && (
         <div style={{
           fontSize: 14,

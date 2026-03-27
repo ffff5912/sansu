@@ -1,11 +1,12 @@
 import Layout from '../components/Layout.tsx';
 import FloorCard from '../components/FloorCard.tsx';
 import { getFloorsByGrade } from '../data/floors.ts';
-import type { Grade, GameDifficulty } from '../data/types.ts';
+import type { Grade, GameDifficulty, FloorStarRecord } from '../data/types.ts';
 
 interface WorldMapPageProps {
   grade: Grade;
   clearedFloors: number[];
+  floorStars: FloorStarRecord[];
   difficulty: GameDifficulty;
   onSetDifficulty: (diff: GameDifficulty) => void;
   onSelectFloor: (floorId: number) => void;
@@ -15,6 +16,7 @@ interface WorldMapPageProps {
 export default function WorldMapPage({
   grade,
   clearedFloors,
+  floorStars,
   difficulty,
   onSetDifficulty,
   onSelectFloor,
@@ -76,6 +78,7 @@ export default function WorldMapPage({
             key={floor.id}
             floor={{ ...floor, unlocked: true }}
             cleared={clearedFloors.includes(floor.id)}
+            stars={floorStars.find(r => r.floorId === floor.id)?.stars ?? 0}
             onSelect={() => onSelectFloor(floor.id)}
           />
         ))}

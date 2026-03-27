@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { PlayerState, GameDifficulty, MaterialBag, EquipmentSlots, DungeonBuff } from '../data/types.ts';
+import { useRef } from 'react';
+import type { PlayerState, GameDifficulty, MaterialBag, EquipmentSlots, DungeonBuff, FloorStarRecord } from '../data/types.ts';
 import { getMap } from '../data/maps/index.ts';
 import { getFloor } from '../data/floors.ts';
 import { useDungeon } from '../hooks/useDungeon.ts';
@@ -16,7 +17,7 @@ interface DungeonPageProps {
   gameDifficulty: GameDifficulty;
   equipment: EquipmentSlots;
   dungeonBuff: DungeonBuff;
-  onClear: () => void;
+  onClear: (starRecord: FloorStarRecord) => void;
   onGameOver: () => void;
   onUpdatePlayer: (player: PlayerState) => void;
   onMonsterDefeated: (monsterId: string) => void;
@@ -49,6 +50,9 @@ export default function DungeonPage({
     clearEncounter,
     defeatEnemy,
   } = useDungeon(floorId);
+
+  // Track stats for star rating
+  const statsRef = useRef({ totalCorrect: 0, totalQuestions: 0, damageTaken: 0 });
 
   // Apply HP buff on dungeon entry
   useEffect(() => {
@@ -88,15 +92,26 @@ export default function DungeonPage({
     }
   }, [playerUpdate, onUpdatePlayer]);
 
-  // Check dungeon clear
+  // Check dungeon clear → compute star rating
   useEffect(() => {
     if (dungeon.phase === 'clear') {
-      onClear();
+      const s = statsRef.current;
+      const correctRate = s.totalQuestions > 0 ? Math.round(s.totalCorrect / s.totalQuestions * 100) : 0;
+      const noDamage = s.damageTaken === 0;
+      let stars = 1; // ★1 = cleared
+      if (correctRate === 100) stars = 2; // ★2 = all correct
+      if (correctRate === 100 && noDamage) stars = 3; // ★3 = perfect
+      onClear({ floorId, stars, bestCorrectRate: correctRate, noDamage });
     }
-  }, [dungeon.phase, onClear]);
+  }, [dungeon.phase, onClear, floorId]);
 
   const handleVictory = useCallback(() => {
-    if (battle?.monster) {
+    if (battle) {
+      // Track stats for star rating
+      statsRef.current.totalCorrect += battle.correctCount;
+      statsRef.current.totalQuestions += battle.questionsAnswered;
+      statsRef.current.damageTaken += (battle.questionsAnswered - battle.correctCount) > 0 ? 1 : 0;
+
       onMonsterDefeated(battle.monster.id);
       if (battle.monster.isBoss) {
         onBossDefeated(battle.monster.id);

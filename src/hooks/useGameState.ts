@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import type { GameState, GameScene, PlayerState, Grade, Inventory, GameDifficulty, BuildingSave, DungeonBuff, MaterialBag, EquipmentSlots, ColosseumRank } from '../data/types.ts';
+import type { GameState, GameScene, PlayerState, Grade, Inventory, GameDifficulty, BuildingSave, DungeonBuff, MaterialBag, EquipmentSlots, ColosseumRank, FloorStarRecord } from '../data/types.ts';
 import { loadSave, writeSave, DEFAULT_PLAYER, DEFAULT_INVENTORY } from '../lib/storage.ts';
 import { DEFAULT_BUILDINGS } from '../data/buildings.ts';
 
@@ -24,6 +24,7 @@ function initState(): GameState {
     craftedEquipment: [],
     equipment: { weapon: null, armor: null, accessory: null },
     defeatedBossIds: [],
+    floorStars: [],
     colosseumHighScore: 0,
     colosseumBestRank: 'none' as ColosseumRank,
     dungeonBuff: 'none' as DungeonBuff,
@@ -50,11 +51,12 @@ export function useGameState() {
       craftedEquipment: state.craftedEquipment,
       equipment: state.equipment,
       defeatedBossIds: state.defeatedBossIds,
+      floorStars: state.floorStars,
       colosseumHighScore: state.colosseumHighScore,
       colosseumBestRank: state.colosseumBestRank,
       timestamp: Date.now(),
     });
-  }, [state.player, state.clearedFloors, state.currentFloor, state.scene, state.grade, state.inventory, state.buildings, state.buildingLevels, state.defeatedMonsterIds, state.materials, state.craftedEquipment, state.equipment, state.defeatedBossIds, state.colosseumHighScore, state.colosseumBestRank]);
+  }, [state.player, state.clearedFloors, state.currentFloor, state.scene, state.grade, state.inventory, state.buildings, state.buildingLevels, state.defeatedMonsterIds, state.materials, state.craftedEquipment, state.equipment, state.defeatedBossIds, state.floorStars, state.colosseumHighScore, state.colosseumBestRank]);
 
   const goToTitle = useCallback(() => {
     setState(s => ({ ...s, scene: 'title', currentFloor: null, resultType: null }));
@@ -78,6 +80,7 @@ export function useGameState() {
       craftedEquipment: save.craftedEquipment,
       equipment: save.equipment,
       defeatedBossIds: save.defeatedBossIds,
+      floorStars: save.floorStars,
       colosseumHighScore: save.colosseumHighScore,
       colosseumBestRank: save.colosseumBestRank,
       dungeonBuff: 'none' as DungeonBuff,
@@ -94,6 +97,23 @@ export function useGameState() {
 
   const goToColosseum = useCallback(() => {
     setState(s => ({ ...s, scene: 'colosseum' as GameScene }));
+  }, []);
+
+  const updateFloorStars = useCallback((record: FloorStarRecord) => {
+    setState(s => {
+      const existing = s.floorStars.find(r => r.floorId === record.floorId);
+      if (existing) {
+        // Only update if better
+        const updated = {
+          ...existing,
+          stars: Math.max(existing.stars, record.stars),
+          bestCorrectRate: Math.max(existing.bestCorrectRate, record.bestCorrectRate),
+          noDamage: existing.noDamage || record.noDamage,
+        };
+        return { ...s, floorStars: s.floorStars.map(r => r.floorId === record.floorId ? updated : r) };
+      }
+      return { ...s, floorStars: [...s.floorStars, record] };
+    });
   }, []);
 
   const updateColosseumScore = useCallback((score: number, rank: ColosseumRank) => {
@@ -174,6 +194,7 @@ export function useGameState() {
     goToWorldMap,
     goToPractice,
     goToColosseum,
+    updateFloorStars,
     updateColosseumScore,
     setDifficulty,
     enterDungeon,

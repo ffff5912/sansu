@@ -186,6 +186,14 @@ export interface VillagerDef {
   unlockCondition: { type: 'villageLv' | 'floor'; value: number };
 }
 
+/* ========== Floor Stars ========== */
+export interface FloorStarRecord {
+  floorId: number;
+  stars: number; // 1-3
+  bestCorrectRate: number; // 0-100
+  noDamage: boolean;
+}
+
 /* ========== Save Data ========== */
 export interface SaveData {
   version: number;
@@ -201,6 +209,7 @@ export interface SaveData {
   craftedEquipment: string[];
   equipment: EquipmentSlots;
   defeatedBossIds: string[];
+  floorStars: FloorStarRecord[];
   colosseumHighScore: number;
   colosseumBestRank: ColosseumRank;
   timestamp: number;
@@ -237,6 +246,7 @@ export interface GameState {
   craftedEquipment: string[];
   equipment: EquipmentSlots;
   defeatedBossIds: string[];
+  floorStars: FloorStarRecord[];
   colosseumHighScore: number;
   colosseumBestRank: ColosseumRank;
   dungeonBuff: DungeonBuff;

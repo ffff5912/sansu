@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import type { MaterialBag } from './data/types.ts';
+import type { MaterialBag, FloorStarRecord } from './data/types.ts';
 import { useGameState } from './hooks/useGameState.ts';
 import TitlePage from './pages/TitlePage.tsx';
 import BasePage from './pages/BasePage.tsx';
@@ -18,6 +18,7 @@ export default function App() {
     goToWorldMap,
     goToPractice,
     goToColosseum,
+    updateFloorStars,
     updateColosseumScore,
     setDifficulty,
     enterDungeon,
@@ -91,6 +92,7 @@ export default function App() {
         <WorldMapPage
           grade={state.grade}
           clearedFloors={state.clearedFloors}
+          floorStars={state.floorStars}
           difficulty={state.gameDifficulty}
           onSetDifficulty={setDifficulty}
           onSelectFloor={enterDungeon}
@@ -107,7 +109,7 @@ export default function App() {
           gameDifficulty={state.gameDifficulty}
           equipment={state.equipment}
           dungeonBuff={state.dungeonBuff}
-          onClear={() => finishDungeon('clear')}
+          onClear={(starRecord: FloorStarRecord) => { updateFloorStars(starRecord); finishDungeon('clear'); }}
           onGameOver={() => finishDungeon('gameover')}
           onUpdatePlayer={updatePlayer}
           onMonsterDefeated={addDefeatedMonster}
@@ -146,6 +148,7 @@ export default function App() {
           floorId={state.currentFloor ?? 1}
           resultType={state.resultType ?? 'gameover'}
           player={state.player}
+          stars={state.floorStars.find(r => r.floorId === (state.currentFloor ?? 0))?.stars}
           onContinue={handleBackToBase}
           onRetry={handleRetry}
         />
