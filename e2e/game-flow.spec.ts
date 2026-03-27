@@ -82,9 +82,8 @@ test.describe('さんすうダンジョン E2E', () => {
 
   test('もちものパネルが開く', async ({ page }) => {
     await page.getByText('小1').click({ force: true });
-    await page.getByText('もちもの').click({ force: true });
-    // Panel opens with items header or empty message
-    await expect(page.getByText(/もちもの|アイテム/)).toBeVisible();
+    await page.getByRole('button', { name: 'もちもの' }).click({ force: true });
+    await expect(page.getByText('アイテムがないよ')).toBeVisible();
   });
 
   test('タイトルに戻れる', async ({ page }) => {
